@@ -2,9 +2,9 @@
 
 This directory contains the backend-only Retrieval-Augmented Generation (RAG)
 implementation used for the PersonaAI paper workflow. The system is a
-LangGraph-based agent over the UK Biobank literature corpus, with query
-expansion, dense retrieval and reranking, draft-answer generation,
-self-evaluation, and an optional web-search fallback.
+LangGraph-based agent over an aging literature corpus of approximately 566,000
+XML documents, with query expansion, dense retrieval and reranking,
+draft-answer generation, self-evaluation, and an optional web-search fallback.
 
 The graph is defined in `backend/agent/graph.py` and exposed through
 `langgraph.json`. This public release intentionally excludes raw retrieval
@@ -119,8 +119,14 @@ uv run python run_full_indexing.py
 
 ## Indexing
 
-`run_full_indexing.py` scans `DATA_DIR` recursively for `.xml` files, embeds
-them with `EMBEDDING_MODEL`, and upserts vectors into `QDRANT_COLLECTION`.
+`run_full_indexing.py` scans `DATA_DIR` recursively for `.xml` files, extracts
+academic metadata such as title, authors, journal, DOI, PMID, and PMCID when
+available, embeds document chunks with `EMBEDDING_MODEL`, and upserts the
+vectors and chunk metadata into `QDRANT_COLLECTION`.
+
+PMID and PMCID are not embedded as separate standalone vectors. They are stored
+as metadata payload fields attached to the embedded text chunks, and are used
+for source display and citation formatting in retrieved results.
 
 These settings must match between indexing and serving:
 
@@ -135,7 +141,7 @@ To switch embedding models, index into a new, empty collection.
 ## Prompts and Domain Adaptation
 
 The prompts in this repository are specialized for the paper workflow and the
-UK Biobank biomedical literature corpus. To adapt the RAG system to a different
+aging biomedical literature corpus. To adapt the RAG system to a different
 corpus, update both the indexed corpus and the domain-specific prompt blocks in
 `backend/agent/nodes.py`.
 

@@ -503,7 +503,7 @@ async def direct_answer(state: AgentState, llm: BaseChatModel) -> AgentState:
         }
 
     system_prompt = f"""## Role and Objective
-You are an expert AI assistant specializing in the UK Biobank dataset and UK Biobank research. Your role is to provide clear, accurate, and helpful responses without generating formal research reports.
+You are an expert AI assistant specializing in the aging literature corpus and aging-related biomedical research. Your role is to provide clear, accurate, and helpful responses without generating formal research reports.
 
 ## Current Query Focus
 Main Topics to Address: {main_topics}
@@ -665,7 +665,7 @@ async def planner(state: AgentState, llm: BaseChatModel) -> AgentState:
 
     system_prompt = f"""## Role and Objective
 ### Role
-You are an expert AI assistant specializing in UK Biobank dataset and UK Biobank research.
+You are an expert AI assistant specializing in aging literature corpus and aging-related biomedical research.
 
 ### Objective
 For the given objective, come up with a simple step by step plan.
@@ -1197,7 +1197,7 @@ Main Topics to Address: {intent_result.main_topics}
 Sub-topics (if available): {intent_result.sub_topics if hasattr(intent_result, 'sub_topics') else []}
 
 ## Role Definition:
-You are an expert AI assistant specializing in the UK Biobank dataset and UK Biobank research. Your role is to provide clear, accurate, and helpful responses without generating formal research reports.
+You are an expert AI assistant specializing in the aging literature corpus and aging-related biomedical research. Your role is to provide clear, accurate, and helpful responses without generating formal research reports.
 
 ## Core Mandate:
 Answer the user's question by synthesizing the provided context into a structured, analytical report. **Go beyond mere summarization; provide critical analysis, insightful connections, and well-supported conclusions based *exclusively* on the given documents.** Do not introduce outside knowledge or assumptions. Ensure comprehensive coverage of all main topics identified above.

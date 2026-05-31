@@ -36,6 +36,8 @@ Every public RAG workflow should document:
 - The retrieval corpus name and version.
 - Public access route or restriction reason.
 - Indexing method at a high level.
+- Identifier metadata retained during indexing, including DOI, PMID, and PMCID
+  when available.
 - Query or retrieval policy relevant to manuscript claims.
 - Whether generated text was used for hypothesis organization,
   documentation, or result interpretation.
