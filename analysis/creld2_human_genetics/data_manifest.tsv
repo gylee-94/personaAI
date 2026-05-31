@@ -1,0 +1,9 @@
+resource	trait_or_assay	source	expected_file	notes
+GTEx v8	cis-eQTL	GTEx Portal	Adipose_Subcutaneous.v8.egenes.txt.gz	CRELD2 tissue eQTL evidence
+GTEx v8	cis-eQTL	GTEx Portal	Adipose_Visceral_Omentum.v8.egenes.txt.gz	CRELD2 tissue eQTL evidence
+GTEx v8	cis-eQTL	GTEx Portal	Liver.v8.egenes.txt.gz	CRELD2 tissue eQTL evidence
+UKB-PPP	plasma pQTL	UK Biobank Pharma Proteomics Project	pQTL/ukbiobank/CRELD2_Q6UXH1_OID20751_v1_Inflammation.tar	Raw archive is not redistributed
+GWAS Catalog / OpenGWAS	frailty index	Atkins et al. / GWAS Catalog	data/aging_gwas/opengwas/metal/GCST90020053_frailty_index.metal.tsv.gz	GRCh37-aligned summary statistics
+OpenGWAS	leukocyte telomere length	Codd et al. / OpenGWAS	data/aging_gwas/opengwas/metal/ieu-b-4879_telomere_length.metal.tsv.gz	GRCh37-aligned summary statistics
+GWAS Catalog / OpenGWAS	parental longevity	Pilling et al. / GWAS Catalog	data/aging_gwas/opengwas/metal/GCST006697_parental_longevity_combined_attained_age.metal.tsv.gz	GRCh37-aligned summary statistics
+gnomAD	allele frequency	gnomAD	rs74510325 reference frequency	Used for palindromic SNP orientation check

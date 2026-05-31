@@ -1,0 +1,25 @@
+# Backend build context = repo root. Keep the context small and never bake
+# secrets or local artifacts into the image.
+
+.git
+.venv
+**/__pycache__/
+**/*.py[oc]
+*.bak
+
+# Secrets must NOT be baked in — provided at runtime via env_file / mount.
+.env
+backend/.env
+
+# Not needed by the backend image (built from its own context).
+
+# Local data / caches / tooling
+data
+models
+.cache
+tests
+*.log
+.DS_Store
+
+# Reproducibility docs that don't belong in the runtime image
+README.md

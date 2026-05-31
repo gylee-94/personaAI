@@ -1,0 +1,40 @@
+# syntax=docker/dockerfile:1
+# ---------------------------------------------------------------------------
+# Backend image: LangGraph RAG agent.
+# CUDA is provided by the pinned `torch` + `nvidia-*-cu12` wheels in uv.lock,
+# so a plain Python base is sufficient — the host only needs the NVIDIA driver
+# and the NVIDIA Container Toolkit (GPU is requested in docker-compose.yml).
+# ---------------------------------------------------------------------------
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_COMPILE_BYTECODE=1 \
+    UV_PROJECT_ENVIRONMENT=/app/.venv \
+    HF_HOME=/cache/huggingface
+
+# libgomp1 is a runtime dependency of the torch wheels.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# 1) Dependency layer — cached unless the lockfile or manifest changes.
+#    `package = false`, so this installs dependencies only (no project build).
+COPY pyproject.toml uv.lock .python-version ./
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-dev
+
+# 2) Application source.
+COPY backend ./backend
+COPY langgraph.json run_full_indexing.py ./
+
+EXPOSE 2024
+
+# In-memory LangGraph dev server (no Postgres/Redis needed via langgraph-runtime-inmem).
+# --allow-blocking: the graph loads torch/embedding models at import time.
+CMD ["uv", "run", "langgraph", "dev", \
+     "--host", "0.0.0.0", "--port", "2024", \
+     "--no-browser", "--allow-blocking"]

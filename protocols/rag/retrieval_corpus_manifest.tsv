@@ -1,0 +1,2 @@
+corpus_id	corpus_name	version_or_date	public_access	included_in_repo	role_in_workflow	notes
+RAG-UKB-LIT	UK Biobank biomedical literature corpus	As used for the paper workflow	Access depends on the source document collection used by the study	no	Context retrieval for agent-assisted hypothesis evaluation	Raw corpus files and generated vector stores are not redistributed; use personaai/rag/run_full_indexing.py with a local DATA_DIR.

@@ -1,0 +1,36 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# NOTE: uv.lock and pyproject.toml are intentionally tracked — they pin the
+# exact, reproducible environment for the accompanying paper. Do not ignore them.
+
+# Secrets — never commit real env files (templates *.env.example are tracked)
+.env
+**/.env
+!**/.env.example
+
+# Corpus / indexing data (provided by the user; not shipped)
+data/
+models/
+.cache/
+
+
+# LangGraph dev server local state (created by `langgraph dev`)
+.langgraph_api/
+**/.langgraph_api/
+
+# Hugging Face / model caches
+.hf_cache/
+*.bak
+
+# Misc
+*.log
+.DS_Store

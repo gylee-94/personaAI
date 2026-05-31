@@ -1,0 +1,2 @@
+target	lead_snp	lead_chrom	lead_pos	lead_genpos	lead_log10p	locus_start	locus_end	total_variants	locus_variants
+CRELD2	22:50315382:C:G:imp:v1	22	50315382	49921734	354.247	49815382	50815382	208913	7157
