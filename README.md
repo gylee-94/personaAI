@@ -4,7 +4,9 @@ This repository contains public, reproducible materials for PersonaAI-assisted
 in-silico hypothesis evaluation. The current release includes the CRELD2 human
 genetics workflow used to evaluate whether tissue secretory-stress candidates
 nominated from the adipose-liver aging axis are supported by population-scale
-genetic evidence.
+genetic evidence. It also includes a single-cell aging-atlas workflow (CIRBP
+liver cell-of-origin and PGAT sex-specific vascular endothelial niche) evaluated
+against the Mouse Aging Atlas.
 
 The language-model assisted component was used for workflow organization,
 candidate evaluation, retrieval-assisted context assembly, and documentation.
@@ -64,8 +66,9 @@ Raw GTEx, UKB-PPP, and GWAS summary statistics are not redistributed. The data m
 
 ## Scope
 
-This branch documents the MR and colocalization workflow for CRELD2 and includes
-the public RAG implementation under `personaai/rag/`. RAG corpora, embedding
+This repository documents the MR and colocalization workflow for CRELD2 and the
+single-cell aging-atlas workflow, and includes the public RAG implementation
+under `personaai/rag/`. RAG corpora, embedding
 databases, private prompts, API keys, and local runtime configuration are
 intentionally excluded from version control.
 
