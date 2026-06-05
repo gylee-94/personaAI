@@ -88,6 +88,31 @@ sensitivity review, and evidence grading. These documents support manuscript
 claims about protocol-driven validation, while the executable scripts support
 the reported numerical estimates.
 
+## Workflow
+
+Each evaluation follows the same protocol-driven stages, defined in
+`protocols/<domain>_evaluation_protocol.md` and registered in
+`protocols/protocol_library_manifest.tsv`. Every stage maps to a skill card
+under `protocols/<domain>_skill_cards/` (`<domain>` is `human_genetics` or
+`aging_atlas`):
+
+| Stage | Skill card | Output |
+|---|---|---|
+| 1. Hypothesis structuring | `hypothesis_structuring.md` | testable hypothesis specification |
+| 2. Feasibility assessment | `feasibility_assessment.md` | data-availability / go–no-go |
+| 3. Execution | `single_cell_execution.md` (MCP engines under `personaai/scrna_mcp/`) or `statistical_genetics_execution.md` (deterministic MR / coloc scripts) | `analysis/<case>/results/*.tsv` |
+| 4. Gap-oriented sensitivity / cross-check | `gap_oriented_sensitivity.md` | `reproduction_check.json` (single-cell 3-way check) or sensitivity analyses |
+| 5. Evidence grading | `evidence_grading.md` | verdict call |
+| 6. Verification report authoring | `verification_report_authoring.md` | `analysis/<case>/results/<case>_verification_report.md` |
+
+The human-readable verdict (the verification report) is authored per
+`verification_report_authoring.md`: it follows a fixed section structure and
+cites only numbers already present in the deterministic `results/` files, so the
+report is reviewable and reproducible. Worked examples:
+`analysis/cirbp_liver_single_cell/results/cirbp_liver_verification_report.md`,
+`analysis/pgat_aspc_single_cell/results/pgat_aspc_verification_report.md`, and
+`analysis/creld2_human_genetics/results/creld2_verification_report.md`.
+
 ## RAG Contribution Boundary
 
 RAG code lives under `personaai/rag/`. Public protocol descriptions belong under
