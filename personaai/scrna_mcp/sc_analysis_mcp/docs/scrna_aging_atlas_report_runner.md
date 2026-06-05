@@ -61,7 +61,7 @@ default h5ad for every CIRBP task. The runner selects an h5ad from the parsed
 inline hypothesis spec and analysis intent.
 
 ```text
-Aging_Agent/Figure_data/Fig3_Cirbp_Liver/raw.data/
+${AGING_ATLAS_HOME}/Figure_data/Fig3_Cirbp_Liver/raw.data/
   liver_hepatocyte_myeloid_comparison.h5ad  # lineage screening
   liver_hepatocyte_myeloid_full.h5ad        # full-scale lineage screening
   aging_atlas_clustered.h5ad                # hepatocyte deep-dive / clustering
@@ -82,8 +82,8 @@ guessing. The runner provides:
 
 ```bash
 python -m sc_analysis_mcp.scrna_report_runner \
-  --inventory-root Aging_Agent/Figure_data \
-  --inventory-out-dir Aging_Agent/sc_rnaseq_reports/inventory
+  --inventory-root ${AGING_ATLAS_HOME}/Figure_data \
+  --inventory-out-dir ${AGING_ATLAS_HOME}/sc_rnaseq_reports/inventory
 ```
 
 This writes:
@@ -121,7 +121,7 @@ by AnnData `obs.index` labels. This prevents barcode-string index failures.
 The default output directory is:
 
 ```text
-Aging_Agent/sc_rnaseq_reports/<hypothesis_id>/
+${AGING_ATLAS_HOME}/sc_rnaseq_reports/<hypothesis_id>/
 ```
 
 Each run writes:
