@@ -1,0 +1,5 @@
+resource	trait_or_assay	source	expected_file	notes
+Mouse Aging Atlas	single-cell RNA-seq (Liver)	Sziraki et al. 2023 / Zhang et al. 2025	Liver_experiment (TileDB-SOMA)	Liver TileDB-SOMA experiment; not redistributed in this repository
+Mouse Aging Atlas (derived)	liver hepatocyte/myeloid lineage age trend	derived from Liver atlas experiment	liver_hepatocyte_myeloid_full.h5ad	Pre-extracted from atlas for the lineage age-trend cross-check; not redistributed
+Mouse Aging Atlas (derived)	liver hepatocyte subcluster + stress markers	derived from Liver atlas experiment	liver_hepatocyte_myeloid_comparison.h5ad	Pre-extracted from atlas for subcluster enrichment / stress markers; not redistributed
+Reference values	CIRBP liver aging reference summary	this analysis (provenance)	cirbp_analysis_summary.json	Provenance of the reference (target) column in results/reproduction_check.json; not redistributed

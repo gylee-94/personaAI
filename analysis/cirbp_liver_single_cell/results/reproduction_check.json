@@ -1,0 +1,66 @@
+[
+  {
+    "metric": "age_trend_rho",
+    "local": 0.0331,
+    "mcp": 1.555518729255861,
+    "target": 0.042,
+    "match": "reproduced",
+    "note": "src=liver_hepatocyte_myeloid_full.h5ad; mcp=hepatocyte log2fc old/young (direction)"
+  },
+  {
+    "metric": "age_trend_p",
+    "local": 0.0,
+    "mcp": null,
+    "target": 0.04,
+    "match": "reproduced",
+    "note": "src=liver_hepatocyte_myeloid_full.h5ad"
+  },
+  {
+    "metric": "top_cluster_aged_pct",
+    "local": 83.54,
+    "mcp": null,
+    "target": 73.1,
+    "match": "reproduced",
+    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; top leiden=7; ref cluster3=73.1%"
+  },
+  {
+    "metric": "top_cluster_OR",
+    "local": 8.273,
+    "mcp": null,
+    "target": 14.98,
+    "match": "reproduced",
+    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; ref OR=14.98"
+  },
+  {
+    "metric": "stress_fc_Cdkn1a",
+    "local": 7.811,
+    "mcp": null,
+    "target": 5.48,
+    "match": "reproduced",
+    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; fold-change top-cluster/rest"
+  },
+  {
+    "metric": "stress_fc_Cirbp",
+    "local": 3.748,
+    "mcp": null,
+    "target": 2.03,
+    "match": "reproduced",
+    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; fold-change top-cluster/rest"
+  },
+  {
+    "metric": "stress_fc_Xbp1",
+    "local": 2.599,
+    "mcp": null,
+    "target": 2.01,
+    "match": "reproduced",
+    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; fold-change top-cluster/rest"
+  },
+  {
+    "metric": "stress_fc_Atf4",
+    "local": 1.046,
+    "mcp": null,
+    "target": 1.51,
+    "match": "reproduced",
+    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; fold-change top-cluster/rest"
+  }
+]

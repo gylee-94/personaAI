@@ -1,0 +1,3 @@
+cell_type	n_cells	mean_expression	median_expression	pct_expressing	is_candidate
+Hepatocytes	3390	0.013274336233735085	0.0	0.9734513274336283	True
+Myeloid cells	346	0.008670520037412643	0.0	0.5780346820809248	True
