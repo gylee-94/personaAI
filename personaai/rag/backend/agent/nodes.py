@@ -1986,8 +1986,9 @@ async def print_final_answer(state: AgentState, llm: BaseChatModel = None) -> Ag
                         match = re.match(r'\[(\d+)\]\s*(.*)', ref_text.strip())
                         if match:
                             old_num, source_path = int(match.group(1)), match.group(2).strip()
-                            if source_path.startswith("/data/users/gunho/project/forest/docs/"):
-                                source_path = source_path.replace("/data/users/gunho/project/forest/docs/", "")
+                            _docs_prefix = os.getenv("RAG_DOCS_DIR", "")
+                            if _docs_prefix and source_path.startswith(_docs_prefix):
+                                source_path = source_path.replace(_docs_prefix, "")
                             old_ref_map[old_num] = source_path
 
                     unique_sources = sorted(list(set(old_ref_map.values())))

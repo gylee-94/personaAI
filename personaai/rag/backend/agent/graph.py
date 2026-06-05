@@ -111,7 +111,7 @@ def get_cited_paper_source(state: Annotated[AgentState, InjectedState], ids: Lis
 
     return sources
 
-file_management_tools = FileManagementToolkit(root_dir="/data/users/gunho/projects/rag/docs/",
+file_management_tools = FileManagementToolkit(root_dir=os.getenv("RAG_DOCS_DIR", "./docs"),
                                               selected_tools=["read_file", "file_search", "list_directory"]).get_tools()
 
 tools = [python_code_interpreter, TavilySearch(max_results=3), get_cited_paper_source, *file_management_tools]
