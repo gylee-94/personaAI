@@ -27,10 +27,15 @@ analysis/creld2_human_genetics/
     creld2_mr_lead_wald.tsv
     creld2_coloc_abf.tsv
 
+analysis/cirbp_liver_single_cell/   (README, data_manifest, methods_draft, scripts/, results/)
+analysis/pgat_aspc_single_cell/     (README, data_manifest, methods_draft, scripts/, results/ + CCI)
+
 protocols/
   human_genetics_evaluation_protocol.md
   protocol_library_manifest.tsv
   human_genetics_skill_cards/
+  aging_atlas_evaluation_protocol.md
+  aging_atlas_skill_cards/
 
 docs/
   agent_assistance_disclosure.md
@@ -43,6 +48,11 @@ personaai/rag/
   backend/
   run_full_indexing.py
   langgraph.json
+
+personaai/scrna_mcp/
+  aging_atlas_mcp/   (engine source)
+  sc_analysis_mcp/   (engine source)
+  cci_analysis_mcp/  (engine source)
 
 protocols/rag/
   rag_protocol.md
@@ -59,10 +69,12 @@ the public RAG implementation under `personaai/rag/`. RAG corpora, embedding
 databases, private prompts, API keys, and local runtime configuration are
 intentionally excluded from version control.
 
-scRNA-seq MCP implementation code is not included in this release. If
-scRNA-seq analysis is added, it should follow the same paper-reproducibility
-pattern used here: deterministic outputs and public protocol provenance, not
-raw single-cell objects or local MCP runtime state.
+The single-cell aging-atlas workflow (CIRBP cell-of-origin in liver, PGAT
+sex-specific vascular endothelial cell niche) is now included, following the
+same paper-reproducibility pattern used here: deterministic cross-check outputs,
+public protocol provenance, and MCP engine source. Consistent with the
+deterministic-outputs ethos, raw single-cell objects (h5ad/SOMA), MCP runtime
+venvs, private prompts, and credentials remain excluded from version control.
 
 ## Protocol Provenance
 
@@ -80,3 +92,13 @@ RAG code lives under `personaai/rag/`. Public protocol descriptions belong under
 embeddings, private prompts, local credentials, or local path configuration. Use
 `protocols/rag/retrieval_corpus_manifest.tsv` to document corpus provenance and
 access requirements.
+
+## Reproducibility Note
+
+Full reproduction requires user-supplied resources: an LLM/agent runtime (such
+as Claude), GPU compute, and the Mouse Aging Atlas data. This repository ships
+code, protocols, and deterministic example outputs, not a turnkey re-run.
+
+## License
+
+Released under the MIT License. See `LICENSE`. Copyright (c) 2026 BioNexus.
