@@ -152,7 +152,7 @@ When using `soma_to_h5ad_for_analysis` with local paths (outside `/tmp/aging_ana
 # This will use cp to copy to your local directory
 soma_to_h5ad_for_analysis(
     experiment_name="Brain",
-    h5ad_path="/Users/yourname/data/brain_data.h5ad",  # Local path
+    h5ad_path="/path/to/brain_data.h5ad",  # Local path
     obs_value_filter="Age_group == '03_months'"
 )
 ```
