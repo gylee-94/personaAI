@@ -1,0 +1,49 @@
+# =============================================================================
+# CONFIDENTIAL & PROPRIETARY - KJ Lab, Cedars-Sinai Medical Center
+# This software is strictly confidential. Do not share or redistribute.
+# 본 소프트웨어는 기밀이며, 무단 공유 및 배포를 금지합니다.
+# =============================================================================
+
+[project]
+name = "sc-analysis-mcp"
+version = "2.0.0"
+description = "Single-cell RNA-seq analysis MCP with aging-specific hypothesis validation tools"
+license = {text = "Proprietary - All Rights Reserved"}
+authors = [
+    {name = "KJ Lab, Cedars-Sinai Medical Center"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp>=0.9.0",
+    "scanpy>=1.10.0",
+    "anndata>=0.10.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0,<2.3",
+    "scipy>=1.11.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "h5py>=3.10.0",
+    "harmonypy>=0.0.9",
+    "openpyxl>=3.1.0",
+    "pydeseq2>=0.4.0",
+    "igraph>=0.11.0",
+    "leidenalg>=0.10.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["sc_analysis_mcp"]
+
+[project.scripts]
+sc-analysis-mcp = "sc_analysis_mcp.server:main"

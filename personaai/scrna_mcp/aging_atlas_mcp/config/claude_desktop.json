@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "aging-atlas": {
+      "command": "python3",
+      "args": ["-m", "aging_atlas_mcp"],
+      "cwd": "/path/to/aging_atlas_mcp/src",
+      "env": {
+        "PYTHONPATH": "/path/to/aging_atlas_mcp/src",
+        "SOMA_BASE_PATH": "/path/to/soma_data"
+      }
+    }
+  }
+}
