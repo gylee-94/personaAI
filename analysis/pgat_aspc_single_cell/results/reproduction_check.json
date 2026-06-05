@@ -1,0 +1,66 @@
+[
+  {
+    "metric": "male_VEC_rho",
+    "local": -0.7,
+    "mcp": null,
+    "target": -0.5,
+    "match": "reproduced",
+    "note": "VEC proportion vs age (Spearman)"
+  },
+  {
+    "metric": "male_VEC_p",
+    "local": 0.1881,
+    "mcp": null,
+    "target": 0.039,
+    "match": "directional-only",
+    "note": "VEC proportion trend p"
+  },
+  {
+    "metric": "male_VEC_Vegfa_old_minus_young",
+    "local": -0.03881,
+    "mcp": -2.7012775750068965,
+    "target": -1.0,
+    "match": "reproduced",
+    "note": "mean(old)-mean(young) Vegfa in VEC; mcp=VEC log2fc old/young"
+  },
+  {
+    "metric": "male_ASPC_Kdr_old_minus_young",
+    "local": -0.0295,
+    "mcp": null,
+    "target": -1.0,
+    "match": "reproduced",
+    "note": "mean(old)-mean(young) Kdr in ASPC"
+  },
+  {
+    "metric": "female_VEC_rho",
+    "local": -0.7,
+    "mcp": null,
+    "target": 0.1,
+    "match": "mismatch",
+    "note": "VEC proportion vs age (Spearman)"
+  },
+  {
+    "metric": "female_VEC_p",
+    "local": 0.1881,
+    "mcp": null,
+    "target": 0.5,
+    "match": "reproduced",
+    "note": "VEC proportion trend p"
+  },
+  {
+    "metric": "female_VEC_Vegfa_old_minus_young",
+    "local": -0.0107,
+    "mcp": -0.153338225725986,
+    "target": 0.0,
+    "match": "directional-only",
+    "note": "mean(old)-mean(young) Vegfa in VEC; mcp=VEC log2fc old/young"
+  },
+  {
+    "metric": "female_ASPC_Kdr_old_minus_young",
+    "local": 0.0013,
+    "mcp": null,
+    "target": 0.0,
+    "match": "directional-only",
+    "note": "mean(old)-mean(young) Kdr in ASPC"
+  }
+]

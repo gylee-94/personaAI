@@ -1,0 +1,7 @@
+sex	ligand	receptor	young_lr_means	old_lr_means	weakened_in_old
+male	Lpl	Lrp1	1.547464	1.149670	True
+male	Sparc	Fgfr1	1.018449	0.886089	True
+male	Pdgfb	Lrp1	0.989930	0.928418	True
+female	Lpl	Lrp1	0.988269	0.953956	True
+female	Sparc	Fgfr1	0.648321	0.666761	False
+female	Pdgfb	Lrp1	0.650614	0.606989	True

@@ -1,0 +1,13 @@
+⏳ CCI Aging Comparison Complete!
+
+📊 Young: ['03_months', '06_months'] vs Old: ['16_months', '23_months'] | Genotype: WT
+🔬 Results:
+   Male (Young=11998, Old=11995):
+      Total interactions compared: 11578
+      🔴 Gained in Old: Skeletal muscle cells→Vascular endothelial cells:Col1a2→Cd36; Epididymal cells→Epididymal cells:Bmp7→Acvr2b_Bmpr1a; Epididymal cells→Epididymal cells:Bmp7→Acvr1_Acvr2b; Epididymal cells→Epididymal cells:Bmp7→Acvr2b_Bmpr1b; Skeletal muscle cells→Adipocytes:Col1a2→Cd36
+      🔵 Lost in Old: Mural cells→Adipocytes:Gpi1→Amfr; Mesothelial cells→Vascular endothelial cells:Col1a1→Cd36; Epididymal cells→Mural cells:Adam15→Itgav; Lymphoid cells_Plasma cells→Adipocytes:Gpi1→Amfr; Epididymal cells→Lymphoid cells_Plasma cells:Adam23→Itga4
+
+   Female: ❌ Too few cell types (n=0, need ≥2)
+
+💾 Plot: /tmp/cci_male.png
+🎯 Next: cci_query_interactions to check specific L-R pairs

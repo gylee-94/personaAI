@@ -1,0 +1,6 @@
+resource	trait_or_assay	source	expected_file	notes
+Mouse Aging Atlas	single-cell RNA-seq (gWAT)	Sziraki et al. 2023 / Zhang et al. 2025	gWAT_experiment (TileDB-SOMA)	gWAT (gonadal white adipose tissue) TileDB-SOMA experiment; not redistributed in this repository
+Mouse Aging Atlas (derived)	gWAT male sex-split single-cell subset	derived from gWAT atlas experiment	gWAT_male_30k.h5ad	Pre-extracted equal-bin 30k subset for per-sex MCP / CCI / cross-check; not redistributed
+Mouse Aging Atlas (derived)	gWAT female sex-split single-cell subset	derived from gWAT atlas experiment	gWAT_female_30k.h5ad	Pre-extracted equal-bin 30k subset for per-sex MCP / CCI / cross-check; not redistributed
+Reference values	VEC->ASPC LIANA interactions (male)	this analysis (provenance)	male_VEC_ASPC_interactions.csv	Provenance of the male CCI reference direction (LIANA ligand-receptor); not redistributed
+Reference values	VEC->ASPC LIANA interactions (female)	this analysis (provenance)	female_VEC_ASPC_interactions.csv	Provenance of the female CCI reference direction (LIANA ligand-receptor); not redistributed

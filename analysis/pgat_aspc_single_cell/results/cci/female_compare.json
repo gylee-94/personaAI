@@ -1,0 +1,13 @@
+⏳ CCI Aging Comparison Complete!
+
+📊 Young: ['03_months', '06_months'] vs Old: ['16_months', '23_months'] | Genotype: WT
+🔬 Results:
+   Male: ❌ Too few cell types (n=0, need ≥2)
+
+   Female (Young=11994, Old=11985):
+      Total interactions compared: 5431
+      🔴 Gained in Old: Adipoce stem and progenitor cells→Epididymal cells:Slit3→Robo1; Adipocytes→Epididymal cells:Slit3→Robo1; Epididymal cells→Lymphoid cells_B cells:App→Cd74; Epididymal cells→Myeloid cells_Dendritic cells:App→Notch2; Adipocytes→Epididymal cells:Lpl→Sdc1
+      🔵 Lost in Old: Neural cells→Mural cells:Ncam1→Cacna1c; Adipocytes→Neural cells:Sorbs1→Itga1; Neural cells→Myeloid cells_Dendritic cells:Sparc→Fgfr1; Neural cells→Adipocytes:Sparc→Fgfr1; Neural cells→Skeletal muscle cells:Ncam1→Cacna1c
+
+💾 Plot: /tmp/cci_female.png
+🎯 Next: cci_query_interactions to check specific L-R pairs
