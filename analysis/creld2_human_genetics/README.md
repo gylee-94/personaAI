@@ -17,8 +17,10 @@ The workflow integrates:
 - Bayesian colocalization using `coloc.abf()`
 - palindromic SNP sensitivity analysis
 
-DNAm GrimAge was examined during exploratory work but is not included in the
-main public workflow because it is not part of the adopted Results section.
+The [historical five-candidate screen](results/five_candidate_screen/README.md)
+now discloses all reported FGF21, CRELD2, GDF15, ADIPOQ and SERPINE1 results,
+including DNAm GrimAge. GrimAge was not included in the adopted main Results.
+These recovered tables are report transcriptions, not a new statistical rerun.
 
 ## Required External Data
 
@@ -63,9 +65,11 @@ python analysis/creld2_human_genetics/scripts/plot_creld2_summary.py \
 
 ## Interpretation
 
-The tracked summary results reproduce the main finding: CRELD2 showed a
-frailty-specific moderate candidate signal among the tested aging-related
-outcomes. The analysis is exploratory because it uses a single lead pQTL Wald
+The tracked CRELD2 results show a moderate exploratory signal for frailty.
+In the recovered five-candidate screen, CRELD2–frailty was the only combination
+with reported PP.H4 > 0.5; none exceeded 0.8. This supports exploratory
+prioritization, not proven specificity for frailty. The analysis is exploratory
+because it uses a single lead pQTL Wald
 ratio, `coloc.abf()` under a single-causal-variant model, and datasets derived
 at least in part from UK Biobank.
 

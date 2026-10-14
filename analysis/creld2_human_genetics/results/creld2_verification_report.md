@@ -13,7 +13,7 @@
 
 ## 1. Overall Verdict
 
-The final verdict of this analysis is a **frailty-specific, moderate
+The final verdict of this analysis is a **frailty-associated, moderate
 exploratory candidate signal — not confirmatory**. Among the three aging
 outcomes tested, only frailty shows a coherent picture: the single-lead-variant
 Wald-ratio MR is directionally positive and nominally significant (mr_beta
@@ -168,7 +168,7 @@ variants**, so a shared-variant interpretation is rejected.
 CRELD2 cis-pQTL (lead rs74510325, −log10P 354.247)
     → frailty: lead-Wald p = 1.17e-3 (directional)
     → frailty coloc PP.H4 = 0.526 (moderate; PP.H3 0.026)
-    => frailty-specific, moderate exploratory candidate signal
+    => frailty-associated, moderate exploratory candidate signal
    (palindromic-exclusion sensitivity: PP.H4 → 0.051)
    (telomere PP.H4 0.0011 / PP.H3 0.721 = distinct signals; parental longevity PP.H4 0.0044 → not supported)
 ```
@@ -200,3 +200,13 @@ CRELD2 cis-pQTL (lead rs74510325, −log10P 354.247)
 | result | `results/creld2_mr_lead_wald.tsv` | Lead-pQTL Wald-ratio MR per outcome (beta, SE, z, p) |
 | result | `results/creld2_coloc_abf.tsv` | Colocalization PP.H0–PP.H4 per outcome (primary + `exclude_palindromic`) |
 | provenance | `data_manifest.tsv` | GTEx v8 eQTL, UKB-PPP pQTL, aging GWAS, and gnomAD reference provenance (raw resources not redistributed) |
+
+## 10. Full candidate-screen disclosure (15 October 2026)
+
+The recovered [five-candidate report and tables](five_candidate_screen/README.md)
+provide the broader screening context: five targets, four outcomes, 19 estimated
+combinations and one unavailable combination. CRELD2–frailty alone exceeded
+PP.H4 > 0.5; none exceeded 0.8. This explains exploratory prioritization but
+does not establish outcome specificity. Existing full-precision CRELD2 results
+and palindromic sensitivity estimates are unchanged. The new all-candidate
+tables are transcribed historical results, not a statistical rerun.

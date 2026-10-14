@@ -1,0 +1,21 @@
+target	outcome	status	mr_beta_reported	mr_se_reported	mr_p_reported	ci95_low_approx	ci95_high_approx	coloc_nsnps	coloc_pp_h3_reported	coloc_pp_h4_reported	source
+FGF21	Frailty	reported	0.0358	0.0278	0.197	-0.018688	0.090288	3054	0.0752	0.00481	source_report_20260522.md sections 4-5
+FGF21	GrimAge	reported	0.0277	0.319	0.931	-0.59754	0.65294	2682	0.210	0.0195	source_report_20260522.md sections 4-5
+FGF21	Telomere	reported	0.000829	0.0168	0.961	-0.032099	0.033757	5643	0.0880	0.00125	source_report_20260522.md sections 4-5
+FGF21	Parental longevity	reported	0.0359	0.0189	0.0565	-0.001144	0.072944	4722	0.971	0.000274	source_report_20260522.md sections 4-5
+CRELD2	Frailty	reported	0.0360	0.0111	0.00117	0.014244	0.057756	3595	0.0261	0.526	source_report_20260522.md sections 4-5
+CRELD2	GrimAge	reported	0.146	0.110	0.186	-0.06960	0.36160	3204	0.156	0.0751	source_report_20260522.md sections 4-5
+CRELD2	Telomere	reported	-0.00271	0.00685	0.692	-0.0161360	0.0107160	6125	0.721	0.00112	source_report_20260522.md sections 4-5
+CRELD2	Parental longevity	reported	0.00428	0.00749	0.568	-0.0104004	0.0189604	5237	0.0810	0.00437	source_report_20260522.md sections 4-5
+GDF15	Frailty	reported	0.0166	0.0120	0.167	-0.006920	0.040120	2748	0.139	0.00698	source_report_20260522.md sections 4-5
+GDF15	GrimAge	reported	0.145	0.115	0.208	-0.08040	0.37040	2570	0.218	0.0447	source_report_20260522.md sections 4-5
+GDF15	Telomere	reported	-0.0160	0.00728	0.0283	-0.0302688	-0.0017312	4681	0.0883	0.0189	source_report_20260522.md sections 4-5
+GDF15	Parental longevity	reported	0.00334	0.00809	0.680	-0.0125164	0.0191964	4120	0.660	0.00078	source_report_20260522.md sections 4-5
+ADIPOQ	Frailty	reported	0.00943	0.0166	0.570	-0.023106	0.041966	3142	0.0360	0.00757	source_report_20260522.md sections 4-5
+ADIPOQ	GrimAge	reported	-0.158	0.151	0.298	-0.45396	0.13796	3185	0.191	0.0594	source_report_20260522.md sections 4-5
+ADIPOQ	Telomere	reported	-0.0140	0.0103	0.172	-0.034188	0.006188	5535	0.102	0.00920	source_report_20260522.md sections 4-5
+ADIPOQ	Parental longevity	not_estimated_no_harmonized_overlap	NA	NA	NA	NA	NA	0	NA	NA	source_report_20260522.md sections 4-5
+SERPINE1	Frailty	reported	-0.0522	0.0356	0.143	-0.121976	0.017576	3180	0.0270	0.00818	source_report_20260522.md sections 4-5
+SERPINE1	GrimAge	reported	-0.480	0.332	0.149	-1.13072	0.17072	3291	0.224	0.0508	source_report_20260522.md sections 4-5
+SERPINE1	Telomere	reported	0.0353	0.0211	0.0953	-0.006056	0.076656	5467	0.137	0.00595	source_report_20260522.md sections 4-5
+SERPINE1	Parental longevity	reported	0.0545	0.0242	0.0240	0.007068	0.101932	4729	0.0749	0.0239	source_report_20260522.md sections 4-5

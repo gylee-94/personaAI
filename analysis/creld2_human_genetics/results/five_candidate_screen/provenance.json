@@ -1,0 +1,9 @@
+{
+  "source_report_date_as_written": "2026-05-22",
+  "original_filename": "hypothesis4.md",
+  "original_file_sha256": "43c4acccd2edf95e58f324543465eaa2a811950167ec1cb5ceba0c6e42bbef9a",
+  "archived_file_sha256": "46c49583c0b36ab2663298d7446d501e7d86723b1d1a6ecaf003c7b0996c1371",
+  "redaction": "One absolute local data-root path replaced with <original local data root>; trailing whitespace normalized. Numerical tables unchanged.",
+  "disclosure_date": "2026-10-15",
+  "provenance": "Historical analysis report; not a rerun of the statistical analysis. Full-precision all-candidate TSVs, harmonized inputs, and original run_hypothesis4_* scripts are not included in this recovery."
+}

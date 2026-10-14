@@ -19,6 +19,16 @@ regulatory evidence and circulating protein genetic regulation using GTEx v8
 cis-eQTL resources and UK Biobank Pharma Proteomics Project (UKB-PPP) plasma
 pQTL summary statistics.
 
+The recovered report dated 22 May 2026 records five candidates and four outcomes
+(19 estimated combinations; ADIPOQ–parental longevity not estimable because no
+harmonized overlap was available). All reported results, including exploratory
+GrimAge results, are disclosed in `results/five_candidate_screen/`. CRELD2–frailty
+was the only combination exceeding the report's relaxed PP.H4 > 0.5 threshold;
+no combination exceeded 0.8. Nominal Wald P values are reported without
+multiplicity adjustment. The added tables transcribe rounded historical values
+and do not constitute a new statistical rerun or a full-precision recovery of
+the original all-candidate analysis.
+
 For CRELD2, tissue-level regulatory evidence was evaluated in GTEx v8 Adipose
 Subcutaneous, Adipose Visceral Omentum, and Liver. Circulating protein
 regulation was assessed using UKB-PPP CRELD2 pQTL summary statistics. The
