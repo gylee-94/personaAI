@@ -5,5 +5,50 @@
   "archived_file_sha256": "46c49583c0b36ab2663298d7446d501e7d86723b1d1a6ecaf003c7b0996c1371",
   "redaction": "One absolute local data-root path replaced with <original local data root>; trailing whitespace normalized. Numerical tables unchanged.",
   "disclosure_date": "2026-10-15",
-  "provenance": "Historical analysis report; not a rerun of the statistical analysis. Full-precision all-candidate TSVs, harmonized inputs, and original run_hypothesis4_* scripts are not included in this recovery."
+  "provenance": "Historical analysis report; not a rerun of the statistical analysis. The original all-candidate drivers and full-precision outputs were recovered from the unversioned local analysis directory holding the original report (report SHA-256 match). Harmonized variant sets are listed by hash in original_outputs/harmonized_inputs_manifest.tsv but not redistributed.",
+  "recovery_date": "2026-10-15",
+  "original_file_timestamps_kst": {
+    "drivers": "2026-05-22T23:13:59",
+    "harmonized_inputs": "2026-05-22T23:14:51 to 2026-05-22T23:24:22",
+    "summary_outputs": "2026-05-22T23:24:22 to 2026-05-22T23:24:32",
+    "report": "2026-05-22T23:30:28"
+  },
+  "recovered_files": {
+    "original_outputs/hypothesis4_mr_lead_wald.tsv": {
+      "original_sha256": "bae2c29672ad3af23dc8b84a73488dd8c3afd47c2f83f7f579c86951aecec63b",
+      "redaction": "none"
+    },
+    "original_outputs/hypothesis4_coloc_abf_r.tsv": {
+      "original_sha256": "21c4b9ef728cb64e5bedac5d8d851711e2b23ccd346c7c6d12a390a66776b188",
+      "redaction": "none"
+    },
+    "original_outputs/hypothesis4_followup_summary.tsv": {
+      "original_sha256": "69aaf80eb4ab5ff6ac01efb26ad4502ee8fc8147a24b78d7f43f067e3278f901",
+      "redaction": "none"
+    },
+    "original_outputs/pqtl_locus_manifest.tsv": {
+      "original_sha256": "78dc60bb1129bb73fdee4fabd934c7bd7f3a87d57b810b5d80af66b822200215",
+      "redaction": "none"
+    },
+    "../../scripts/hypothesis4_original/run_hypothesis4_pqtl_followup.py": {
+      "original_sha256": "acb365b8fff09bcd9e3ab0498358ecb8fd92a84421c2d2734f23bfdc74bcb19d",
+      "redaction": "none"
+    },
+    "../../scripts/hypothesis4_original/run_hypothesis4_coloc_r.R": {
+      "original_sha256": "db55f0b6d7812900ccce465a0c8a2239b54aac556f60a3bb937177848e3707a1",
+      "archived_sha256": "1021868ce49829b60ab84f6ae1a16ea3444bd44c915972ecae246a082f418da1",
+      "redaction": "Absolute local R library path and data-root path replaced with <original local R library> and <original local data root>."
+    }
+  },
+  "grimage_outcome": {
+    "accession": "GCST90014288",
+    "source": "McCartney et al. 2021, Genome Biology 22:194, doi:10.1186/s13059-021-02398-9, PMID 34187551",
+    "raw_file_md5": "05111c5f4764ea883847ffa83eacf5ab",
+    "raw_file_md5_matches_gwas_catalog": true,
+    "gwas_catalog_sample_size": 34467,
+    "phenotype": "AgeAccelGrim: age-adjusted DNAm GrimAge from the Horvath epigenetic age calculator; linear models adjusted for sex and genetic principal components; METAL fixed-effect meta-analysis",
+    "effect_units": "years of GrimAge acceleration per effect allele",
+    "unit_evidence": "Source reports MR effects on GrimAge acceleration in years and describes no standardization; median implied phenotype SD 3.72 versus 0.98-0.99 for the other three outcomes; local conversion copied Effect/SE unchanged. The summary statistics file carries no unit label.",
+    "coloc_note": "Original coloc driver used sdY = 1 for GrimAge although implied SD is about 3.7 years; GrimAge PP values were not rerun."
+  }
 }

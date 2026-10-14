@@ -25,9 +25,13 @@ harmonized overlap was available). All reported results, including exploratory
 GrimAge results, are disclosed in `results/five_candidate_screen/`. CRELD2–frailty
 was the only combination exceeding the report's relaxed PP.H4 > 0.5 threshold;
 no combination exceeded 0.8. Nominal Wald P values are reported without
-multiplicity adjustment. The added tables transcribe rounded historical values
-and do not constitute a new statistical rerun or a full-precision recovery of
-the original all-candidate analysis.
+multiplicity adjustment. The added tables transcribe rounded historical values;
+the original full-precision outputs and drivers were also recovered
+(`results/five_candidate_screen/original_outputs/`, `scripts/hypothesis4_original/`)
+and agree with the report at its rounding precision. No new statistical rerun was
+performed. The GrimAge outcome was GCST90014288 (McCartney et al. 2021), with
+effects in years of GrimAge acceleration; its exploratory coloc used `sdY = 1`
+although the implied phenotype SD is about 3.7 years.
 
 For CRELD2, tissue-level regulatory evidence was evaluated in GTEx v8 Adipose
 Subcutaneous, Adipose Visceral Omentum, and Liver. Circulating protein

@@ -73,7 +73,24 @@ def main():
             assert int(r["nsnps"]) == int(c[2].replace(",", ""))
             assert rounded_agreement(r["PP.H3"], c[3])
             assert rounded_agreement(r["PP.H4"], c[4])
-    passing = [(r["target"], r["outcome"]) for r in rows
+    # Recovered original all-candidate outputs must agree with every reported value.
+    outcome_key = {v: k for k, v in outcome_map.items()} | {"GrimAge": "grimage"}
+    with (OUT / "original_outputs/hypothesis4_mr_lead_wald.tsv").open() as handle:
+        full_mr = {(r["target"], r["outcome"]): r for r in csv.DictReader(handle, delimiter="\t")}
+    with (OUT / "original_outputs/hypothesis4_coloc_abf_r.tsv").open() as handle:
+        full_coloc = {(r["target"], r["outcome"]): r for r in csv.DictReader(handle, delimiter="\t")}
+    for target, outcome in expected:
+        key = (target, outcome_key[outcome])
+        c, f = coloc[(target, outcome)], full_coloc[key]
+        if (target, outcome) == missing:
+            assert key not in full_mr and f["status"] == "insufficient_overlap" and f["nsnps"] == "0"
+            continue
+        for col, value in zip(("mr_beta", "mr_se", "mr_p"), mr[(target, outcome)][2:5]):
+            assert rounded_agreement(full_mr[key][col], value), (key, col, value)
+        assert int(f["nsnps"]) == int(c[2].replace(",", "")), key
+        assert rounded_agreement(f["PP.H3"], c[3]), key
+        assert rounded_agreement(f["PP.H4"], c[4]), key
+    passing =[(r["target"], r["outcome"]) for r in rows
                if r["status"] == "reported" and Decimal(r["coloc_pp_h4_reported"]) > Decimal("0.5")]
     assert passing == [("CRELD2", "Frailty")]
     assert all(Decimal(r["coloc_pp_h4_reported"]) <= Decimal("0.8")
@@ -92,6 +109,7 @@ def main():
     assert len(loci) == 5
     write("pqtl_loci.tsv", list(loci[0]), loci)
     print("Validated 20 combinations: 19 estimated, 1 no-overlap; 15 tissue rows; 5 loci.")
+    print("All 19 estimated entries agree with the recovered original outputs at reported precision.")
     print("CRELD2 entries agree with the existing full-precision tables at reported precision.")
 
 

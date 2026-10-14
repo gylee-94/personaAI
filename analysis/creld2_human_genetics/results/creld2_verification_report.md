@@ -209,4 +209,5 @@ combinations and one unavailable combination. CRELD2–frailty alone exceeded
 PP.H4 > 0.5; none exceeded 0.8. This explains exploratory prioritization but
 does not establish outcome specificity. Existing full-precision CRELD2 results
 and palindromic sensitivity estimates are unchanged. The new all-candidate
-tables are transcribed historical results, not a statistical rerun.
+tables are transcribed historical results, not a statistical rerun; the
+recovered original full-precision outputs agree with them at report precision.

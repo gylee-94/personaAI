@@ -19,8 +19,10 @@ The workflow integrates:
 
 The [historical five-candidate screen](results/five_candidate_screen/README.md)
 now discloses all reported FGF21, CRELD2, GDF15, ADIPOQ and SERPINE1 results,
-including DNAm GrimAge. GrimAge was not included in the adopted main Results.
-These recovered tables are report transcriptions, not a new statistical rerun.
+including DNAm GrimAge (GCST90014288; effects in years of GrimAge acceleration).
+GrimAge was not included in the adopted main Results. The transcribed tables are
+accompanied by the recovered original full-precision outputs and drivers
+(`scripts/hypothesis4_original/`); no new statistical rerun was performed.
 
 ## Required External Data
 

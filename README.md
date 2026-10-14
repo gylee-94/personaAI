@@ -24,11 +24,12 @@ analysis/creld2_human_genetics/
     run_creld2_pqtl_followup.py
     run_creld2_coloc_abf.R
     plot_creld2_summary.py
+    hypothesis4_original/   # recovered original all-candidate drivers
   results/
     pqtl_locus_manifest.tsv
     creld2_mr_lead_wald.tsv
     creld2_coloc_abf.tsv
-    five_candidate_screen/  # archived report + transcribed all-candidate tables
+    five_candidate_screen/  # archived report, transcribed tables + original_outputs/
 
 analysis/cirbp_liver_single_cell/   (README, data_manifest, methods_draft, scripts/, results/)
 analysis/pgat_aspc_single_cell/     (README, data_manifest, methods_draft, scripts/, results/ + CCI)
@@ -64,8 +65,9 @@ protocols/rag/
 ```
 
 The [five-candidate screening disclosure](analysis/creld2_human_genetics/results/five_candidate_screen/README.md)
-provides the recovered historical report and all reported candidate–outcome
-results. Its transcription and reproduction limits are documented separately.
+provides the recovered historical report, all reported candidate–outcome
+results, and the original full-precision outputs and drivers. Its transcription
+and reproduction limits are documented separately.
 
 Raw GTEx, UKB-PPP, and GWAS summary statistics are not redistributed. The data manifest lists the required external resources and expected local filenames.
 
