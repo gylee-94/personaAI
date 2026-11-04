@@ -1,4 +1,8 @@
-"""Aging Atlas scRNA-seq hypothesis report runner."""
+"""CIRBP liver case helper with descriptive extract-level grading.
+
+The inline parser has liver/Cirbp defaults; this is not a general biological
+validator. Use an explicit ScrnaHypothesisSpec for other questions.
+"""
 
 from __future__ import annotations
 
@@ -14,6 +18,7 @@ import numpy as np
 import pandas as pd
 
 from .h5ad_compat import read_h5ad_compat
+from .evidence_grading import grade_evidence
 from .tools.aging_analysis import (
     sc_expression_variance,
     sc_gene_trajectory,
@@ -540,51 +545,6 @@ def summarize_young_old_contrast(adata, spec: ScrnaHypothesisSpec) -> pd.DataFra
     return pd.DataFrame(rows)
 
 
-def grade_evidence(
-    expression_df: pd.DataFrame,
-    contrast_df: pd.DataFrame,
-    spec: ScrnaHypothesisSpec,
-    feasibility: dict | None = None,
-) -> pd.DataFrame:
-    blockers = (feasibility or {}).get("blockers", [])
-    candidate_expr = expression_df[expression_df["cell_type"].isin(spec.candidate_cell_types)]
-    if any("candidate cell types not found" in blocker for blocker in blockers):
-        verdict = "partial-celltype-comparison"
-        rationale = (
-            "At least one candidate cell origin was absent after dataset/genotype filtering; "
-            "the observed signal can support the available cell type only, not a full origin comparison."
-        )
-    elif candidate_expr.empty or contrast_df.empty:
-        verdict = "insufficient"
-        rationale = "Candidate cell types or age contrasts were unavailable."
-    else:
-        top_expr = candidate_expr.sort_values("mean_expression", ascending=False).iloc[0]
-        top_contrast = contrast_df.sort_values("mean_difference", ascending=False).iloc[0]
-        top_expr_type = str(top_expr["cell_type"])
-        top_contrast_type = str(top_contrast["cell_type"])
-        if top_expr_type == "Hepatocytes" and top_contrast_type == "Hepatocytes":
-            verdict = "hepatocyte-supported"
-            rationale = "Hepatocytes show both dominant expression and strongest aging induction."
-        elif "Myeloid" in top_expr_type or "Myeloid" in top_contrast_type:
-            verdict = "immune-supported"
-            rationale = "Myeloid/Kupffer-like cells show dominant expression or aging induction."
-        elif float(top_contrast["mean_difference"]) > 0:
-            verdict = "mixed"
-            rationale = "Multiple candidate origins show age-associated signal."
-        else:
-            verdict = "weak"
-            rationale = "Candidate cells do not show clear old-versus-young induction."
-    return pd.DataFrame(
-        [
-            {
-                "gene": spec.gene,
-                "tissue": spec.tissue,
-                "verdict": verdict,
-                "rationale": rationale,
-            }
-        ]
-    )
-
 
 def render_report(
     spec: ScrnaHypothesisSpec,
@@ -605,6 +565,9 @@ def render_report(
     return "\n".join(
         [
             f"# scRNA-seq Aging Atlas Report: {spec.gene} in {spec.tissue}",
+            "",
+            "Descriptive extract-level screening; not a mouse-level significance or causal test.",
+            "The inline parser uses CIRBP/liver case defaults; review the specification below.",
             "",
             "## Inline Hypothesis",
             "",

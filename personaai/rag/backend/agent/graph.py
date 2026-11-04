@@ -15,6 +15,7 @@ from langchain_core.runnables import RunnableConfig
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_community.agent_toolkits import FileManagementToolkit
 
+from backend.agent.execution_policy import corpus_only_mode, make_agent_tools
 from backend.agent.state import AgentState
 from backend.agent.nodes import (
     intent_analysis_node,
@@ -111,10 +112,16 @@ def get_cited_paper_source(state: Annotated[AgentState, InjectedState], ids: Lis
 
     return sources
 
-file_management_tools = FileManagementToolkit(root_dir=os.getenv("RAG_DOCS_DIR", "./docs"),
-                                              selected_tools=["read_file", "file_search", "list_directory"]).get_tools()
+def file_management_tools():
+    return FileManagementToolkit(
+        root_dir=os.getenv("RAG_DOCS_DIR", "./docs"),
+        selected_tools=["read_file", "file_search", "list_directory"],
+    ).get_tools()
 
-tools = [python_code_interpreter, TavilySearch(max_results=3), get_cited_paper_source, *file_management_tools]
+
+tools = make_agent_tools(
+    get_cited_paper_source, python_code_interpreter, file_management_tools, TavilySearch,
+)
 tool_node = ToolNode(tools)
 
 # !----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -122,13 +129,15 @@ tool_node = ToolNode(tools)
 # !----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Initialize LLM
-llm_name_or_path = os.getenv("OPENROUTER_MODEL", "google/gemini-3.5-flash")
+llm_name_or_path = os.getenv("OPENROUTER_MODEL", "").strip()
+if not llm_name_or_path or llm_name_or_path == "provider/model-id":
+    raise ValueError("Set OPENROUTER_MODEL explicitly; current defaults cannot establish the historical model version")
 llm = load_llm(llm_name_or_path, temperature=float(os.getenv("LLM_TEMPERATURE", "0.0")))
 
 if llm is None:
     raise ValueError("LLM is not loaded")
 eval_llm = llm
-logger.info(f"Using LLM: {llm_name_or_path}")
+logger.info("Using LLM: %s; corpus_only=%s; temperature=%s", llm_name_or_path, corpus_only_mode(), os.getenv("LLM_TEMPERATURE", "0.0"))
 
 # Initialize search tool
 retrievers_dict = get_search_tool()
@@ -144,7 +153,6 @@ logger.info(f"Reranker configured: {bool(reranker)}")
 MAX_SEARCH_ATTEMPTS=int(os.getenv("MAX_SEARCH_ATTEMPTS", 5))              # Maximum number of loops
 MAX_WEB_SEARCH_ATTEMPTS=int(os.getenv("MAX_WEB_SEARCH_ATTEMPTS", 3))    # Maximum number of web search attempts
 RELEVANCE_THRESHOLD=float(os.getenv("RELEVANCE_THRESHOLD", 0.7))        # Answer relevance threshold
-COMPLETENESS_THRESHOLD=float(os.getenv("COMPLETENESS_THRESHOLD", 0.8))  # Answer completeness threshold
 MIN_NEW_TOKENS=int(os.getenv("MIN_NEW_TOKENS", 3000))                   # Minimum number of tokens in the answer
 
 # Define the graph
@@ -374,7 +382,7 @@ workflow.add_conditional_edges(
 )
 
 # 7. Branch based on the evaluation result (loop or end)
-def decide_action_after_evaluation(state: AgentState) -> Literal["retriever", "print_final_answer", "fallback"]:
+def decide_action_after_evaluation(state: AgentState) -> Literal["retriever", "print_final_answer", "fallback", "human_approval"]:
     """Decide the next action after evaluating the answer (loop back, end, fallback)"""
     logger.debug("--- Deciding: Loop, End, or Fallback after Evaluation ---")
     error = state.get("error")

@@ -3,7 +3,7 @@
 > hypothesis_id: `<hypothesis_id>`
 > Hypothesis under test: <competing Hypothesis A vs Hypothesis B, with the
 > prediction each makes>
-> Execution mode: <single-cell: MCP-first hybrid (primary = bundled engines,
+> Execution mode: <single-cell: secondary MCP/local pipeline (engine = bundled modules,
 > verification = local scanpy/scipy cross-check) | human-genetics: deterministic
 > Python/R scripts + sensitivity analyses>
 
@@ -12,7 +12,7 @@ Fill-in skeleton shared by both protocol domains. Sections 1, 2, 6, 7, 8, 9 are
 common. Section content differs by domain as annotated:
   - [SINGLE-CELL] = aging-atlas single-cell report
   - [HUMAN-GENETICS] = MR / coloc report
-Section "6b. Reproduction check (3-way)" is SINGLE-CELL ONLY — delete it for a
+Section "6b. Direction/significance comparison" is SINGLE-CELL ONLY — delete it for a
 human-genetics report (human-genetics verification rests on deterministic
 scripts + sensitivity analyses, not a 3-way MCP/local/reference table).
 Every number must be cited from a results file and be grep-reproducible. Use
@@ -76,7 +76,7 @@ thresholds (PP.H4 > 0.8 strong, > 0.5 moderate). Source: `results/<coloc_abf>.ts
 
 ## 6. Stage-by-Stage Verification Table
 
-[SINGLE-CELL] 5-stage MCP-first: Feasibility, Extraction/Spec, SC analysis/report,
+[SINGLE-CELL] Secondary MCP/local stages: Feasibility, Extraction/Spec, SC analysis/report,
 CCI, Cross-check, Verdict.
 
 [HUMAN-GENETICS] instrument selection, tissue/TWAS evidence, MR, coloc/SMR,
@@ -88,23 +88,22 @@ downstream annotation.
 
 ---
 
-## 6b. Reproduction Check (3-way) — [SINGLE-CELL ONLY; delete for human-genetics]
+## 6b. Direction/significance comparison — [SINGLE-CELL ONLY; delete for human-genetics]
 
 Source: `results/reproduction_check.json`. MCP value, local recompute, and
-reference target side by side; match label is `reproduced` / `directional-only` /
-`mismatch`, reported verbatim. A `mismatch` must also appear as a section-8
+reference target side by side; match label is `directionally-concordant` / `directionally-discordant` /
+`significance-category-agreement` / `significance-category-disagreement` / `not-assessable`, reported verbatim. A `mismatch` must also appear as a section-8
 limitation; it does not anchor the verdict.
 
 | metric | MCP value | local recompute | reference target | match |
 |---|---:|---:|---:|:---:|
-| <metric> | <mcp> | <local> | <target> | <reproduced/directional-only/mismatch> |
+| <metric> | <mcp> | <local> | <target> | <direction/significance-category/not-assessable> |
 
 ---
 
 ## 7. Interpretation
 
-[SINGLE-CELL] Read each competing hypothesis separately (A supported vs B
-rejected), tied to converging evidence lines.
+[SINGLE-CELL] Read each competing hypothesis separately (describe observed support and limits; do not reject a broad mechanism from sparse data), tied to converging evidence lines.
 
 [HUMAN-GENETICS] Per-target interpretation tying eQTL / pQTL / MR / coloc together.
 
@@ -113,14 +112,15 @@ rejected), tied to converging evidence lines.
 ## 8. Conclusion
 
 ```text
-<causal-chain diagram from the cited evidence>
+<observations and proposed mechanism, clearly distinguishing untested links>
 ```
 
 ### Limitations
 
-[SINGLE-CELL] causation not proven; directional exact values (Leiden seed /
-package version); subsample composition distortion; any `mismatch` disclosed
-here; MCP black-box mitigated by cross-check.
+[SINGLE-CELL] state the replication unit, age contrasts, scale, and input differences;
+disclose discordant or unassessable metrics. Do not assign discrepancies to
+seed/version/subsampling without evidence. The secondary pipeline does not
+replace the manually performed manuscript analysis.
 
 [HUMAN-GENETICS] single-instrument MR; potential UK Biobank cohort overlap;
 palindromic / strand-ambiguity handling; need for independent non-UKB replication.

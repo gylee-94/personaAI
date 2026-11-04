@@ -1,76 +1,53 @@
-# PGAT ASPC Verification Report: gWAT VEC-Niche Deterioration and Loss of the VEGF Axis
+# PGAT: secondary VEC–ASPC expression and interaction check
 
-> hypothesis_id: `pgat_aspc_single_cell`
-> Hypothesis under test: In gonadal white adipose tissue (gWAT), is the
-> age-related decline in ASPC (adipose stem and progenitor cell) regenerative
-> capacity driven by deterioration of the vascular endothelial cell (VEC) niche
-> and loss of the VEGF-VEGFR axis, in a **male-specific** manner (Hypothesis A),
-> or in a sex-independent / conserved manner (Hypothesis B)?
-> Execution mode: MCP-first hybrid — primary execution by the bundled engines
-> (`personaai/scrna_mcp/sc_analysis_mcp` + `personaai/scrna_mcp/cci_analysis_mcp`,
-> LIANA 1.7.1), verification by a deterministic local scanpy/scipy cross-check.
+Interpretation updated 2026-11-05 from recorded outputs; no atlas reanalysis
+was performed for this update. This MCP/local pipeline is separate from the
+manuscript's manual analyses and additional mouse-level models. See
+[public scope](../../../docs/reproducibility_scope.md).
 
-## 1. Overall Verdict
+## 1. Overall interpretation
 
-The final verdict of this analysis is **`VEC-niche / VEGF-axis-supported
-(male-specific)`** — i.e. it supports Hypothesis A, that male-specific vascular
-endothelial niche deterioration and loss of the VEGF-VEGFR axis drive the
-decline in ASPC regenerative capacity.
+Recorded male VEC Vegfa and ASPC Kdr expression contrasts are negative, and
+three selected male VEC-to-ASPC ligand–receptor scores decline. These are
+associations compatible with a vascular-niche hypothesis. This check does not
+measure ASPC regenerative capacity, establish VEGFA–KDR signaling activity, or
+prove a causal or male-specific mechanism.
 
-The core basis is the **molecular signal reproduced in males**. In the MCP
-engine's young-old contrast, male VEC Vegfa is strongly downregulated
-(log2fc old/young = **-2.701**, expressing fraction 3.39% -> 0.17%), and male
-ASPC Kdr (VEGFR2) also decreases with age (local cross-check old-young =
-**-0.0295**). The same directions are conserved in females: female VEC Vegfa is
-nearly unchanged (log2fc = **-0.153**) and female ASPC Kdr is essentially flat
-(old-young = **+0.0013**). In the CCI analysis (`cci_analysis_mcp`, LIANA), all
-three target VEC->ASPC ligand-receptor pairs in males (Lpl-Lrp1, Sparc-Fgfr1,
-Pdgfb-Lrp1) are weakened in old age, consistent with the reference LIANA
-direction.
+The former `VEC-niche / VEGF-axis-supported (male-specific)` verdict was too
+strong. Female effects near zero and nonsignificant P values are not tests of
+equivalence; a sex difference requires a direct interaction test. Both recorded
+sex subsets have a negative VEC age trend. The historical female positive
+reference is discordant, and its cause has not been established.
 
-There is, however, an **honest limitation** (see section 8). In the local
-cross-check the female VEC proportion also decreases in the equal-bin 30k
-subsample file (`female_VEC_rho` = -0.7, reference +0.1 -> **mismatch**), so the
-"female VEC proportion is stable" claim (full-atlas P ~= 0.5) is not directly
-reproduced. The verdict therefore rests on the **male-specific molecular signal
-(Vegfa down, Kdr down, L-R weakening)** as the stronger, reproduced basis rather
-than on the cell-proportion axis.
-
-| Prediction (Hypothesis A) | Verdict | Key reason |
+| Question | Recorded observation | Scope |
 |---|---|---|
-| (i) Male VEC proportion decrease (attrition) | **Partially supported / with caveat** | Local male_VEC_rho = -0.7 (direction agrees) but trend P = 0.1881 misses the full-atlas P ~= 0.039; females also decrease in the subsample (limitation below) |
-| (ii) Male VEC Vegfa down + ASPC Kdr down (female conserved) | **Supported** | Male VEC Vegfa log2fc -2.701 vs female -0.153; male ASPC Kdr -0.0295 vs female +0.0013 |
-| (iii) Male VEC->ASPC L-R weakening (not seen in females) | **Supported** | MCP and reference LIANA both show all three male pairs weakened; reference shows female pairs not consistently weakened |
+| VEC proportion trend | rho -0.7 and P 0.1881 in each sex | Descriptive age-bin trends; no male-specific decline established here |
+| Vegfa/Kdr expression | Larger negative male contrasts; smaller female contrasts | Consistent with the proposed expression pattern; not a sex-interaction test |
+| Three selected L–R pairs | All male scores decrease; two female scores also decrease | Pair-specific pooled-cell expression scores |
+| VEGFA–KDR and ASPC regeneration | No retained VEGFA–KDR interaction score; no regeneration measurement | Direct mechanism and functional consequence not tested |
 
----
+## 2. Inputs and contrasts
 
-## 2. Data Availability
+The recorded inputs are WT `gWAT_male_30k.h5ad` and `gWAT_female_30k.h5ad`, each
+30,000 cells by 53,819 genes. VEC counts are 4,574 male/5,966 female and ASPC
+counts 3,944/3,824. Cells and age bins are not independent mouse replicates.
 
-- tissue: `gWAT` (gonadal white adipose tissue)
-- genes: `Vegfa` (VEC-secreted ligand), `Kdr` (VEGFR2, ASPC receptor)
-- candidate cell types: `Vascular endothelial cells` (VEC),
-  `Adipoce stem and progenitor cells` (ASPC)
-- age: young = `03_months`, old = `23_months`; genotype = `WT`
-- Input h5ads (per `data_manifest.tsv`, atlas-derived equal-bin 30k subsets,
-  sex-split, not redistributed):
-  - male: `gWAT_male_30k.h5ad` — **30,000 cells x 53,819 genes**, feasible = True, blockers none
-  - female: `gWAT_female_30k.h5ad` — **30,000 cells x 53,819 genes**, feasible = True, blockers none
-- candidate cell N (male/female `cell_type_expression.tsv`):
-  VEC 4,574 / 5,966, ASPC 3,944 / 3,824
+| Analysis | Actual contrast and scale |
+|---|---|
+| MCP expression | 3 versus 23 months; `log2((old_mean+0.01)/(young_mean+0.01))` on stored X |
+| Local Vegfa/Kdr | Equally weighted means across <=6 versus >=16-month age bins on stored/normalized X |
+| Local VEC trend | Spearman correlation of age-bin proportions with age |
+| Secondary CCI | Pooled 3+6 versus 16+23-month cells; LIANA `use_raw=False`, normalization/log1p if X maximum exceeds 50 |
+| Primary manuscript CCI | Separate sex/age runs on raw UMI counts, including 3 versus 12-month comparisons; a different calculation |
 
-This verification is a hybrid. **Primary execution** = the MCP engines: lineage
-screening (cell-type expression, age trajectory, young-old contrast) by
-`personaai/scrna_mcp/sc_analysis_mcp`, and cell-cell interaction by
-`personaai/scrna_mcp/cci_analysis_mcp` (LIANA 1.7.1), each run per sex-split
-h5ad. **Verification** = the local scanpy/scipy cross-check, which adds the VEC
-proportion trend (Spearman), ASPC Kdr change, and reference three-way comparison
-that the MCP run does not produce directly.
+The MCP age contrast, local mean difference, and manuscript mouse-level model
+are different estimands. Their magnitudes should not be treated as replicated
+estimates of one effect.
 
----
+## 3. Cell-type expression (recorded MCP output)
 
-## 3. Cell-Type Expression (MCP, by sex)
-
-Source: `results/{male,female}/cell_type_expression.tsv` (gene = Vegfa)
+Source: `male/cell_type_expression.tsv`, `female/cell_type_expression.tsv`;
+gene = Vegfa.
 
 | sex | cell_type | n_cells | mean_expression | pct_expressing (%) | is_candidate |
 |---|---|---:|---:|---:|:---:|
@@ -79,17 +56,10 @@ Source: `results/{male,female}/cell_type_expression.tsv` (gene = Vegfa)
 | Female | Adipoce stem and progenitor cells | 3,824 | 0.056224 | 3.6088 | True |
 | Female | Vascular endothelial cells | 5,966 | 0.022125 | 1.2571 | True |
 
-VEC and ASPC are identified as candidates in both sexes. Baseline Vegfa
-expression is higher in male VEC than female VEC (mean 0.0374 vs 0.0221, pct
-1.73% vs 1.26%).
+## 4. Age expression contrasts (recorded MCP output)
 
----
-
-## 4. Age Dynamics: Vegfa / Kdr (MCP, by sex)
-
-Source: `results/{male,female}/young_old_contrast.tsv` (Young 03_months vs Old
-23_months, gene = Vegfa). Because the MCP tsv is keyed on Vegfa, the ASPC Kdr
-change is given from the local cross-check.
+Source: `male/young_old_contrast.tsv`, `female/young_old_contrast.tsv`;
+3 versus 23 months, gene = Vegfa.
 
 | sex | cell_type | n_young | n_old | young_mean | old_mean | log2fc (old/young) | young_pct (%) | old_pct (%) |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
@@ -98,22 +68,18 @@ change is given from the local cross-check.
 | Female | Vascular endothelial cells | 1,497 | 789 | 0.018036 | 0.015209 | **-0.1533** | 1.2024 | 1.1407 |
 | Female | Adipoce stem and progenitor cells | 871 | 477 | 0.073479 | 0.056604 | -0.3258 | 4.4776 | 3.5639 |
 
-ASPC Kdr (VEGFR2) young-old change (local cross-check, mean(old) - mean(young)):
-**male -0.0295**, **female +0.0013**.
+The separate local ASPC Kdr contrasts are -0.0295 in males and +0.0013 in
+females (>=16 minus <=6 months). These point estimates do not supply
+mouse-level uncertainty or a sex-interaction P value.
 
-The key asymmetry is clear. Male VEC Vegfa is nearly abolished (log2fc -2.701,
-expressing fraction 3.39% -> 0.17%), whereas female VEC Vegfa is essentially
-conserved (log2fc -0.153). ASPC Kdr likewise decreases only in males (-0.0295)
-and is unchanged in females (+0.0013). Both the VEGF ligand (VEC Vegfa) and
-receptor (ASPC Kdr) are co-downregulated only in males.
+## 5. Recorded ligand–receptor scores
 
----
-
-## 5. CCI: VEC->ASPC Ligand-Receptor Interactions (cci_analysis_mcp, LIANA)
-
-Source: `results/cci/target_pairs_compare.tsv` (source = VEC, target = ASPC).
-Reference comparison: the VEC->ASPC LIANA interaction CSVs listed in
-`data_manifest.tsv` (male / female).
+Source: `cci/target_pairs_compare.tsv`. These three pairs do not measure the
+VEGFA–KDR interaction. Vegfa expression in VECs is only about 1.3–1.7% in the
+recorded MCP summaries; the proposed pair is not supported by a retained score
+under the 10% LIANA expression filter. The final manuscript separately reports
+that both ligand and receptor fail this threshold. Low detection is not proof
+of no biological signaling.
 
 | sex | ligand | receptor | young_lr_means | old_lr_means | weakened_in_old (MCP) | reference LIANA direction |
 |---|---|---|---:|---:|:---:|---|
@@ -124,136 +90,62 @@ Reference comparison: the VEC->ASPC LIANA interaction CSVs listed in
 | female | Sparc | Fgfr1 | 0.648321 | 0.666761 | False | not-weakened (agrees) |
 | female | Pdgfb | Lrp1 | 0.650614 | 0.606989 | True | not-weakened (differs) |
 
-Direction-agreement summary: **all three male pairs are consistently weakened in
-both MCP and reference LIANA**. For females, the reference shows none of the
-three pairs weakened; the MCP agrees on Sparc-Fgfr1 (not-weakened) but registers
-weak decreases for Lpl-Lrp1 and Pdgfb-Lrp1, partially differing from the
-reference (magnitude is negligible; see limitation (b) in section 8).
+The secondary male score changes are approximately -25.7%, -13.0%, and -6.2%
+for Lpl–Lrp1, Sparc–Fgfr1, and Pdgfb–Lrp1, respectively. Female changes are
+-3.5%, +2.8%, and -6.7%. In particular, the female Pdgfb–Lrp1 decrease is
+similar in relative size to the male decrease; it cannot be dismissed as
+negligible to support male specificity. These scores have no mouse-level
+uncertainty. The historical reference directions and the two female
+disagreements remain visible. Different aggregation/normalization may matter,
+but their causal role in the discrepancies was not established.
 
----
+## 6. Execution and evidence boundary
 
-## 6. Stage-by-Stage (MCP-first) Verification Table
-
-| Stage | What ran | Tool / output | Verdict |
-|---|---|---|---|
-| 1. Feasibility | Confirm sex-split h5ads (each 30,000 cells x 53,819 genes) / Vegfa / Kdr / metadata availability | feasibility check | Pass (male and female feasible = True, blockers none) |
-| 2. Extraction / Spec | Parse tissue / gene / cell_type / age / genotype parameters | spec | Pass (gWAT / Vegfa, Kdr / WT / 03 <-> 23m, VEC and ASPC) |
-| 3. SC analysis | Cell-type expression + age trajectory + young-old contrast (per sex) | `personaai/scrna_mcp/sc_analysis_mcp` -> `results/{male,female}/*.tsv` | Pass (male VEC Vegfa down dominant) |
-| 4. CCI | VEC->ASPC L-R comparison (young vs old, per sex) | `personaai/scrna_mcp/cci_analysis_mcp` (LIANA 1.7.1) -> `results/cci/target_pairs_compare.tsv`, `results/cci/{male,female}_compare.json` | Pass (three male pairs weakened, reference agrees) |
-| 5. Cross-check | VEC proportion trend + ASPC Kdr + three-way comparison | `scripts/crosscheck.py` -> `results/reproduction_check.json` | Partial pass (`female_VEC_rho` mismatch — see section 8) |
-| Verdict | Overall verdict | this report | **VEC-niche / VEGF-axis-supported (male-specific)** |
-
----
-
-## 6b. Reproduction Check (3-way)
-
-Source: `results/reproduction_check.json`. A transparency layer placing the MCP
-value, local recompute, and reference target side by side, reporting the
-local / mcp / target / match fields verbatim. All 8 PGAT metrics.
-
-| metric | MCP value | local recompute | reference target | match |
-|---|---:|---:|---:|:---:|
-| male_VEC_rho | null | -0.7 | -0.5 | reproduced |
-| male_VEC_p | null | 0.1881 | 0.039 | directional-only |
-| male_VEC_Vegfa_old_minus_young | -2.701278 (VEC log2fc old/young) | -0.03881 | -1.0 | reproduced |
-| male_ASPC_Kdr_old_minus_young | null | -0.0295 | -1.0 | reproduced |
-| **female_VEC_rho** | null | **-0.7** | **0.1** | **mismatch** |
-| female_VEC_p | null | 0.1881 | 0.5 | reproduced |
-| female_VEC_Vegfa_old_minus_young | -0.153338 (VEC log2fc old/young) | -0.0107 | 0.0 | directional-only |
-| female_ASPC_Kdr_old_minus_young | null | 0.0013 | 0.0 | directional-only |
-
-Notes and mismatch discussion:
-- **`female_VEC_rho` mismatch (key limitation)**: the local recompute returns a
-  decreasing female VEC proportion with age (Spearman rho = -0.7), whereas the
-  reference is rho = +0.1 (stable). This is attributable to the equal-bin 30k
-  subsample h5ad distorting cell-composition proportions (forcing young / old to
-  roughly equal cell counts can mask or invert the true compositional change).
-  So the "female VEC proportion stable" claim (full-atlas P ~= 0.5) is not
-  directly reproduced in this subsample. That said, `female_VEC_p` = 0.1881 is
-  not significant (consistent with the reference P ~= 0.5), so "not a significant
-  decrease" is preserved.
-- `male_VEC_p` (directional-only): local P = 0.1881 exceeds the full-atlas
-  P ~= 0.039. The direction (decrease) agrees but does not reach significance in
-  the subsample.
-- `*_old_minus_young` (Vegfa / Kdr): absolute values differ in magnitude from the
-  reference (the +/-1.0 targets denote intended direction) due to normalization /
-  subsample differences, but sign and rank agree, hence reproduced /
-  directional-only. Note the MCP Vegfa entries are the VEC log2fc (old/young), not
-  the mean difference (male -2.701, female -0.153).
-
----
-
-## 7. Interpretation
-
-### 7.1 Males (Hypothesis A supported)
-Three lines of evidence converge. (1) **VEGF ligand loss**: male VEC Vegfa
-young-old log2fc = -2.701 (expressing fraction 3.39% -> 0.17%). (2) **VEGF
-receptor decrease**: male ASPC Kdr (VEGFR2) old-young = -0.0295. (3) **VEC->ASPC
-L-R weakening**: Lpl-Lrp1 (1.547 -> 1.150), Sparc-Fgfr1 (1.018 -> 0.886),
-Pdgfb-Lrp1 (0.990 -> 0.928) all weaken with age and agree with the reference
-LIANA direction. Ligand (Vegfa), receptor (Kdr), and downstream niche signaling
-(L-R) all consistently weaken in males, matching the Hypothesis-A prediction
-that VEC niche collapse weakens ASPC regenerative support in aged male gWAT.
-
-### 7.2 Females (molecular signal conserved — the basis for male-specificity)
-Female VEC Vegfa is nearly conserved (log2fc -0.153) and female ASPC Kdr is
-unchanged (+0.0013). In the reference LIANA, the three female VEC->ASPC pairs are
-not consistently weakened. Thus **conservation of the molecular signal (Vegfa /
-Kdr)** is the strongest axis supporting the male-specific character of this
-verdict. However, the cell **proportion** axis itself also decreases in females
-in this subsample (female_VEC_rho = -0.7), so the "female stable" claim is not
-directly reproduced on the proportion axis (see section 8).
-
----
-
-## 8. Conclusion
-
-```text
-Male VEC niche weakening (VEC Vegfa log2fc -2.701, expressing fraction 3.39%->0.17%)
-    -> VEC Vegfa down + ASPC Kdr down (Kdr old-young -0.0295)
-    -> VEC->ASPC L-R weakening (Lpl-Lrp1 1.547->1.150, Sparc-Fgfr1 1.018->0.886, Pdgfb-Lrp1 0.990->0.928)
-    => reduced ASPC regenerative support (Hypothesis A supported, male-specific)
-   (Female: VEC Vegfa log2fc -0.153, ASPC Kdr +0.0013, reference L-R not weakened -> molecular signal conserved)
-```
-
-### Limitations (stated honestly)
-- **(a) female_VEC_rho mismatch**: the local recompute returns a decreasing
-  female VEC proportion (rho = -0.7), inconsistent with the reference
-  (rho = +0.1, stable). The equal-bin 30k subsample artificially balances young /
-  old cell counts and can distort compositional proportions, so the proportion
-  trend cannot be compared directly against full-atlas P ~= 0.039 (male) / P ~= 0.5
-  (female stable). **A re-check on full-atlas composition is needed.** Note that
-  female_VEC_p = 0.1881 (not significant) preserves "not a significant decrease,"
-  so the impact on this verdict — which rests on the molecular signal rather than
-  the proportion axis — is limited.
-- **(b) Female CCI direction partially differs**: for female Lpl-Lrp1 and
-  Pdgfb-Lrp1, the MCP records weak decreases (weakened = True) while the reference
-  LIANA marks not-weakened. This stems from pooled vs per-month LIANA aggregation
-  differences and the change magnitude is negligible. It does not affect the male
-  result (all three pairs agree).
-- **(c) Causation not proven**: scRNA-seq / CCI supports the association of
-  cellular origin and weakened interaction, but does not directly prove a causal
-  VEC-niche -> ASPC regenerative-decline link.
-- **(d) Sex-split single h5ads**: male / female each use a single 30k file, so
-  batch / subsample effects can influence proportion estimates (linked to (a)).
-
-In summary, the **male-specific molecular signal (Vegfa down, Kdr down, VEC->ASPC
-L-R weakening) is reproduced and supports Hypothesis A**, while the **cell
-proportion axis is not directly reproduced due to subsample limitations**.
-The verdict is therefore `VEC-niche / VEGF-axis-supported (male-specific)`, with
-the proportion component flagged for full-atlas re-verification.
-
----
-
-## 9. Outputs
-
-| Type | Path | Content |
+| Stage | Public output | Scope |
 |---|---|---|
-| driver | `scripts/run_mcp_report.py` | `personaai/scrna_mcp/sc_analysis_mcp` report driver |
-| driver | `scripts/run_mcp_cci.py` | `personaai/scrna_mcp/cci_analysis_mcp` (LIANA) CCI driver |
-| MCP output | `results/male/{cell_type_expression,age_trajectory,young_old_contrast}.tsv` | Male cell-type expression / age trajectory / young-old contrast |
-| MCP output | `results/female/{cell_type_expression,age_trajectory,young_old_contrast}.tsv` | Female equivalents |
-| CCI | `results/cci/target_pairs_compare.tsv` | VEC->ASPC target L-R young/old comparison |
-| CCI | `results/cci/{male,female}_compare.json` | Per-sex CCI aging comparison logs |
-| cross-check | `results/reproduction_check.json` | Three-way comparison (local / mcp / target / match), 8 metrics |
-| reference provenance | see `data_manifest.tsv` | VEC->ASPC LIANA reference interactions (male / female); atlas h5ads and reference CSVs not redistributed |
+| MCP expression | `male/` and `female/` TSVs | Descriptive expression summaries |
+| CCI | `cci/target_pairs_compare.tsv`, `cci/male_compare.txt`, `cci/female_compare.txt` | Pooled-cell scores and unchanged textual engine logs |
+| Local comparison | `reproduction_check.json` | Direction/significance categories; not numerical replication |
+| Manuscript mouse-level models | Manuscript results and methods | Additional analysis; exact generating scripts not recovered here |
+
+## 6b. Direction and significance comparison
+
+| Local estimand | Local value | Historical reference/expectation | Comparison |
+|---|---:|---|---|
+| Male VEC age-bin rho | -0.7 | -0.5 | Directionally concordant |
+| Male VEC trend P | 0.1881 | 0.039 | Significance-category disagreement |
+| Male VEC Vegfa mean difference | -0.03881 | Expected decrease (legacy -1 placeholder) | Directionally concordant; no numerical target |
+| Male ASPC Kdr mean difference | -0.0295 | Expected decrease (legacy -1 placeholder) | Directionally concordant; no numerical target |
+| Female VEC age-bin rho | -0.7 | +0.1 | Directionally discordant |
+| Female VEC trend P | 0.1881 | 0.5 | Same nonsignificant category; not equivalence |
+| Female VEC Vegfa mean difference | -0.0107 | Approximately unchanged (legacy 0 placeholder) | Not assessable without an equivalence margin/test |
+| Female ASPC Kdr mean difference | +0.0013 | Approximately unchanged (legacy 0 placeholder) | Not assessable without an equivalence margin/test |
+
+The separate MCP Vegfa contrasts (-2.701278 male, -0.153338 female) are log2
+mean-expression ratios for 23/3 months, not the local mean differences above.
+JSON retains them with explicit estimand metadata. The original local numbers
+are unchanged; the old labels are retained as `legacy_match`.
+
+## 7. Interpretation limits
+
+The female VEC discrepancy cannot be assigned to subsampling without testing
+that explanation. The final manuscript's separate mouse-level analysis reports
+negative long-term VEC age trends in both sexes; that result should not be
+replaced by the older "female stable" target. Likewise, the manuscript's
+3–6 versus 12-month expression/abundance tests differ from this secondary
+pipeline's age grouping.
+
+The hypothesis remains a proposal consistent with some expression observations.
+These pooled-cell scores do not demonstrate ligand–receptor binding, ASPC
+regenerative decline, or its causal origin. No direct functional rescue or
+perturbation experiment is contained in this report. Negative, discordant and
+unassessable comparisons are retained together with supportive observations.
+
+## 8. Outputs and reuse
+
+[scripts/run_mcp_report.py](../scripts/run_mcp_report.py) drives the per-sex
+expression summaries, [scripts/run_mcp_cci.py](../scripts/run_mcp_cci.py) produces
+the CCI scores/text logs, and [scripts/crosscheck.py](../scripts/crosscheck.py)
+produces the comparison JSON. Input requirements are in `data_manifest.tsv`.
+These scripts support the secondary calculations described here, not exact
+reproduction of the manual manuscript analysis.

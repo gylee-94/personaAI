@@ -1,28 +1,48 @@
-# Table 1. LLM-Assisted Hypothesis Screening Rubric
+# RAG answer evaluation and stopping rules
 
-This rubric documents the public-facing criteria used to screen generated
-hypotheses before in-silico evaluation. It is intended to support transparent
-workflow reporting, not to replace statistical validation.
+This document describes `evaluate_answer_node()` in
+`personaai/rag/backend/agent/nodes.py`. It replaces the earlier five-criterion
+weighted screening table: that table was not the implemented evaluator, and
+no saved CRELD2 score establishes passage through such a weighted gate.
+The earlier document remains in Git history.
 
-## Scoring Scale
+## Implemented evaluator
 
-Each hypothesis is assigned a score from 0.0 to 1.0. Hypotheses with scores
-greater than or equal to 0.9 are eligible for downstream hypothesis evaluation.
+The same configured LLM used for generation evaluates the draft against the
+query, main topics, and cited context. It returns `relevance`, `completeness`
+(each 0 to 1), and `missing_info`. This is model self-assessment, not independent
+human annotation, evidence validity, or a calibrated probability of truth.
 
-## Criteria
+| Field | Evaluation prompt |
+|---|---|
+| Relevance | Coverage, integration, accuracy, and precision in addressing the main topics |
+| Completeness | Depth and analytical development of the topics and their relationships |
+| Missing information | Specific gaps to guide another retrieval iteration |
 
-| Criterion | Weight | Description |
-| --- | ---: | --- |
-| Biological plausibility | 0.25 | The hypothesis is grounded in known aging biology, tissue context, or pathway evidence. |
-| Testable exposure and outcome | 0.20 | The hypothesis can be mapped to measurable molecular traits and aging-related outcomes. |
-| Evidence coverage | 0.20 | Relevant public datasets are likely to exist across molecular and phenotype layers. |
-| Integration quality | 0.20 | The hypothesis connects tissue biology, molecular regulation, and organism-level aging phenotypes coherently. |
-| Limitation awareness | 0.15 | The hypothesis identifies likely sources of uncertainty, such as sample overlap, proxy outcomes, or incomplete causal identifiability. |
+The evaluator is instructed to use high scores conservatively and to clear
+missing information only when its qualitative requirements and a completeness
+score above 0.85 are met. The runtime does not enforce that instruction as an
+acceptance threshold; its control flow uses the rules below.
 
-## CRELD2 Interpretation
+## Actual stop conditions
 
-The CRELD2 hypothesis passed screening because it linked adipose/liver
-secretory stress biology to a measurable circulating protein and to
-population-scale aging outcomes. Passing the threshold did not imply that the
-candidate was causal; it indicated that the hypothesis was sufficiently
-structured and data-feasible for in-silico evaluation.
+| Condition | Consequence |
+|---|---|
+| Completeness >= 0.90 | Clear missing information and stop further retrieval |
+| Completeness > 0.75, improvement < 0.05, loop count > 2 | Stop because improvement is limited |
+| Loop count >= `MAX_SEARCH_ATTEMPTS` | Stop at the retrieval limit |
+| Evaluator returns no missing information | Route to final output |
+| Human selects accept at the review interruption | Use the current draft as final output |
+| Retrieval/evaluation fails or retrieval exceeds its limit | Follow the error/fallback route; this is not scientific acceptance |
+
+The first iteration with missing information routes to human review. Continuing
+retrieval and accepting the draft are distinct decisions. These conditions do
+not imply that every final hypothesis scored at least 0.90. The old
+`COMPLETENESS_THRESHOLD` environment setting was unused and has been removed;
+the implemented 0.90, 0.75, and 0.05 rules have been retained.
+
+For new executions, graph state records evaluation scores, missing information
+before/after the rules, stop reasons, and the number of completed human-review
+decisions. Preserve the graph checkpoints or application logs to retain those
+records. No historical iteration scores or human-intervention counts are
+invented or recovered by this change.

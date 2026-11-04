@@ -1,0 +1,14 @@
+[
+  {
+    "file": "analysis/cirbp_liver_single_cell/results/reproduction_check.json",
+    "source_commit": "76ff056c5be751233a36f6d7ec196d2484fde5bc",
+    "source_sha256": "554994fd4f79c28a8661c65e1cb5e36ac8e197ea6a720aa4fd29d51d4d285d55",
+    "change": "Comparison labels and estimand metadata only; original local and MCP numbers preserved. PGAT placeholder targets retained as legacy_target_placeholder."
+  },
+  {
+    "file": "analysis/pgat_aspc_single_cell/results/reproduction_check.json",
+    "source_commit": "76ff056c5be751233a36f6d7ec196d2484fde5bc",
+    "source_sha256": "6008d15f1278728c34ee3d20ca935b567eef55b8c62922e2fa77432cfbe62765",
+    "change": "Comparison labels and estimand metadata only; original local and MCP numbers preserved. PGAT placeholder targets retained as legacy_target_placeholder."
+  }
+]

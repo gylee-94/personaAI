@@ -4,63 +4,103 @@
     "local": -0.7,
     "mcp": null,
     "target": -0.5,
-    "match": "reproduced",
-    "note": "VEC proportion vs age (Spearman)"
+    "match": "directionally-concordant",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "VEC proportion vs age (Spearman)",
+    "legacy_match": "reproduced",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun"
   },
   {
     "metric": "male_VEC_p",
     "local": 0.1881,
     "mcp": null,
     "target": 0.039,
-    "match": "directional-only",
-    "note": "VEC proportion trend p"
+    "match": "significance-category-disagreement",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "VEC proportion trend p",
+    "legacy_match": "directional-only",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun"
   },
   {
     "metric": "male_VEC_Vegfa_old_minus_young",
     "local": -0.03881,
     "mcp": -2.7012775750068965,
-    "target": -1.0,
-    "match": "reproduced",
-    "note": "mean(old)-mean(young) Vegfa in VEC; mcp=VEC log2fc old/young"
+    "target": null,
+    "match": "directionally-concordant",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "mean(old)-mean(young) Vegfa in VEC; mcp=VEC log2fc old/young",
+    "local_estimand": "difference of equally weighted age-bin means on the stored/normalized expression scale (>=16 minus <=6 months)",
+    "reference_expectation": "decrease",
+    "legacy_target_placeholder": -1.0,
+    "mcp_estimand": "log2((old mean + 0.01)/(young mean + 0.01)); 23 versus 3 months; stored expression scale",
+    "mcp_numerically_comparable_to_local": false,
+    "legacy_match": "reproduced",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun"
   },
   {
     "metric": "male_ASPC_Kdr_old_minus_young",
     "local": -0.0295,
     "mcp": null,
-    "target": -1.0,
-    "match": "reproduced",
-    "note": "mean(old)-mean(young) Kdr in ASPC"
+    "target": null,
+    "match": "directionally-concordant",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "mean(old)-mean(young) Kdr in ASPC",
+    "local_estimand": "difference of equally weighted age-bin means on the stored/normalized expression scale (>=16 minus <=6 months)",
+    "reference_expectation": "decrease",
+    "legacy_target_placeholder": -1.0,
+    "legacy_match": "reproduced",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun"
   },
   {
     "metric": "female_VEC_rho",
     "local": -0.7,
     "mcp": null,
     "target": 0.1,
-    "match": "mismatch",
-    "note": "VEC proportion vs age (Spearman)"
+    "match": "directionally-discordant",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "VEC proportion vs age (Spearman)",
+    "legacy_match": "mismatch",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun"
   },
   {
     "metric": "female_VEC_p",
     "local": 0.1881,
     "mcp": null,
     "target": 0.5,
-    "match": "reproduced",
-    "note": "VEC proportion trend p"
+    "match": "significance-category-agreement",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "VEC proportion trend p",
+    "legacy_match": "reproduced",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun"
   },
   {
     "metric": "female_VEC_Vegfa_old_minus_young",
     "local": -0.0107,
     "mcp": -0.153338225725986,
-    "target": 0.0,
-    "match": "directional-only",
-    "note": "mean(old)-mean(young) Vegfa in VEC; mcp=VEC log2fc old/young"
+    "target": null,
+    "match": "not-assessable",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "mean(old)-mean(young) Vegfa in VEC; mcp=VEC log2fc old/young",
+    "local_estimand": "difference of equally weighted age-bin means on the stored/normalized expression scale (>=16 minus <=6 months)",
+    "reference_expectation": "approximately unchanged (no equivalence margin specified)",
+    "legacy_target_placeholder": 0.0,
+    "mcp_estimand": "log2((old mean + 0.01)/(young mean + 0.01)); 23 versus 3 months; stored expression scale",
+    "mcp_numerically_comparable_to_local": false,
+    "legacy_match": "directional-only",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun"
   },
   {
     "metric": "female_ASPC_Kdr_old_minus_young",
     "local": 0.0013,
     "mcp": null,
-    "target": 0.0,
-    "match": "directional-only",
-    "note": "mean(old)-mean(young) Kdr in ASPC"
+    "target": null,
+    "match": "not-assessable",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "mean(old)-mean(young) Kdr in ASPC",
+    "local_estimand": "difference of equally weighted age-bin means on the stored/normalized expression scale (>=16 minus <=6 months)",
+    "reference_expectation": "approximately unchanged (no equivalence margin specified)",
+    "legacy_target_placeholder": 0.0,
+    "legacy_match": "directional-only",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun"
   }
 ]

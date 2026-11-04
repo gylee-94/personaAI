@@ -1,0 +1,14 @@
+{
+  "recovered_on": "2026-11-05",
+  "source_archive": "Aging_Agent/MCP/Figure_data/Fig4_PGAT/raw.data/liana",
+  "records": [
+    {
+      "file": "male_VEC_ASPC_interactions.csv",
+      "sha256": "f34aa79dc577cefef466c2413c99813234072d011c35118f95cbeee1f3f3777a"
+    },
+    {
+      "file": "female_VEC_ASPC_interactions.csv",
+      "sha256": "196d7e8d8cdc208e11dd4587e638dc67a530f4ebdac61b040051ff651789dcca"
+    }
+  ]
+}

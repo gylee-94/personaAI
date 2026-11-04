@@ -49,3 +49,17 @@ RAG-assisted outputs should be described as context assembly and workflow
 support. They should not be presented as independent statistical evidence unless
 the supporting calculation is implemented in deterministic code and included in
 the relevant analysis directory.
+
+## Current execution boundary and historical scope
+
+New executions default to `RAG_CORPUS_ONLY=true`: web search, the Python agent
+tool, and arbitrary local-file agent tools are not exposed. Retrieval is limited
+to the configured collection; the operator must supply and audit its dates.
+General mode (`false`) exposes those additional tools and requires a Tavily key.
+Neither mode constrains parametric knowledge or constitutes model-level
+information isolation. Historical web usage is not known from current code.
+
+Use an explicit `OPENROUTER_MODEL`. Preserve checkpoints/logs containing the
+new evaluation history, stop reasons, and human-review decision count. These
+records describe new executions only. See the [corpus provenance](corpus_provenance.md)
+and [implemented evaluation rules](../../docs/table1_llm_scoring_rubric.md).

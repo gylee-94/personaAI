@@ -1,0 +1,58 @@
+{
+  "Analysis": "CIRBP Liver Aging Hypothesis Validation",
+  "Date": "2025-11-20",
+  "Total_Cells": 2372,
+  "Total_Genes": 14866,
+  "Cirbp_Expression": {
+    "Positive_Cells": 15,
+    "Positive_Pct": 0.6323777403035413,
+    "Mean": 0.011759393848478794,
+    "Median": 0.0,
+    "Max": 3.8957467079162598
+  },
+  "Age_Trend": {
+    "Spearman_rho": 0.04223751563765806,
+    "p_value": 0.03969247597607698,
+    "Significant": true,
+    "Chi2_test_proportions": {
+      "chi2": 11.094853023874844,
+      "p": 0.02551842755885745,
+      "significant": true
+    }
+  },
+  "Cirbp_Positive_by_Age": {
+    "3_months": "0.41%",
+    "6_months": "0.42%",
+    "12_months": "0.43%",
+    "16_months": "0.21%",
+    "23_months": "1.72%"
+  },
+  "Leiden_Clustering": {
+    "n_clusters": 4,
+    "Cluster_3_Size": 175,
+    "Cluster_3_Aged_Pct": "73.1%",
+    "Cluster_3_Cirbp_Positive_Pct": "3.43%",
+    "Enrichment_23m_OddsRatio": 14.97872340425532,
+    "Enrichment_23m_pvalue": 2.4362844238120166e-58
+  },
+  "Stress_Markers_in_Cluster3": {
+    "Cdkn1a": "5.48x (p21 cell senescence)",
+    "Cirbp": "2.03x (cold/stress response)",
+    "Xbp1": "2.01x (ER stress)",
+    "Ddit3": "1.89x (stress response)",
+    "Trp53": "1.72x (DNA damage)",
+    "Atf4": "1.51x (integrated stress response)"
+  },
+  "Hypothesis_Result": {
+    "Winner": "Hypothesis A - Hepatocyte Metabolic Stress",
+    "Evidence": [
+      "Cirbp expression increases with age in hepatocytes (\u03c1=0.042, p=0.040)",
+      "Cirbp+ cells increase from 0.4% to 1.7% at 23 months (\u03c7\u00b2=11.09, p=0.026)",
+      "Cluster 3 (stressed hepatocytes) is 73% aged cells (OR=14.98, p<1e-50)",
+      "Cluster 3 shows elevated stress markers: Cdkn1a (5.5x), Xbp1 (2.0x), Ddit3 (1.9x)",
+      "Cluster 3 enriched with aging signature genes (Lars2, Scd1, Apoa1)"
+    ],
+    "Conclusion": "CIRBP upregulation driven by hepatocyte-intrinsic metabolic stress during aging",
+    "Clinical_Relevance": "Targeted interventions for stressed hepatocyte subpopulation may reduce liver aging"
+  }
+}

@@ -1,0 +1,2 @@
+variant	build	position	pqtl_effect_allele	pqtl_eaf_approx	gwas_effect_allele	gwas_eaf_approx	aligned_effect_allele	aligned_gwas_eaf_approx	recorded_decision	source	record_status
+rs74510325	GRCh37	22:50315382	G	0.0348	C	0.9653	G	0.0347	retain; reverse outcome beta on C/G to G/C allele-order swap	Final manuscript and Supplementary Table 10	Transcribed approximate frequencies; no new raw-data extraction; gnomAD numeric/version record unavailable

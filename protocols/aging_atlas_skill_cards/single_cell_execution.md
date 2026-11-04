@@ -10,15 +10,15 @@ engine modules.
 - SOMA-to-h5ad extraction for the target tissue, genes, and groups.
 - Cell-type expression profiling across candidate cell types.
 - Age trajectory across age groups, with sex stratification when required.
-- Young-old differential contrast (log2 fold change and percent expressing).
+- Young-old descriptive contrast (pseudocount-adjusted log2 ratio of stored-scale means and percent expressing).
 - Subclustering to identify aged-enriched populations and stress signatures.
 - LIANA-based ligand-receptor cell-cell interaction comparison (young vs old)
   for niche or communication hypotheses.
 
 ## Decision Rules
 
-1. MCP engines run the primary analysis; language-model assistance only
-   organizes the workflow and drafts the verdict.
+1. MCP engines execute the secondary pipeline; the primary manuscript analysis
+   was performed manually. Language-model assistance organizes tasks and drafts interpretation.
 2. Run sex-stratified hypotheses once per sex on single-sex extracts.
 3. Include the cell-cell interaction module only for niche or communication
    hypotheses; skip it for lineage-screening, subcluster, trajectory, and

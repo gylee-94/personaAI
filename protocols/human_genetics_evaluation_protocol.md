@@ -48,8 +48,8 @@ but statistical estimates are generated only by executed scripts.
 Open issues identified during execution are re-evaluated when addressable. In
 the CRELD2 workflow, the main sensitivity analysis concerned the C/G
 palindromic lead pQTL rs74510325. The primary analysis retained the variant
-because allele frequencies were consistent across pQTL, GWAS, and gnomAD
-reference data. A sensitivity analysis repeated colocalization after excluding
+on the documented pQTL/GWAS frequency agreement. The exact historical gnomAD
+frequency/version record is not available; see `analysis/creld2_human_genetics/alignment_notes.md`. A sensitivity analysis repeated colocalization after excluding
 palindromic variants.
 
 ## 5. Evidence Grading
@@ -64,3 +64,8 @@ and design criteria. For this workflow:
 
 Independent non-UKB replication is required before making confirmatory causal
 claims.
+
+The sensitivity exclusion removed all 478 palindromic variants, including the
+lead; it did not isolate the lead's contribution or establish alignment error.
+The 0.5/0.8 posterior thresholds describe reporting categories, not verified
+prospective registration. Original numerical outputs remain unchanged.

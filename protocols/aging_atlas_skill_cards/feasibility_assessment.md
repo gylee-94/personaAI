@@ -10,7 +10,7 @@ single-cell evidence in the Mouse Aging Atlas for downstream analysis.
 - Experiment availability in the TileDB-SOMA store for the target tissue.
 - Presence of the candidate gene or genes in the variable annotation.
 - Age, sex, and genotype metadata sufficient to define young and old groups.
-- Enough cells per candidate cell type and per group for stable estimates.
+- Cell and animal counts per candidate and group; nonempty cells do not establish power.
 - Consistent cell-type annotation and data normalization state.
 
 ## Decision Rules
@@ -19,8 +19,8 @@ single-cell evidence in the Mouse Aging Atlas for downstream analysis.
 2. Do not infer missing layers from unrelated proxy data.
 3. Record limitations when annotation, subsampling, or group sizes affect
    interpretation.
-4. Flag composition distortion from subsampled extracts as a feasibility caveat
-   rather than correcting it silently.
+4. Flag possible effects of sampling as a caveat; do not assign a discrepancy
+   to sampling without an analysis of that explanation.
 
 ## Application
 

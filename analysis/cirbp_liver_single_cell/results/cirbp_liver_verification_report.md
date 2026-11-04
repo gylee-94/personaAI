@@ -1,80 +1,63 @@
-# CIRBP Liver Verification Report: Cell of Origin of Age-Related Liver CIRBP Upregulation
+# CIRBP liver: secondary single-cell evidence check
 
-> hypothesis_id: `cirbp_liver_single_cell`
-> Hypothesis under test: Does the age-dependent increase in liver *Cirbp*
-> expression originate from hepatocyte-intrinsic stress (Hypothesis A), or from
-> Kupffer / myeloid immune cells (Hypothesis B)?
-> Execution mode: MCP-first hybrid — primary execution by the bundled single-cell
-> analysis engine (`personaai/scrna_mcp/sc_analysis_mcp`), verification by a
-> deterministic local scanpy/scipy cross-check.
+Interpretation updated 2026-11-05 from existing outputs; no atlas reanalysis
+was performed for this update. This report describes a secondary MCP/local
+pipeline. The primary manuscript analyses were performed manually; their
+mouse-level models are distinct (see [public scope](../../../docs/reproducibility_scope.md)).
 
-## 1. Overall Verdict
+## 1. Overall interpretation
 
-The final verdict of this analysis is **`hepatocyte-supported` (Hypothesis A —
-hepatocyte-intrinsic metabolic stress origin)**. In the MCP engine's
-cell-type expression profiling and young-old contrast, *Cirbp* is not only
-preferentially expressed in hepatocytes (pct_expressing 0.97% vs 0.58% in
-myeloid cells) but is also aging-induced in a hepatocyte-specific direction
-(log2fc old/young = +1.556), while in myeloid cells the direction is negative
-(log2fc = -2.419). The local cross-check identified an aged-enriched stressed
-hepatocyte subcluster (aged proportion 83.5%, 23-month enrichment OR = 8.27)
-that carries cellular-senescence (Cdkn1a fold 7.81x) and ER-stress (Xbp1 2.60x)
-signatures. This supports Hypothesis A and rejects Hypothesis B. Note that
-scRNA-seq supports cellular origin and context but does not by itself prove
-causation, and the exact OR / fold values are interpreted directionally because
-they vary with Leiden seed / package version.
+The recorded extract favors a hepatocyte-associated age contrast. Hepatocytes
+have a positive old-minus-young expression difference, while the myeloid
+contrast is negative. The historical label `hepatocyte-supported` describes
+this pattern. It is not a statistical test of cell of origin or proof that
+hepatocyte stress causes the bulk-tissue increase. Myeloid upregulation is not
+supported in this extract; immune contributions cannot be excluded.
 
-| Hypothesis | Verdict | Key reason |
+| Question | Observation | Supported scope |
 |---|---|---|
-| A (hepatocyte stress origin) | **Supported** | Dominant hepatocyte expression + aging induction (log2fc +1.556) + expansion of an aged-enriched stressed subcluster (OR > 1) with elevated senescence / ER-stress markers |
-| B (Kupffer / myeloid immune origin) | **Rejected** | Low myeloid expression (pct 0.58%) and a decrease across the young-old contrast (log2fc -2.419); no aging-induction signal |
+| Hepatocyte age-associated expression | Stored-scale log2 ratio +1.5555; expressing fraction 0% to 1.697% | Positive descriptive contrast in the extract |
+| Myeloid age-associated expression | Stored-scale log2 ratio -2.4190; 23 young cells and 175 old cells | No induction observed; only one young myeloid cell expressed Cirbp, so this does not reject an immune mechanism |
+| Age enrichment of a re-derived cluster | OR 8.273 for pooled 16+23-month cells; 83.54% of the cluster is in those ages | Age composition of a separately selected cluster, not reproduction of manuscript C4 |
+| Stress markers | Cdkn1a, Cirbp, Xbp1 and Atf4 ratios exceed 1 | Limited marker observations, not proof of senescent-cell identity |
 
----
+## 2. Inputs and estimands
 
-## 2. Data Availability
+The MCP lineage record contains 3,736 cells (3,390 hepatocytes and 346 myeloid
+cells), a single-gene expression extract, and WT age/sex annotations. The
+reported counts total 339, 1,000, 1,000, 397 and 1,000 cells at 3, 6, 12, 16 and
+23 months; 1,907 female and 1,829 male cells. These are cell counts, not numbers
+of independent animals.
 
-- tissue: `Liver`
-- gene: `Cirbp` (exact varname match, gene_found = True)
-- Input h5ads (per `data_manifest.tsv`, atlas-derived, not redistributed):
-  - `liver_hepatocyte_myeloid_full.h5ad` — lineage age-trend cross-check
-  - `liver_hepatocyte_myeloid_comparison.h5ad` — subcluster + stress markers
-    (3,736 cells x 1 gene single-gene comparison, data_state = log_normalized)
-- Cell-type composition: Hepatocytes 3,390 (Lineage = Epithelial) / Myeloid
-  cells 346 (Lineage = Immune)
-- Age metadata (Age_group, 5 groups): 03_months 339, 06_months 1000,
-  12_months 1000, 16_months 397, 23_months 1000
-- Sex: Female 1,907 / Male 1,829 (both stratifiable)
-- Genotype: WT only (WT filter applied)
-- feasible: True / blockers: none / required_metadata_missing: none
+The local cross-check uses `liver_hepatocyte_myeloid_full.h5ad` for its cell-level
+Spearman trend and a multi-gene `liver_hepatocyte_myeloid_comparison.h5ad` for
+clustering. These historical basenames do not establish that the single-gene
+MCP input and multi-gene clustering input are identical snapshots. Raw objects
+and immutable input hashes are not bundled.
 
-This verification is a hybrid. **Primary execution = the MCP engine
-(`personaai/scrna_mcp/sc_analysis_mcp`)**, which performs lineage screening
-(cell-type expression, age trajectory, young-old contrast). **Verification = the
-local scanpy/scipy cross-check**, which recomputes the key decision metrics and
-adds the subcluster phenotype and reference comparison that the MCP run does not
-cover.
+For the secondary cluster search, the script uses up to 4,000 cells, seed 0,
+2,000 HVGs, 30 PCs, and Leiden resolution 1.0, then selects the cluster with
+the highest age-enrichment OR. Its old group pools 16 and 23 months. The
+manual historical reference has 2,372 hepatocytes, 40 PCs, 15 neighbors,
+resolution 0.5 and a 23-month contrast. Differences cannot be assigned solely
+to random seed or software version. Cluster selection by the largest OR is
+exploratory; its Fisher P value is not a prespecified cluster test.
 
----
+## 3. Cell-type expression (recorded MCP output)
 
-## 3. Cell-Type Expression (MCP)
-
-Source: `results/cell_type_expression.tsv`
+Source: `cell_type_expression.tsv`.
 
 | cell_type | n_cells | mean_expression | median | pct_expressing (%) | is_candidate |
 |---|---:|---:|---:|---:|:---:|
 | Hepatocytes | 3,390 | 0.013274 | 0.0 | 0.9735 | True |
 | Myeloid cells | 346 | 0.008671 | 0.0 | 0.5780 | True |
 
-Hepatocytes lead myeloid cells in both mean expression (0.0133 vs 0.0087) and
-fraction of expressing cells (0.97% vs 0.58%). Hepatocyte dominance is already
-visible at the baseline expression level.
+## 4. Age summaries (recorded MCP output)
 
----
-
-## 4. Age Dynamics (MCP)
-
-### 4.1 Sex-stratified age trajectory
-Source: `results/age_trajectory.tsv`
+Sources: `age_trajectory.tsv` and `young_old_contrast.tsv`. The trajectory table
+summarizes the input across cell types; it is not a hepatocyte-specific
+mouse-level trend. The highest female expressing fraction is at 16 months,
+whereas the highest male fraction is at 23 months.
 
 | sex | age_group | n_cells | mean_expression | pct_expressing (%) |
 |---|---|---:|---:|---:|
@@ -89,153 +72,69 @@ Source: `results/age_trajectory.tsv`
 | Male | 16_months | 140 | 0.000000 | 0.0000 |
 | Male | 23_months | 442 | 0.022624 | 1.8100 |
 
-The fraction of expressing cells peaks at the oldest age, 23 months
-(Male 1.81%, Female 1.08%). The Male 23-month mean expression (0.0226) is the
-highest value overall.
-
-### 4.2 Young-old contrast (Young 03_months vs Old 23_months)
-Source: `results/young_old_contrast.tsv`
 
 | cell_type | n_young | n_old | young_mean | old_mean | log2fc (old/young) | young_pct (%) | old_pct (%) |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Hepatocytes | 316 | 825 | 0.0 | 0.019394 | **+1.5555** | 0.0 | 1.6970 |
 | Myeloid cells | 23 | 175 | 0.043478 | 0.0 | **-2.4190** | 4.3478 | 0.0 |
 
-The direction of aging induction is opposite between the two cell types.
-Hepatocyte expression increases with age (log2fc +1.556, expressing fraction
-0% -> 1.70%), whereas myeloid expression decreases (log2fc -2.419). This is the
-core evidence supporting Hypothesis A and rejecting Hypothesis B.
+The contrast column named `log2fc_old_vs_young` is
+`log2((old_mean + 0.01)/(young_mean + 0.01))` on the stored X scale. It is not a
+raw-count fold change or a donor-level model estimate. A zero mean from sparse
+cells should not be interpreted as biological absence.
 
----
+## 5. Re-derived cluster observations
 
-## 5. Aged-Enriched Subcluster & Stress Signature (Local Cross-check)
+Source: `reproduction_check.json`. The recorded cluster has 83.54% pooled
+16+23-month cells and OR 8.273. Its mean-X ratios against other clusters are
+Cdkn1a 7.811, Cirbp 3.748, Xbp1 2.599 and Atf4 1.046. The script calculates
+`(mean_X_cluster + 1e-9)/(mean_X_rest + 1e-9)` after its normalization check.
+These ratios on a stored/log-normalized scale should not be read as raw-count
+fold changes. The markers are compatible with stress-associated transcription,
+without establishing an irreversible senescent state or causal mechanism.
 
-Source: `results/reproduction_check.json`
-(src = `liver_hepatocyte_myeloid_comparison.h5ad`)
+## 6. Execution and evidence boundary
 
-The MCP engine's primary run is limited to lineage screening (cell-type-level
-expression / trajectory). Identification and phenotyping of the aged-enriched
-stressed hepatocyte subcluster were added by the local recompute. This
-subcluster analysis uses a separate cluster-annotated h5ad.
-
-- Aged proportion of the top Leiden cluster: **83.54%** (reference cluster3 = 73.1%)
-- 23-month enrichment odds ratio of the top cluster: **OR = 8.273** (reference OR = 14.98)
-- Stress-marker fold-change (top-cluster / rest):
-  - Cdkn1a (p21, cellular senescence): **7.811x**
-  - Cirbp (cold / stress): **3.748x**
-  - Xbp1 (ER stress): **2.599x**
-  - Atf4 (integrated stress response): **1.046x**
-
-In a subcluster overwhelmingly enriched for aged cells (83.5%, OR > 1),
-senescence (Cdkn1a) and ER-stress (Xbp1) markers are co-elevated, showing that
-the hepatocyte-intrinsic stress signature is consistent with Hypothesis A. Atf4
-is a weak signal in the local recompute (1.046x), below the reference (1.51x),
-but the direction is preserved.
-
----
-
-## 6. Stage-by-Stage (MCP-first) Verification Table
-
-| Stage | What ran | Tool / output | Verdict |
-|---|---|---|---|
-| 1. Feasibility | Confirm input h5ad / gene / metadata availability (3,736 cells, Cirbp found) | feasibility check | Pass (feasible = True, blockers none) |
-| 2. Extraction / Spec | Parse tissue / gene / cell_type / age / genotype parameters | spec | Pass (Liver / Cirbp / WT / 03 <-> 23m) |
-| 3. SC analysis / report | Cell-type expression + age trajectory + young-old contrast | `personaai/scrna_mcp/sc_analysis_mcp` -> `results/*.tsv` | Pass (hepatocyte expression / induction dominance) |
-| 4. CCI | Not applicable — a lineage-screening hypothesis does not require cell-cell interaction | — | N/A |
-| 5. Cross-check | Subcluster identification + stress markers + three-way comparison | `scripts/crosscheck.py` -> `results/reproduction_check.json` | Pass (all metrics reproduced) |
-| Verdict | Overall verdict | `results/evidence_grading.tsv` | **hepatocyte-supported** |
-
-`evidence_grading.tsv` rationale: "Hepatocytes show both dominant expression and
-strongest aging induction."
-
----
-
-## 6b. Reproduction Check (3-way)
-
-Source: `results/reproduction_check.json`. A transparency layer that places the
-MCP value, local recompute, and reference target side by side, reporting the
-local / mcp / target / match fields verbatim.
-
-| metric | MCP value | local recompute | reference target | match |
-|---|---:|---:|---:|:---:|
-| age_trend_rho | 1.555519 (hepatocyte log2fc old/young, direction) | 0.0331 | 0.042 | reproduced |
-| age_trend_p | null | 0.0 | 0.04 | reproduced |
-| top_cluster_aged_pct | null | 83.54 | 73.1 | reproduced |
-| top_cluster_OR | null | 8.273 | 14.98 | reproduced |
-| stress_fc_Cdkn1a | null | 7.811 | 5.48 | reproduced |
-| stress_fc_Cirbp | null | 3.748 | 2.03 | reproduced |
-| stress_fc_Xbp1 | null | 2.599 | 2.01 | reproduced |
-| stress_fc_Atf4 | null | 1.046 | 1.51 | reproduced |
-
-Notes: the MCP value for `age_trend_rho` is the hepatocyte log2fc (direction),
-not a Spearman rho, so it is matched to the reference by direction rather than
-absolute value. The OR / aged_pct / fold values differ in absolute magnitude
-from the reference due to Leiden seed / scaling differences, but agree in sign
-and rank direction, so all are flagged `reproduced`. The reference column
-provenance is the CIRBP liver aging reference summary listed in
-`data_manifest.tsv`.
-
----
-
-## 7. Interpretation
-
-### 7.1 Hypothesis A — hepatocyte stress origin (supported)
-Three independent lines of evidence converge. (1) **Expression dominance**:
-hepatocyte pct_expressing 0.97% > myeloid 0.58%, mean expression 0.0133 >
-0.0087. (2) **Aging induction**: hepatocyte young-old log2fc = +1.556
-(expressing fraction 0% -> 1.70%), with the highest expressing fraction at 23
-months. (3) **Senescence / ER-stress subcluster expansion**: in the
-aged-enriched (83.5%, OR = 8.27) subcluster, Cdkn1a (7.81x), Xbp1 (2.60x), and
-Cirbp (3.75x) are co-elevated. This matches the Hypothesis-A prediction that
-aging hepatocytes transition into an intrinsic stress state and adaptively
-upregulate Cirbp.
-
-### 7.2 Hypothesis B — Kupffer / myeloid immune origin (not supported)
-Myeloid cells have low baseline expression (pct 0.58%) and, decisively,
-**decrease** across the young-old contrast (log2fc -2.419, 23-month expressing
-fraction 0%). This is the opposite of the Hypothesis-B prediction that immune
-cells markedly upregulate Cirbp with age. Therefore the age-dependent rise in
-bulk liver Cirbp is driven by hepatocytes, not by immune / myeloid cells.
-
----
-
-## 8. Conclusion
-
-```text
-Cirbp+ hepatocyte (expression / aging-induction dominance, log2fc +1.556)
-    -> aged-enriched stress subcluster (aged 83.5%, OR = 8.27 > 1)
-    -> senescence (Cdkn1a 7.81x) + ER stress (Xbp1 2.60x / Atf4 1.05x)
-    => hepatocyte-intrinsic metabolic stress drives the liver CIRBP rise (Hypothesis A)
-   (Myeloid / Kupffer route: log2fc -2.419 -> not supported, Hypothesis B rejected)
-```
-
-### Limitations
-- **Causation not proven**: scRNA-seq supports cellular origin and context but
-  does not by itself establish causation.
-- **Directional exact values**: Leiden seed and package-version differences make
-  exact absolute OR / fold values non-reproducible; they are interpreted
-  directionally — hence local OR = 8.27 vs reference 14.98, aged_pct 83.5% vs
-  73.1% are still flagged `reproduced` on sign agreement.
-- **Per-table source separation**: lineage screening (sections 3-4) uses the
-  single-gene comparison h5ad (small N, 1 gene), while the subcluster phenotype
-  (section 5) uses a separate cluster-annotated h5ad; sources are noted per table.
-- **Myeloid proxy limitation**: without finer annotation, myeloid cells are
-  treated as a Kupffer-like / immune proxy.
-- **MCP black-box mitigation**: the MCP engine is internally opaque, so the local
-  cross-check (`scripts/crosscheck.py`) and three-way comparison reinforce
-  reliability. A full-atlas re-check remains warranted.
-
----
-
-## 9. Outputs
-
-| Type | Path | Content |
+| Stage | Public record | Interpretation |
 |---|---|---|
-| driver | `scripts/run_mcp_report.py` | MCP engine (`personaai/scrna_mcp/sc_analysis_mcp`) report driver |
-| MCP output | `results/cell_type_expression.tsv` | Cell-type expression |
-| MCP output | `results/age_trajectory.tsv` | Sex-stratified age trajectory |
-| MCP output | `results/young_old_contrast.tsv` | Young-old contrast |
-| MCP output | `results/evidence_grading.tsv` | Verdict |
-| cross-check | `scripts/crosscheck.py` | Local recompute / three-way comparison script |
-| cross-check | `results/reproduction_check.json` | Reproduction check (local / mcp / target / match) |
-| reference provenance | see `data_manifest.tsv` | CIRBP liver aging reference summary (reference / target column); atlas h5ads and reference summary not redistributed |
+| MCP lineage screen | `cell_type_expression.tsv`, `age_trajectory.tsv`, `young_old_contrast.tsv` | Descriptive cell summaries |
+| Historical automatic grade | `evidence_grading.tsv` | Original label retained; current code additionally requires positive change, complete candidates and nonempty age groups |
+| Local comparison | `scripts/crosscheck.py`, `reproduction_check.json` | Secondary directional comparison with a different design |
+| Primary mouse-level inference | Manuscript methods and results | Exact source script and analysis-ready per-mouse input have not been recovered here |
+
+## 6b. Direction and significance comparison
+
+Source: `reproduction_check.json`; reference values are traceable to the
+[unchanged historical summary](../reference/README.md). The legacy filename
+is retained; current labels do not mean numerical reproduction.
+
+| Local estimand | Recorded local value | Historical reference | Comparison performed |
+|---|---:|---:|---|
+| Cell-level Spearman rho | 0.0331 | 0.042 | Positive direction in both |
+| Cell-level Spearman P | Rounded to 0 at five decimals; exact P unavailable | 0.040 | Both in the P < 0.05 category; not a numeric match |
+| Selected cluster old-age fraction | 83.54% | 73.1% | Both above 50%, with different old-age definitions; this threshold alone is not an enrichment test |
+| Selected cluster OR | 8.273 | 14.98 | Both above 1, with different contrasts/clusters |
+| Cdkn1a mean-X ratio | 7.811 | 5.48 | Both above 1 |
+| Cirbp mean-X ratio | 3.748 | 2.03 | Both above 1 |
+| Xbp1 mean-X ratio | 2.599 | 2.01 | Both above 1 |
+| Atf4 mean-X ratio | 1.046 | 1.51 | Both above 1 |
+
+The MCP age-contrast value 1.555519 is a log2 mean-expression ratio, not a
+Spearman rho. It is retained in JSON with its own estimand metadata and is not
+an additional estimate of rho. Agreement in these directions does not validate
+the magnitude, significance, independence, or biological mechanism.
+
+## 7. Limits and outputs
+
+The myeloid comparison is sparse, the cluster was selected after inspecting
+age enrichment, and the analyses share atlas data. This is not independent
+biological replication. Broad myeloid annotation is not a cell-specific Kupffer
+assay. The current grade is descriptive and does not adjust for mouse-level
+clustering, sex, or power. The generic-looking inline parser has CIRBP/liver
+case defaults and requires review of its parsed specification.
+
+Original numerical outputs and reference disagreements are retained.
+[scripts/crosscheck.py](../scripts/crosscheck.py) writes the comparison JSON;
+[scripts/run_mcp_report.py](../scripts/run_mcp_report.py) drives the secondary
+engine. Future runs can change values with different inputs/settings; updating
+these helpers has not rerun the archived experiment.

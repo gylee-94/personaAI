@@ -12,6 +12,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.tools import BaseTool
 from backend.tools.tavily import TavilySearch
+from backend.agent.execution_policy import make_web_tool
 from backend.tools.retrieval import DocumentRetrievalChain
 
 from dotenv import load_dotenv
@@ -231,18 +232,11 @@ def get_search_tool(return_stats: bool = False, index: bool = True):
         # semantic_retriever = None # Set to None on initialization failure to prevent errors
         raise e # Or raise the error here to abort execution
 
-    # Initialize Tavily web search tool
-    tavily_api_key = os.getenv("TAVILY_API_KEY")
-    if tavily_api_key:
-        tavily_tool = TavilySearch(api_key=tavily_api_key)
-    else:
-        logger.warning("TAVILY_API_KEY not found. Web search will not be available.")
-        raise ValueError("TAVILY_API_KEY not found. Web search will not be available.")
-
-    retrievers_dict: Dict[str, Optional[BaseRetriever | BaseTool]] = {
-        **retrievers,
-        "web": tavily_tool
-    }
+    # Corpus-only is the default. A missing web tool is deliberate in this mode.
+    tavily_tool = make_web_tool(TavilySearch)
+    retrievers_dict: Dict[str, Optional[BaseRetriever | BaseTool]] = dict(retrievers)
+    if tavily_tool is not None:
+        retrievers_dict["web"] = tavily_tool
 
     # Build the final retriever dictionary (uses Semantic only)
     if return_stats:

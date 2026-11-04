@@ -1,26 +1,17 @@
 #!/usr/bin/env python3
-"""Deterministic local cross-check for the CIRBP liver single-cell workflow.
+"""Secondary CIRBP directional check, separate from the manuscript analysis.
 
-This script treats the bundled MCP engine as a black box and independently
-recomputes the key decision metrics with plain scanpy/scipy, then writes a
-three-way comparison [local | mcp | target] into ``results/reproduction_check.json``.
+Uses full-lineage h5ad for a cell-level Spearman trend and comparison h5ad
+for a new cluster search (seed 0, <=4000 cells, PCA 30, Leiden resolution 1).
+The enrichment contrast pools 16+23 months versus other ages, unlike the
+historical reference's 23-month contrast. Marker ratios use the stored or
+heuristically normalized X scale. None of these checks establishes exact
+reproduction of the manual manuscript analysis or biological replication.
 
-It is deterministic (fixed seeds) and regenerates the tracked
-``results/reproduction_check.json`` next to this analysis. The companion
-``run_mcp_report.py`` drives the bundled MCP engine and requires both
-``personaai/scrna_mcp`` and the atlas-derived liver h5ads.
-
-Inputs:
-  - Atlas-derived liver h5ads, located via ``--aging-atlas-home`` or the
-    ``AGING_ATLAS_HOME`` environment variable:
-      * liver_hepatocyte_myeloid_full.h5ad        (lineage age trend)
-      * liver_hepatocyte_myeloid_comparison.h5ad  (subcluster + stress markers)
-  - MCP young/old contrast TSV (results/young_old_contrast.tsv) for the
-    Hepatocyte log2fc direction column.
-
-Honest labeling: matches are not forced via seed/threshold tuning. OR / fold /
-aged-% absolute values differ from the reference because of Leiden seed and
-package-version differences; they are interpreted directionally (sign match).
+The historical reference is archived in ../reference/cirbp_analysis_summary.json.
+The output filename reproduction_check.json is retained for compatibility;
+its labels describe direction or significance categories only. P values are
+saved without decimal-place rounding in new executions.
 """
 import argparse
 import json
@@ -33,6 +24,7 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import _crosscheck_lib as L  # noqa: E402
+from comparison_labels import comparison_entry as entry
 
 ANALYSIS_DIR = HERE.parent
 RESULTS_DIR = ANALYSIS_DIR / "results"
@@ -45,12 +37,6 @@ def _read_tsv(p):
     except Exception:
         return None
 
-
-def entry(metric, local, mcp, target, match, note=None):
-    e = dict(metric=metric, local=local, mcp=mcp, target=target, match=match)
-    if note:
-        e["note"] = note
-    return e
 
 
 def run_cirbp(atlas_home: Path):
@@ -77,7 +63,7 @@ def run_cirbp(atlas_home: Path):
             multigene_src = loaded_for_age
         del a
     except Exception as ex:
-        entries.append(entry("age_trend_rho", None, 1.5555, 0.042, "mismatch",
+        entries.append(entry("age_trend_rho", None, 1.5555, 0.042, "not-assessable",
                              note=f"full h5ad load failed: {ex}"))
 
     # multi-gene fallback (carries stress markers; same comparison h5ad as ref)
@@ -92,7 +78,7 @@ def run_cirbp(atlas_home: Path):
                 loaded_for_age = multigene_src
         except Exception as ex:
             multigene = None
-            entries.append(entry("subcluster", None, None, None, "mismatch",
+            entries.append(entry("subcluster", None, None, None, "not-assessable",
                                  note=f"multi-gene h5ad unreadable: {ex}"))
 
     # MCP age direction (Hepatocyte log2fc old-vs-young)
@@ -105,7 +91,7 @@ def run_cirbp(atlas_home: Path):
         entries.append(entry("age_trend_rho", round(age["rho"], 5), mcp_hep_log2fc, 0.042,
                              L.match_label(age["rho"], 0.042, "sign"),
                              note=f"src={loaded_for_age}; mcp=hepatocyte log2fc old/young (direction)"))
-        entries.append(entry("age_trend_p", round(age["p"], 5), None, 0.040,
+        entries.append(entry("age_trend_p", age["p"], None, 0.040,
                              L.match_label(age["p"], 0.040, "sig"),
                              note=f"src={loaded_for_age}"))
 
@@ -126,7 +112,7 @@ def run_cirbp(atlas_home: Path):
                              L.match_label(aged_pct - 50.0, aged_target - 50.0, "sign"),
                              note=f"src={multigene_src}; top leiden={top}; ref cluster3=73.1%"))
         entries.append(entry("top_cluster_OR", round(orr, 3), None, 14.98,
-                             L.match_label(orr - 1.0, 14.0, "sign"),
+                             L.match_label(orr - 1.0, 14.98 - 1.0, "sign"),
                              note=f"src={multigene_src}; ref OR=14.98"))
         ftargets = dict(Cdkn1a=5.48, Cirbp=2.03, Xbp1=2.01, Atf4=1.51)
         for g, tgt in ftargets.items():
@@ -136,12 +122,12 @@ def run_cirbp(atlas_home: Path):
                                      L.match_label(fc - 1.0, tgt - 1.0, "sign"),
                                      note=f"src={multigene_src}; fold-change top-cluster/rest"))
             else:
-                entries.append(entry(f"stress_fc_{g}", None, None, tgt, "mismatch",
+                entries.append(entry(f"stress_fc_{g}", None, None, tgt, "not-assessable",
                                      note="gene absent in multi-gene h5ad"))
     else:
         for m in ["top_cluster_aged_pct", "top_cluster_OR",
                   "stress_fc_Cdkn1a", "stress_fc_Cirbp", "stress_fc_Xbp1", "stress_fc_Atf4"]:
-            entries.append(entry(m, None, None, None, "mismatch",
+            entries.append(entry(m, None, None, None, "not-assessable",
                                  note="multi-gene h5ad unreadable"))
 
     return entries
@@ -165,7 +151,7 @@ def main():
     (RESULTS_DIR / "reproduction_check.json").write_text(
         json.dumps(cirbp, indent=2, ensure_ascii=False))
 
-    print("=== reproduction_check.json ===")
+    print("Directional comparison (not a numerical reproduction test):")
     print(json.dumps(cirbp, indent=2, ensure_ascii=False))
 
 

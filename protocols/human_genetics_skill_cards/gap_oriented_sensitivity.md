@@ -25,8 +25,14 @@ execution.
 
 ## CRELD2 Application
 
-The CRELD2 lead pQTL rs74510325 is a palindromic C/G variant. The primary
-analysis retained it because pQTL, GWAS, dbSNP/PAGE, and gnomAD allele
-frequencies were consistent. A sensitivity analysis excluding palindromic
-variants showed reduced colocalization support, indicating that the lead
-variant strongly influenced the regional result.
+The CRELD2 lead rs74510325 is a low-frequency C/G palindromic variant. Its
+reported pQTL G frequency (approximately 0.0348) agrees with the frailty GWAS G
+frequency (0.0347 after converting the reported C frequency). Those values are
+transcribed in the alignment record. Exact numeric/version records for the
+historically mentioned external reference checks were not recovered.
+
+Sensitivity removed all 478 palindromic variants, including the lead, and
+lowered PP.H4 from 0.526 to 0.051. It did not isolate the lead's contribution
+or establish an alignment error. The 0.5/0.8 posterior thresholds describe
+reporting categories, not verified prospective registration. Original
+numerical outputs remain unchanged.

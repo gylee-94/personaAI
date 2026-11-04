@@ -96,6 +96,13 @@ class AgentState(TypedDict):
     eval_result: Optional[Annotated[EvaluationResult, "Evaluation Result - Relevance and Completeness"]]
     previous_completeness: Optional[Annotated[float, "Previous Completeness"]]
 
+    # Audit fields for new runs; no historical execution records are inferred.
+    evaluation_history: Optional[List[Dict[str, Any]]]
+    audit_run_id: Optional[str]
+    execution_config: Optional[Dict[str, Any]]
+    stop_reason: Optional[str]
+    human_decision_count: int
+
     # control
     status: Literal["Initializing", "reasoning", "searching", "answering", "evaluating", "completed", "planning"] = "Initializing"
     loop_count: Annotated[int, "Number of loop"] = 0

@@ -71,7 +71,9 @@ def main():
     atlas_home = Path(a.aging_atlas_home).expanduser().resolve()
 
     mcp_home = a.mcp_home or _default_mcp_home()
-    sys.path.insert(0, mcp_home)
+    engine_project = Path(mcp_home) / "sc_analysis_mcp"
+    import_root = engine_project if (engine_project / "sc_analysis_mcp").is_dir() else Path(mcp_home)
+    sys.path.insert(0, str(import_root))
     from sc_analysis_mcp import scrna_report_runner as R
 
     h5ad = Path(a.h5ad)

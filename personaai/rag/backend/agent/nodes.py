@@ -38,13 +38,13 @@ from langgraph.prebuilt.interrupt import (
 # !                                                                                      Initialization
 # !----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+from backend.agent.execution_policy import evaluation_stop_reasons, new_run_audit
 from backend.agent.utils import logger
 
 load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env"))
 
 MAX_SEARCH_ATTEMPTS = int(os.getenv("MAX_SEARCH_ATTEMPTS", 5))
 RELEVANCE_THRESHOLD = float(os.getenv("RELEVANCE_THRESHOLD", 0.7))
-COMPLETENESS_THRESHOLD = float(os.getenv("COMPLETENESS_THRESHOLD", 0.8))
 
 # !----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # !                                                                                      Task description
@@ -146,7 +146,8 @@ async def intent_analysis_node(state: AgentState, llm: BaseChatModel) -> AgentSt
     """(Step 2) Analyze the intent of the user input to decide whether RAG is needed."""
     # Update node tracking
     updated = update_status_and_visit(state, "reasoning")
-    updated.update({"loop_count": 0})
+    updated.update({"loop_count": 0, **new_run_audit()})
+    logger.info("Starting analysis request %s: %s", updated["audit_run_id"], updated["execution_config"])
 
     # Process user input
     messages = state["messages"]
@@ -1046,7 +1047,7 @@ async def retrieve_and_rerank_node(state: AgentState,
                             raise retrieval_error  # Re-raise the exception if the last attempt also fails
 
                 if not retrieved_docs or len(retrieved_docs) < 2:
-                    logger.debug(f"Search_Node: Insufficient results from semantic retrieval for query: '{sub_q}' Do web search instead.")
+                    logger.debug(f"Search_Node: Insufficient results from semantic retrieval for query: '{sub_q}' Web fallback is available only in general mode.")
 
                     # If document retrieval results are insufficient, attempt web search
                     if isinstance(web_search, BaseTool):
@@ -1077,14 +1078,11 @@ async def retrieve_and_rerank_node(state: AgentState,
                             if not retrieved_docs or len(retrieved_docs) < 2:
                                 retrieved_docs = [Document(page_content = "No information found in the web search.", metadata = {"source": "web_search"})]
 
+                    elif web_search is None:
+                        # Keep even a single corpus document; do not inject a fabricated source.
+                        logger.info("Corpus retrieval returned fewer than two documents; web fallback is disabled.")
                     else:
-                        logger.error(f"[Error] Search_Node: Unsupported search tool type for method 'web'. Terminate the process.")
-                        updated.update({"status": "completed"})
-
-                        return {
-                            **updated,
-                            "error": f"Search_Node: Unsupported retriever/tool type for method 'web'. Terminate the process."
-                        }
+                        raise TypeError("Unsupported configured web search tool")
 
                 search_result = SearchResult(question=sub_q, documents=retrieved_docs)
                 all_new_results.append(search_result)
@@ -1667,25 +1665,28 @@ The response should follow this JSON format:
 
         eval_result = EvaluationResult(**evaluation_result_dict)
 
-        # Additional: stop further searches if the completeness score is very high
-        if eval_result.completeness >= 0.90:
+        # Record the model's output BEFORE applying control-flow stop rules.
+        original_missing_info = list(eval_result.missing_info or [])
+        stop_reasons = evaluation_stop_reasons(
+            eval_result.completeness, state.get("previous_completeness") or 0.0,
+            loop_count, MAX_SEARCH_ATTEMPTS, original_missing_info,
+        )
+        if stop_reasons:
             eval_result.missing_info = []
-            logger.info(f"Evaluate_Answer_Node: Achieved excellent completeness score ({eval_result.completeness:.2f}). Stopping further searches.")
-
-        # Additional: measure improvement by comparing with the previous completeness
-        previous_completeness = state.get("previous_completeness", 0.0)
-        improvement = eval_result.completeness - previous_completeness
-
-        if improvement < 0.05 and eval_result.completeness > 0.75 and loop_count > 2:
-            eval_result.missing_info = []
-            logger.info(f"Evaluate_Answer_Node: Minimal improvement in completeness ({improvement:.2f}). Stopping further searches.")
-
-        if loop_count >= MAX_SEARCH_ATTEMPTS:
-            eval_result.missing_info = []
-            logger.debug(f"Evaluate_Answer_Node: Reached maximum search attempts. Stopping further searches.")
-
-        # Save the current completeness
-        updated.update({"previous_completeness": eval_result.completeness})
+        evaluation_record = {
+            "loop_count": loop_count,
+            "relevance": eval_result.relevance,
+            "completeness": eval_result.completeness,
+            "missing_info_before_stop_rules": original_missing_info,
+            "missing_info_after_stop_rules": list(eval_result.missing_info or []),
+            "stop_reasons": stop_reasons,
+        }
+        updated.update({
+            "previous_completeness": eval_result.completeness,
+            "evaluation_history": list(state.get("evaluation_history") or []) + [evaluation_record],
+            "stop_reason": ",".join(stop_reasons) or None,
+        })
+        logger.info("Evaluation control record: %s", evaluation_record)
 
         logger.info(f"Evaluate_Answer_Node: Evaluation complete - Relevance: {eval_result.relevance}, Completeness: {eval_result.completeness}")
         logger.debug(f"Evaluate_Answer_Node: Missing info: {eval_result.missing_info}")
@@ -1764,6 +1765,7 @@ async def human_approval(state: AgentState, config: RunnableConfig) -> Command[L
     )
 
     human_response: HumanResponse = interrupt([request])[0]
+    logger.info("Human review decision for %s: %s", state.get("audit_run_id"), human_response.get("type"))
 
     # print(human_response.get("args")) # {'type': 'accept', 'args': {'action': 'Confirm report plan', 'args': {'report_plan': 'Please provide...'}}}
 
@@ -1774,7 +1776,9 @@ async def human_approval(state: AgentState, config: RunnableConfig) -> Command[L
 
         return Command(
             goto="retriever",
-            update={"feedback_on_report_plan": human_response.get("args"),
+            update={"human_decision_count": state.get("human_decision_count", 0) + 1,
+                    "stop_reason": None,
+                    "feedback_on_report_plan": human_response.get("args"),
                     "messages": [AIMessage(content=next_task_description)],
                 },
         )
@@ -1784,6 +1788,8 @@ async def human_approval(state: AgentState, config: RunnableConfig) -> Command[L
 
         return Command(goto = "print_final_answer",
                         update={"messages": [AIMessage(content=next_task_description)],
+                                "human_decision_count": state.get("human_decision_count", 0) + 1,
+                                "stop_reason": "human_accept",
                                 "status": "completed",
                                 "error": None,
                                 }

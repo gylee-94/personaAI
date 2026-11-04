@@ -5,7 +5,7 @@
 To evaluate whether PersonaAI-derived hypotheses could be supported by
 population-scale genetic evidence, we implemented an agent-assisted,
 protocol-driven human genetics evaluation workflow. The workflow followed
-predefined steps for hypothesis structuring, data feasibility assessment,
+documented steps for hypothesis structuring, data feasibility assessment,
 statistical genetics execution, and gap-oriented sensitivity analysis.
 Language-model assistance was used to organize candidate evaluation and
 document intermediate decisions, whereas all reported statistical estimates were
@@ -64,14 +64,19 @@ Posterior probability for hypothesis 4 (PP.H4) was interpreted as evidence for a
 shared causal variant, with PP.H4>0.8 considered strong support and PP.H4>0.5
 considered moderate support.
 
-Because the CRELD2 lead pQTL rs74510325 is a C/G palindromic variant, allele
-orientation was evaluated using allele-frequency consistency across the pQTL
-dataset, the frailty GWAS, and gnomAD reference frequencies. The variant was
-retained in the primary harmonized analysis because its minor allele frequency
-was consistent across datasets and sufficiently distant from 0.5 to resolve
-strand ambiguity. As a sensitivity analysis, colocalization was repeated after
-excluding palindromic variants to assess whether the CRELD2-frailty signal
-depended on this frequency-resolved lead variant.
+The lead rs74510325 is a low-frequency C/G palindromic variant. Supplementary
+Table 10 records pQTL G frequency approximately 0.0348 and frailty GWAS C
+frequency 0.9653 (G frequency 0.0347). The documented agreement and distance
+from 0.5 supported retaining it; outcome effects were aligned to G. A historical
+gnomAD check was reported, but its exact numeric/version record is not bundled
+and cannot be independently checked here. See `alignment_notes.md`.
+
+Excluding all 478 palindromic variants, including this lead, reduced frailty
+PP.H4 from 0.526 to 0.051. This assesses sensitivity to the exclusion set, not
+the lead alone; loss of information need not imply alignment error. The current
+Python driver retains the historical allele-order algorithm and exports more
+audit columns for future runs. Historical numbers were not recomputed from raw
+data during the documentation update.
 
 All analyses were interpreted as exploratory genetic evaluation rather than
 definitive causal inference. Because the UKB-PPP pQTL dataset and the

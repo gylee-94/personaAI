@@ -17,6 +17,8 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from comparison_labels import match_label  # shared dependency-free label rules
 import scanpy as sc
 from scipy.stats import spearmanr
 
@@ -30,8 +32,10 @@ def _default_mcp_home() -> str:
 def _compat_reader():
     mcp_home = os.environ.get("PERSONAAI_MCP_HOME", _default_mcp_home())
     try:
-        if mcp_home not in sys.path:
-            sys.path.insert(0, mcp_home)
+        engine_project = Path(mcp_home) / "sc_analysis_mcp"
+        import_root = str(engine_project if (engine_project / "sc_analysis_mcp").is_dir() else Path(mcp_home))
+        if import_root not in sys.path:
+            sys.path.insert(0, import_root)
         from sc_analysis_mcp.h5ad_compat import read_h5ad_compat
         return read_h5ad_compat
     except Exception:
@@ -102,13 +106,3 @@ def gene_old_minus_young(a, g, cell, ct_col, age_col):
             return None
         (yv if am(age) <= 6 else (ov if am(age) >= 16 else [])).append(float(x.mean()))
     return (sum(ov) / len(ov) - sum(yv) / len(yv)) if yv and ov else None
-
-
-def match_label(repro, target, kind):
-    if repro is None:
-        return "mismatch"
-    if kind == "sign":
-        return "reproduced" if np.sign(repro) == np.sign(target) else "mismatch"
-    if kind == "sig":
-        return "reproduced" if (repro < 0.05) == (target < 0.05) else "directional-only"
-    return "directional-only"

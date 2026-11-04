@@ -98,6 +98,8 @@ def read_outcome(path: Path, chrom: str, positions: set[int]) -> dict[int, dict[
             pos = int(float(row["POS"]))
             if pos not in positions:
                 continue
+            if pos in out:
+                raise ValueError(f"Multiple outcome records at {chrom}:{pos}; resolve by variant/alleles before harmonization")
             out[pos] = {
                 "marker": row["MARKER"],
                 "effect_allele": row["EFFECT_ALLELE"],
@@ -112,6 +114,11 @@ def read_outcome(path: Path, chrom: str, positions: set[int]) -> dict[int, dict[
 
 
 def harmonize(pqtl: dict[str, object], gwas: dict[str, object]) -> dict[str, object] | None:
+    """Match allele order and retain diagnostics, without automatic strand resolution.
+
+    Palindromic variants retain the historical inclusion rule and require manual
+    frequency review. New audit columns do not re-estimate archived results.
+    """
     ea_p = str(pqtl["effect_allele"])
     oa_p = str(pqtl["other_allele"])
     ea_g = str(gwas["effect_allele"])
@@ -122,6 +129,9 @@ def harmonize(pqtl: dict[str, object], gwas: dict[str, object]) -> dict[str, obj
         return None
     flip = ea_p == oa_g and oa_p == ea_g
     beta_out = -float(gwas["beta"]) if flip else float(gwas["beta"])
+    outcome_eaf = float(gwas["eaf"])
+    harmonized_eaf = 1.0 - outcome_eaf if flip else outcome_eaf
+    palindromic = {ea_p, oa_p} in ({"A", "T"}, {"C", "G"})
     return {
         **{f"pqtl_{k}": v for k, v in pqtl.items()},
         **{f"gwas_{k}": v for k, v in gwas.items()},
@@ -131,6 +141,10 @@ def harmonize(pqtl: dict[str, object], gwas: dict[str, object]) -> dict[str, obj
         "se_outcome": float(gwas["se"]),
         "harmonized_effect_allele": ea_p,
         "flipped_outcome": flip,
+        "harmonized_outcome_eaf": harmonized_eaf,
+        "eaf_absolute_difference": abs(float(pqtl["eaf"]) - harmonized_eaf),
+        "palindromic": palindromic,
+        "alignment_review": "manual_frequency_review_required" if palindromic else "allele_order_matched",
     }
 
 
@@ -171,9 +185,11 @@ def main() -> None:
     h_fields = [
         "outcome", "pqtl_target", "pqtl_variant_id", "pqtl_chrom", "pqtl_pos", "pqtl_genpos",
         "pqtl_effect_allele", "pqtl_other_allele", "pqtl_eaf", "pqtl_beta", "pqtl_se",
-        "pqtl_log10p", "pqtl_n", "gwas_marker", "gwas_beta", "gwas_se", "gwas_pval",
+        "pqtl_log10p", "pqtl_n", "gwas_marker", "gwas_effect_allele", "gwas_other_allele", "gwas_eaf",
+        "gwas_beta", "gwas_se", "gwas_pval",
         "gwas_n", "beta_exposure", "se_exposure", "beta_outcome", "se_outcome",
-        "harmonized_effect_allele", "flipped_outcome",
+        "harmonized_effect_allele", "flipped_outcome", "harmonized_outcome_eaf",
+        "eaf_absolute_difference", "palindromic", "alignment_review",
     ]
     summary_rows: list[dict[str, object]] = []
     mr_rows: list[dict[str, object]] = []

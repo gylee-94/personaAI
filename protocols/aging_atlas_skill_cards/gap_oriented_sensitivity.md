@@ -1,34 +1,17 @@
-# Gap-Oriented Sensitivity Card
+# Secondary comparison and sensitivity card
 
-## Purpose
+Compare the same estimand under specified data/analysis conditions before
+claiming numerical reproduction. The current secondary checks assess only
+directions or significance categories; their label definitions are in
+[the protocol](../aging_atlas_evaluation_protocol.md).
 
-This card defines how the verdict-driving metrics are independently recomputed
-and cross-checked after the primary engine run.
+For each comparison, record the input subset, age contrast, expression scale,
+cluster definition, unit of replication, and reference source. Keep missing
+values and failed comparisons visible. Different magnitudes may reflect
+multiple design differences; do not assign a cause without testing it.
 
-## Common Gap Classes
-
-- Composition distortion from equal-size subsampled atlas extracts.
-- Leiden seed and package-version variation affecting OR and fold values.
-- Proportion-axis estimates that differ from reference under subsampling.
-- Significance not reached even when direction agrees.
-- MCP engine internals being opaque to inspection.
-
-## Decision Rules
-
-1. Independently recompute each verdict-driving metric locally with plain
-   scanpy/scipy (age trend, subcluster enrichment and stress markers,
-   proportion trend, ligand/receptor change).
-2. Compare three ways: MCP value, local recompute, and reference value.
-3. Assign honest match labels: `reproduced`, `directional-only`, or `mismatch`.
-4. Never force a match by tuning the seed or thresholds; record `mismatch`
-   metrics as limitations.
-
-## Application
-
-For CIRBP, the local recompute reproduced the aged-enriched subcluster (aged
-83.5%, OR > 1) and the senescence and ER-stress marker fold-changes, all labeled
-`reproduced` despite absolute-value differences. For PGAT, the male molecular
-signals reproduced, but the female VEC proportion trend was labeled `mismatch`
-because the 30k equal-size subsample distorted composition; the verdict
-therefore relied on the molecular axis and flagged a full-atlas recheck as the
-remaining step.
+CIRBP's local OR 8.273 pools 16+23 months after reclustering, whereas the
+historical OR 14.98 uses a 23-month contrast. Both exceed 1 but are not numerical
+replicates. PGAT's female age-bin rho -0.7 disagrees with the historical +0.1;
+subsampling as the cause is unverified. Both sex subsets have negative trends.
+A lack of significance does not demonstrate no effect or equivalence.

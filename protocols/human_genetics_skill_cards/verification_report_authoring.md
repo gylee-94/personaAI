@@ -25,7 +25,7 @@ deterministic result TSV.
 4. **Lead-pQTL Wald MR** — single-lead-variant Wald ratio MR per target /
    outcome (beta, SE, P), interpreted as directional evidence only.
 5. **Colocalization** — regional `coloc.abf()` results per target / outcome with
-   **PP.H3** and **PP.H4**, applying the predefined thresholds (PP.H4 > 0.8
+   **PP.H3** and **PP.H4**, applying the documented descriptive thresholds (PP.H4 > 0.8
    strong, PP.H4 > 0.5 moderate).
 6. **Stage-by-stage table** — one row per analysis stage (instrument selection,
    tissue / TWAS evidence, MR, coloc / SMR, downstream annotation) with the

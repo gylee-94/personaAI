@@ -4,63 +4,97 @@
     "local": 0.0331,
     "mcp": 1.555518729255861,
     "target": 0.042,
-    "match": "reproduced",
-    "note": "src=liver_hepatocyte_myeloid_full.h5ad; mcp=hepatocyte log2fc old/young (direction)"
+    "match": "directionally-concordant",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "src=liver_hepatocyte_myeloid_full.h5ad; mcp=hepatocyte log2fc old/young (direction)",
+    "mcp_estimand": "log2((old mean + 0.01)/(young mean + 0.01)); 23 versus 3 months; stored expression scale",
+    "mcp_numerically_comparable_to_local": false,
+    "legacy_match": "reproduced",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun"
   },
   {
     "metric": "age_trend_p",
     "local": 0.0,
     "mcp": null,
     "target": 0.04,
-    "match": "reproduced",
-    "note": "src=liver_hepatocyte_myeloid_full.h5ad"
+    "match": "significance-category-agreement",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "src=liver_hepatocyte_myeloid_full.h5ad",
+    "legacy_match": "reproduced",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun",
+    "local_precision_note": "Historical value rounded to zero at 5 decimal places; exact P was not retained. This is not P=0."
   },
   {
     "metric": "top_cluster_aged_pct",
     "local": 83.54,
     "mcp": null,
     "target": 73.1,
-    "match": "reproduced",
-    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; top leiden=7; ref cluster3=73.1%"
+    "match": "directionally-concordant",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; top leiden=7; ref cluster3=73.1%",
+    "legacy_match": "reproduced",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun",
+    "comparison_rule": "Both recorded proportions exceed 50%; this alone is not enrichment relative to the age composition of the input.",
+    "design_difference": "Local: 16+23 months versus other ages, re-clustered. Historical reference: 23 months versus other ages, separate clustering."
   },
   {
     "metric": "top_cluster_OR",
     "local": 8.273,
     "mcp": null,
     "target": 14.98,
-    "match": "reproduced",
-    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; ref OR=14.98"
+    "match": "directionally-concordant",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; ref OR=14.98",
+    "legacy_match": "reproduced",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun",
+    "design_difference": "Local: 16+23 months versus other ages, re-clustered. Historical reference: 23 months versus other ages, separate clustering."
   },
   {
     "metric": "stress_fc_Cdkn1a",
     "local": 7.811,
     "mcp": null,
     "target": 5.48,
-    "match": "reproduced",
-    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; fold-change top-cluster/rest"
+    "match": "directionally-concordant",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; fold-change top-cluster/rest",
+    "legacy_match": "reproduced",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun",
+    "local_estimand": "Ratio of mean X + 1e-9 in selected cluster versus rest, on stored/normalized expression scale; not raw-count fold change"
   },
   {
     "metric": "stress_fc_Cirbp",
     "local": 3.748,
     "mcp": null,
     "target": 2.03,
-    "match": "reproduced",
-    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; fold-change top-cluster/rest"
+    "match": "directionally-concordant",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; fold-change top-cluster/rest",
+    "legacy_match": "reproduced",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun",
+    "local_estimand": "Ratio of mean X + 1e-9 in selected cluster versus rest, on stored/normalized expression scale; not raw-count fold change"
   },
   {
     "metric": "stress_fc_Xbp1",
     "local": 2.599,
     "mcp": null,
     "target": 2.01,
-    "match": "reproduced",
-    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; fold-change top-cluster/rest"
+    "match": "directionally-concordant",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; fold-change top-cluster/rest",
+    "legacy_match": "reproduced",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun",
+    "local_estimand": "Ratio of mean X + 1e-9 in selected cluster versus rest, on stored/normalized expression scale; not raw-count fold change"
   },
   {
     "metric": "stress_fc_Atf4",
     "local": 1.046,
     "mcp": null,
     "target": 1.51,
-    "match": "reproduced",
-    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; fold-change top-cluster/rest"
+    "match": "directionally-concordant",
+    "comparison_scope": "direction or significance category only; numerical reproduction not assessed",
+    "note": "src=liver_hepatocyte_myeloid_comparison.h5ad; fold-change top-cluster/rest",
+    "legacy_match": "reproduced",
+    "record_status": "Labels and scope corrected 2026-11-05 from archived values; not a statistical rerun",
+    "local_estimand": "Ratio of mean X + 1e-9 in selected cluster versus rest, on stored/normalized expression scale; not raw-count fold change"
   }
 ]

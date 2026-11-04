@@ -1,42 +1,22 @@
 # PGAT ASPC Single-Cell Workflow
 
-This directory contains the public workflow for testing whether the age-related
-decline of adipocyte stem and progenitor cells (ASPC) in gonadal white adipose
-tissue (gWAT) is driven, male-specifically, by deterioration of the vascular
-endothelial cell (VEC) niche and loss of the VEGF-VEGFR axis, using Mouse Aging
-Atlas single-cell RNA-seq data.
+This directory contains a secondary analysis of VEC/ASPC expression and selected
+ligand–receptor scores in aging gWAT. It does not directly measure regeneration
+or establish a causal, male-specific VEGFA–KDR mechanism.
 
-## Analysis Summary
+## Analysis scope
 
-The workflow tests two competing, non-mutually-exclusive hypotheses for the
-age-related ASPC decline:
-
-- Hypothesis A (VEC niche / VEGF axis, male-specific)
-- Hypothesis B (sex-non-specific / preserved)
-
-It integrates:
-
-- a bundled single-cell analysis engine (MCP) run once per sex under a
-  lineage-screening intent, producing cell-type expression, sex-stratified age
-  trajectory, young-old contrast, and an evidence-grading verdict
-- a cell-cell interaction (CCI) component (LIANA backend) comparing VEC->ASPC
-  ligand-receptor signalling young vs old per sex, for the target pairs
-  Lpl-Lrp1, Sparc-Fgfr1, Pdgfb-Lrp1
-- a deterministic local cross-check (plain scanpy/scipy) that recomputes the key
-  decision metrics per sex (VEC proportion trend, VEC *Vegfa* old-young, ASPC
-  *Kdr* old-young)
-- a three-way comparison [local | mcp | target] recorded in
-  `results/reproduction_check.json`
-
-The adopted verdict is **VEC-niche / VEGF-axis-supported (male-specific)**
-(Hypothesis A), carried by the reproduced male molecular signal. An honest caveat
-on the cell-proportion axis is described under Interpretation and Limitations.
+This is a secondary MCP/local check, separate from the manual manuscript
+analysis. It provides descriptive expression/cluster/interaction outputs and
+directional comparisons, not exact reproduction of the manuscript's mouse-level
+models. See [the report](results/pgat_aspc_verification_report.md) and
+[public scope](../../docs/reproducibility_scope.md).
 
 ## Required External Data
 
 See `data_manifest.tsv`. The Mouse Aging Atlas gWAT experiment, the atlas-derived
-sex-split h5ads, and the reference LIANA CSVs are not redistributed in this
-repository.
+sex-split h5ads are not redistributed. Recovered historical LIANA reference CSVs
+are included under `reference/` with hashes.
 
 Expected local layout when reproducing the scripts:
 
@@ -85,23 +65,12 @@ python analysis/pgat_aspc_single_cell/scripts/run_mcp_cci.py \
 
 ## Interpretation
 
-The tracked results reproduce the main finding for males: the VEGF axis is
-downregulated with age in the gWAT VEC niche. Male VEC *Vegfa* falls strongly
-(young-old log2fc = -2.701; 3.39% -> 0.17% expressing) versus female -0.153, and
-male ASPC *Kdr* (VEGFR2) declines (old-young = -0.0295) versus female +0.0013.
-All three male VEC->ASPC target pairs weaken in old (Lpl-Lrp1 1.547 -> 1.150,
-Sparc-Fgfr1 1.018 -> 0.886, Pdgfb-Lrp1 0.990 -> 0.928), agreeing with the male
-reference LIANA direction; the female reference shows none of the three pairs
-weakened. The verdict is therefore **male-specific support** for the VEC-niche /
-VEGF-axis hypothesis on the molecular axis.
-
-Honest caveat (cell-proportion axis): the deterministic cross-check finds that
-the **female VEC proportion also declines** (Spearman rho = -0.7), contradicting
-the "female stable" reference (+0.1); this is recorded as `mismatch` in
-`results/reproduction_check.json`. It is attributed to equal-bin 30k subsampling
-distorting composition, and a full-atlas composition re-check is needed. The
-verdict rests on the molecular signal (*Vegfa*/*Kdr*/CCI), not the proportion
-axis. The analysis is associational rather than causal.
+Recorded statistical outputs are retained. The comparison filename
+`reproduction_check.json` is historical: its current labels describe only
+direction/significance categories. Original labels are preserved separately.
+The current report specifies contrasts, expression scales, reference
+provenance, disagreements, and untested mechanisms. Updating code/documentation
+on 2026-11-05 did not rerun the atlas analysis.
 
 ## Related Protocol Documents
 

@@ -1,29 +1,16 @@
 # CIRBP Liver Single-Cell Workflow
 
-This directory contains the public workflow for resolving the cell of origin of
+This directory contains a secondary workflow for examining cell-associated patterns of
 age-related liver CIRBP (*Cirbp*) upregulation using Mouse Aging Atlas
 single-cell RNA-seq data.
 
-## Analysis Summary
+## Analysis scope
 
-The workflow tests two competing, non-mutually-exclusive hypotheses for the
-age-related liver *Cirbp* increase:
-
-- Hypothesis A (hepatocyte-intrinsic stress origin)
-- Hypothesis B (Kupffer/myeloid immune origin)
-
-It integrates:
-
-- a bundled single-cell analysis engine (MCP) run under a lineage-screening
-  intent, producing cell-type expression, sex-stratified age trajectory,
-  young-old contrast, and an evidence-grading verdict
-- a deterministic local cross-check (plain scanpy/scipy) that recomputes the key
-  decision metrics, identifies an aged-enriched hepatocyte subcluster, and scores
-  senescence / ER-stress markers
-- a three-way comparison [local | mcp | target] recorded in
-  `results/reproduction_check.json`
-
-The adopted verdict is **hepatocyte-supported** (Hypothesis A).
+This is a secondary MCP/local check, separate from the manual manuscript
+analysis. It provides descriptive expression/cluster/interaction outputs and
+directional comparisons, not exact reproduction of the manuscript's mouse-level
+models. See [the report](results/cirbp_liver_verification_report.md) and
+[public scope](../../docs/reproducibility_scope.md).
 
 ## Required External Data
 
@@ -65,15 +52,12 @@ python analysis/cirbp_liver_single_cell/scripts/run_mcp_report.py \
 
 ## Interpretation
 
-The tracked results reproduce the main finding: liver *Cirbp* age-related
-upregulation is hepatocyte-supported (Hypothesis A). Hepatocytes show dominant
-baseline expression (0.973% vs 0.578% expressing) and the only positive age
-induction (log2fc old/young = +1.556 vs myeloid -2.419). The deterministic
-cross-check identifies an aged-enriched hepatocyte subcluster (83.54% aged,
-OR 8.273) carrying senescence and stress signatures (*Cdkn1a* 7.811x, *Cirbp*
-3.748x, *Xbp1* 2.599x, *Atf4* 1.046x). The analysis is associational rather than
-causal, and absolute odds ratios / fold-changes are interpreted directionally
-because they depend on Leiden seed and package versions.
+Recorded statistical outputs are retained. The comparison filename
+`reproduction_check.json` is historical: its current labels describe only
+direction/significance categories. Original labels are preserved separately.
+The current report specifies contrasts, expression scales, reference
+provenance, disagreements, and untested mechanisms. Updating code/documentation
+on 2026-11-05 did not rerun the atlas analysis.
 
 ## Related Protocol Documents
 

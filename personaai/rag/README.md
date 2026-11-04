@@ -43,7 +43,8 @@ Required provider and retrieval settings include:
 |----------|-------------|
 | `OPENROUTER_API_KEY` | OpenRouter API key for the chat LLM |
 | `OPENROUTER_MODEL` | OpenRouter model id |
-| `TAVILY_API_KEY` | Tavily key for optional web-search fallback |
+| `RAG_CORPUS_ONLY` | Default `true`; disables web, Python, and arbitrary local-file agent tools |
+| `TAVILY_API_KEY` | Required only in general mode (`RAG_CORPUS_ONLY=false`) |
 | `QDRANT_HOST`, `QDRANT_PORT`, `QDRANT_COLLECTION` | Qdrant vector-store connection |
 | `EMBEDDING_MODEL`, `EMBEDDING_BATCH_SIZE` | Embedding model and indexing batch size |
 | `RERANKER_MODEL_PATH`, `RERANKER_TOP_N` | Reranker configuration |
@@ -174,3 +175,18 @@ Do not commit:
 - Qdrant storage
 - API keys or service credentials
 - local runtime logs or deployment state
+
+## Reproducibility boundary
+
+Set `OPENROUTER_MODEL` explicitly; a current application configuration is not
+proof of the historical Gemini 2.5 Pro deployment. The default corpus-only
+mode retains insufficient corpus results without adding unrestricted web
+sources. It does not validate document dates or restrict model pretraining
+knowledge. General mode enables web/Python/local-file tools and is unsuitable
+for claiming corpus-only access.
+
+Completeness >= 0.90 is one stop condition, not a mandatory acceptance gate.
+Evaluation history, stop reasons, and human-review decision counts are now
+retained in graph state for new runs; save checkpoints/logs. See
+[the evaluation rules](../../docs/table1_llm_scoring_rubric.md) and
+[historical limitations](../../docs/reproducibility_scope.md).

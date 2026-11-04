@@ -19,20 +19,20 @@ outcomes tested, only frailty shows a coherent picture: the single-lead-variant
 Wald-ratio MR is directionally positive and nominally significant (mr_beta
 0.0360, SE 0.0111, z 3.245, p = 1.17e-3), and regional `coloc.abf()` returns a
 moderate posterior for a shared causal variant (PP.H4 = 0.526, above the
-predefined moderate threshold of 0.5 but below the strong threshold of 0.8).
-Telomere length (MR p = 0.692) and parental longevity (MR p = 0.568) show no
-directional MR signal and negligible colocalization (PP.H4 = 0.0011 and 0.0044
-respectively). The frailty colocalization is sensitive to the lead variant:
-because rs74510325 is a C/G palindromic SNP, excluding palindromic variants
-drops frailty PP.H4 from 0.526 to 0.051. The CRELD2-frailty link is therefore
+documented descriptive moderate threshold of 0.5 but below the strong threshold of 0.8).
+Telomere length (MR p = 0.692) and parental longevity (MR p = 0.568) have nonsignificant
+MR estimates and low shared-variant posterior probabilities (PP.H4 = 0.0011 and 0.0044
+respectively). The frailty colocalization is sensitive to removing all 478 palindromic variants,
+including the C/G lead rs74510325: PP.H4 falls from 0.526 to 0.051. This is not
+a lead-only exclusion test and does not by itself establish an alignment error. The CRELD2-frailty link is therefore
 reported as an exploratory candidate to pursue, not as a definitive causal
 claim.
 
 | Outcome | MR signal | Coloc (PP.H4 / PP.H3) | Call |
 |---|---|---|---|
 | Frailty index | Directional, nominal p = 1.17e-3 (z = 3.245) | 0.526 / 0.026 (moderate) | **Exploratory support** (palindromic-sensitive) |
-| Leukocyte telomere length | None (p = 0.692) | 0.0011 / 0.721 (distinct signals) | Not supported |
-| Parental longevity | None (p = 0.568) | 0.0044 / 0.081 | Not supported |
+| Leukocyte telomere length | Nonsignificant (p = 0.692) | 0.0011 / 0.721 (distinct signals) | Not supported |
+| Parental longevity | Nonsignificant (p = 0.568) | 0.0044 / 0.081 | Not supported |
 
 ---
 
@@ -50,8 +50,10 @@ Per `data_manifest.tsv`; raw resources are not redistributed in this repository.
   - Leukocyte telomere length — Codd et al. (`ieu-b-4879_telomere_length`)
   - Parental longevity — Pilling et al.
     (`GCST006697_parental_longevity_combined_attained_age`)
-- **Reference allele frequency** — gnomAD, used for orientation of the
-  palindromic lead SNP rs74510325.
+- **Allele-frequency record** — the pQTL/frailty frequencies reported in
+  Supplementary Table 10 are transcribed in `lead_variant_alignment_record.tsv`.
+  A historical gnomAD check was described, but its population/version/numeric
+  record is not available here and is not treated as an independently verified check.
 
 The pQTL summary statistics were harmonized with each aging GWAS at the variant
 level. Because the aging GWAS were aligned to GRCh37, pQTL-GWAS matching used
@@ -90,13 +92,14 @@ This is a single-lead-variant Wald-ratio MR, interpreted as **directional
 evidence only** — it is not an LD-clumped multi-instrument IVW estimate and is
 not definitive causal inference. Only the frailty estimate is directionally
 positive and nominally significant (p = 1.17e-3); telomere and parental
-longevity are null.
+longevity are nonsignificant in this analysis, which does not establish absence
+of association or frailty specificity.
 
 ---
 
 ## 5. Colocalization
 
-Source: `results/creld2_coloc_abf.tsv` (regional `coloc.abf()`; predefined
+Source: `results/creld2_coloc_abf.tsv` (regional `coloc.abf()`; descriptive
 thresholds: PP.H4 > 0.8 strong, PP.H4 > 0.5 moderate)
 
 ### 5.1 Primary analysis
@@ -104,12 +107,13 @@ thresholds: PP.H4 > 0.8 strong, PP.H4 > 0.5 moderate)
 | outcome | nsnps | PP.H3 | PP.H4 | Interpretation |
 |---|---:|---:|---:|---|
 | frailty | 3,595 | 0.026 | **0.526** | Moderate shared-causal-variant support (>0.5, <0.8) |
-| telomere | 6,125 | 0.721 | 0.0011 | High PP.H3 → distinct signals, not shared |
+| telomere | 6,125 | 0.721 | 0.0011 | PP.H3 favors distinct over shared signals under this model |
 | parental_longevity | 5,237 | 0.081 | 0.0044 | No shared signal |
 
 Only frailty reaches moderate colocalization support (PP.H4 = 0.526). For
-telomere, PP.H3 = 0.721 indicates the pQTL and GWAS signals are present but
-driven by distinct causal variants; parental longevity shows neither.
+telomere, PP.H3 = 0.721 favors distinct signals under the single-causal-variant
+model. Parental longevity favors H1 (pQTL signal only; PP.H1 = 0.9146), rather
+than a shared signal. Neither result proves biological absence.
 
 ### 5.2 Sensitivity: palindromic-variant exclusion
 
@@ -118,14 +122,21 @@ driven by distinct causal variants; parental longevity shows neither.
 | frailty | primary | 3,595 | 0.026 | 0.526 |
 | frailty | exclude_palindromic | 3,117 | 0.045 | **0.051** |
 
-The CRELD2 lead pQTL rs74510325 is a **C/G palindromic SNP**. Repeating the
-colocalization after excluding palindromic variants drops frailty PP.H4 from
-0.526 to 0.051 (n = 3,117). The frailty colocalization support is therefore
-**sensitive to the inclusion of the palindromic lead variant**. The variant was
-retained in the primary analysis because its minor allele frequency was
-consistent across the pQTL dataset, frailty GWAS, and gnomAD, and was
-sufficiently distant from 0.5 to resolve strand ambiguity; the sensitivity
-result is reported transparently rather than forcing a causal conclusion.
+The primary set contains 3,595 variants; exclusion removes **all 478
+palindromic variants**, leaving 3,117. The C/G lead rs74510325 is among those
+removed. PP.H4 falls from 0.526 to 0.051, while H1 rises from about 0.447 to
+0.903. Removing variants also reduces information; this analysis neither
+isolates the lead variant's contribution nor proves an allele-alignment error.
+
+Supplementary Table 10 records pQTL G frequency approximately 0.0348 and GWAS
+C frequency 0.9653, corresponding to G frequency 0.0347. Outcome effects were
+aligned to G with sign reversal for opposite allele order. The agreement and
+distance from 0.5 were the documented basis for retention. At about 3.5%, this
+is described as a low-frequency variant, not a rare variant. The transcribed
+record and its limits are in [lead_variant_alignment_record.tsv](lead_variant_alignment_record.tsv)
+and [alignment notes](../alignment_notes.md). The current script now exports
+original alleles/EAF, aligned EAF, sign-flip and palindromic flags for new runs;
+it does not automatically resolve strand ambiguity from frequency alone.
 
 ---
 
@@ -136,7 +147,7 @@ result is reported transparently rather than forcing a causal conclusion.
 | 1. Hypothesis structuring | Frame CRELD2 (adipose-liver secretory stress candidate) against three aging outcomes (frailty / telomere / parental longevity) | `methods_draft.md` | Pass (candidate + outcomes defined) |
 | 2. Feasibility | Confirm GTEx v8 eQTL, UKB-PPP pQTL, and GRCh37 aging GWAS availability | `data_manifest.tsv` | Pass (all resources available; raw not redistributed) |
 | 3. Statistical-genetics execution | pQTL locus extraction (±500 kb), pQTL-GWAS harmonization to pQTL effect allele, lead-Wald MR, regional `coloc.abf()` | `scripts/run_creld2_pqtl_followup.py`, `scripts/run_creld2_coloc_abf.R` → `results/pqtl_locus_manifest.tsv`, `creld2_mr_lead_wald.tsv`, `creld2_coloc_abf.tsv` | Pass (lead locus, MR, and coloc computed for all three outcomes) |
-| 4. Gap-oriented sensitivity | Palindromic-SNP orientation check (gnomAD AF) + colocalization re-run excluding palindromic variants | `scripts/run_creld2_coloc_abf.R` → `creld2_coloc_abf.tsv` (`exclude_palindromic` row) | Pass (frailty PP.H4 sensitivity quantified: 0.526 → 0.051) |
+| 4. Gap-oriented sensitivity | Documented pQTL/GWAS frequency comparison + colocalization excluding the full palindromic set | `scripts/run_creld2_coloc_abf.R` → `creld2_coloc_abf.tsv` (`exclude_palindromic` row) | Pass (frailty PP.H4 sensitivity quantified: 0.526 → 0.051) |
 | 5. Evidence grading | Apply MR directionality + PP.H4 thresholds (0.5 moderate / 0.8 strong); grade per outcome | this report | Pass — **frailty: moderate exploratory; telomere / parental: not supported** |
 
 ---
@@ -155,10 +166,10 @@ therefore an exploratory candidate to follow up, not a confirmed causal effect.
 
 ### 7.2 Telomere length and parental longevity (not supported)
 Neither outcome is supported. Telomere MR (p = 0.692) and parental-longevity MR
-(p = 0.568) are null, and both have negligible PP.H4 (0.0011 and 0.0044). For
-telomere, the high PP.H3 (0.721) indicates the CRELD2 pQTL and the
-telomere-length GWAS each carry signal at the locus but from **distinct causal
-variants**, so a shared-variant interpretation is rejected.
+(p = 0.568) are nonsignificant, and both have low PP.H4 (0.0011 and 0.0044). For
+telomere, PP.H3 (0.721) favors distinct over shared signals under the model,
+without definitively excluding a shared mechanism. These findings do not prove
+frailty specificity or biological absence in other outcomes.
 
 ---
 
@@ -182,8 +193,8 @@ CRELD2 cis-pQTL (lead rs74510325, −log10P 354.247)
 - **Potential UK Biobank sample overlap**: the UKB-PPP pQTL and the aging GWAS
   are derived at least in part from UK Biobank, so exposure-outcome sample
   overlap cannot be excluded and may bias the MR.
-- **Palindromic lead-SNP sensitivity**: the C/G palindromic lead rs74510325
-  drives the frailty colocalization (PP.H4 0.526 → 0.051 on exclusion).
+- **Palindromic-set sensitivity**: removing 478 variants, including rs74510325,
+  lowers PP.H4 from 0.526 to 0.051. The lead-only contribution was not isolated.
 - **Exploratory, not confirmatory**: confirmation requires independent
   replication in non-UKB frailty / aging cohorts.
 
@@ -201,7 +212,7 @@ CRELD2 cis-pQTL (lead rs74510325, −log10P 354.247)
 | result | `results/creld2_coloc_abf.tsv` | Colocalization PP.H0–PP.H4 per outcome (primary + `exclude_palindromic`) |
 | provenance | `data_manifest.tsv` | GTEx v8 eQTL, UKB-PPP pQTL, aging GWAS, and gnomAD reference provenance (raw resources not redistributed) |
 
-## 10. Full candidate-screen disclosure (15 October 2026)
+## 10. Full candidate-screen disclosure
 
 The recovered [five-candidate report and tables](five_candidate_screen/README.md)
 provide the broader screening context: five targets, four outcomes, 19 estimated
@@ -211,3 +222,13 @@ does not establish outcome specificity. Existing full-precision CRELD2 results
 and palindromic sensitivity estimates are unchanged. The new all-candidate
 tables are transcribed historical results, not a statistical rerun; the
 recovered original full-precision outputs agree with them at report precision.
+
+## 11. Scope of the 2026-11-05 update
+
+All original MR/coloc numbers and the recovered five-candidate output files are
+unchanged. MR arithmetic for all 19 estimated combinations was checked from
+recorded input coefficients/SEs. The updated documentation does not rerun the
+raw GWAS, change the historical inclusion set, or repair missing historical
+metadata. PP.H4 0.5/0.8 are descriptive reporting thresholds; a prospective
+registration of those thresholds has not been established. Nominal P values
+are not adjusted for screening multiple candidate/outcome combinations.

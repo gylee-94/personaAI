@@ -1,107 +1,71 @@
-# Protocol-Driven Single-Cell Aging-Atlas Evaluation
+# Single-cell secondary evaluation protocol
 
-This protocol describes the public-facing version of the hypothesis evaluation
-workflow used for single-cell aging-atlas analyses, including the CIRBP liver
-and PGAT ASPC cases. It abstracts the internal agent operating instructions into
-a reproducible single-cell workflow.
+These protocol cards document the secondary MCP/local analysis. They are not
+prospective registration or an execution log. The manuscript's primary
+single-cell analyses were performed manually. See
+[public analysis scope](../docs/reproducibility_scope.md).
 
-For protocol provenance, see `protocol_library_manifest.tsv` and the
-`aging_atlas_skill_cards/` directory. These files define the reusable decision
-rules that link agent-assisted hypothesis evaluation to deterministic analysis
-modules.
+## 1. Structure the question
 
-The workflow is an MCP-first hybrid: dedicated analysis engines (under
-`personaai/scrna_mcp/`) run the primary single-cell analysis, while a local
-scanpy-based cross-check independently recomputes the verdict-driving metrics.
-Worked results are stored under `analysis/<case>/`.
+Specify the tissue, gene, cell types, age groups, sex, and contrast. Distinguish
+a descriptive association from a causal claim. CIRBP asks about hepatocyte
+versus myeloid age-associated expression. PGAT asks about VEC/ASPC expression
+and selected interaction scores; the proposed regenerative consequence requires
+separate functional evidence.
 
-## 1. Hypothesis Structuring
+## 2. Check feasibility
 
-A biological claim is converted into competing, single-cell-testable
-hypotheses. Each candidate mechanism is reframed as a prediction about cell-type
-expression, age dynamics, or cell-cell interaction that the atlas can
-adjudicate. Structuring defines the tissue, gene or genes, candidate cell types,
-young and old age groups, sex stratification, and analysis intent.
+Verify input identity, genotype, gene/cell annotations, age groups, expression
+scale and numbers of cells and animals. Nonempty groups are necessary but do
+not establish statistical power. Record missing inputs or metadata rather than
+substituting unrelated evidence. The inline report parser has liver/Cirbp case
+defaults; review its specification before execution.
 
-For the CIRBP liver analysis, the claim was framed as a cell-of-origin question:
-whether the age-dependent rise in liver Cirbp arises from hepatocyte intrinsic
-stress (hypothesis A) or from Kupffer/myeloid immune activation (hypothesis B).
-For the PGAT analysis, the claim was framed as a niche question: whether
-age-related ASPC regenerative decline is driven by vascular endothelial cell
-(VEC) niche deterioration and loss of the VEGF-VEGFR axis, and whether this is
-male-specific (hypothesis A) or sex-nonspecific/conserved (hypothesis B).
+## 3. Execute the secondary workflow
 
-## 2. Data Feasibility Assessment
+MCP engines calculate expression summaries and pooled-cell CCI where relevant.
+Local scanpy/scipy scripts calculate additional trends and cluster summaries.
+Use the exact age grouping and scale documented in each case report. The
+historical `log2fc_old_vs_young` column is a pseudocount-adjusted log2 ratio of
+stored-scale means, not automatically a raw-count fold change. Individual cells
+or age bins are not independent animals. The published mouse-level inference
+must be distinguished from these descriptive checks.
 
-Each candidate is checked against the Mouse Aging Atlas before analysis:
+## 4. Compare like quantities and disclose differences
 
-- experiment availability in the TileDB-SOMA store for the target tissue
-- presence of the candidate gene or genes in the variable annotation
-- age, sex, and genotype metadata sufficient to define young and old groups
-- enough cells per cell type and per group for stable estimates
-- consistent cell-type annotation and data normalization state
+`results/reproduction_check.json` is retained as a legacy filename. Labels are:
 
-Unavailable evidence layers are treated as limitations rather than inferred from
-weaker data. Composition distortions introduced by subsampled atlas extracts are
-flagged here as feasibility caveats rather than corrected silently.
+- `directionally-concordant` / `directionally-discordant`: signs agree/disagree
+  around the declared reference point (0, or 1 for OR/ratios).
+- `significance-category-agreement` / `significance-category-disagreement`:
+  P values fall on the same/different side of 0.05; no claim of equal effects.
+- `not-assessable`: missing/nonfinite values or no valid numerical reference
+  or equivalence margin.
 
-## 3. Single-Cell & Cell-Cell Interaction Execution
+No label establishes numerical reproduction. Correlation versus log2 ratio,
+different age contrasts, or different clusters must be named separately.
+An age fraction exceeding 50% is not itself an enrichment test. PGAT's legacy
+-1 and 0 targets are expectations, not measured effect sizes. Preserve
+mismatches and original values; do not tune analyses to match a target or
+attribute discrepancies to subsampling without testing that explanation.
 
-The workflow maps each feasible component to MCP engine modules, run
-deterministically where possible:
+## 5. Grade within scope
 
-- SOMA-to-h5ad extraction for the target tissue, genes, and groups
-- cell-type expression profiling, age trajectory, and young-old contrast, plus
-  evidence grading (single-cell analysis engine)
-- ligand-receptor aging comparison between source and target cell types
-  (LIANA-based cell-cell interaction engine)
+The current descriptive CIRBP helper requires valid positive young/old group
+sizes for every candidate, finite observations, no feasibility blockers, and
+an actual positive age contrast before assigning a support label. Expression
+and induction must uniquely favor the same cell type; ties/conflicting origins
+are mixed. This does not perform mouse-level significance or causal testing.
+A sparse negative myeloid contrast does not exclude immune involvement.
 
-MCP engines run the primary analysis. Language-model assistance may be used to
-organize the workflow and draft the verdict, but the reported single-cell
-estimates are generated by executed engine modules. A local scanpy cross-check
-independently recomputes the key metrics so that they remain transparent and
-grep-reproducible.
+The PGAT observations do not establish male specificity from a significant
+male/nonsignificant female contrast, female equivalence, VEGFA–KDR interaction
+activity, or an ASPC regenerative effect. Current reports retain those limits.
 
-Cell-cell interaction analysis is included only for niche or communication
-hypotheses (such as PGAT). Lineage-screening, subcluster, trajectory, and
-enrichment hypotheses (such as CIRBP) skip the interaction stage.
+## 6. Report sources and interpretation
 
-## 4. Gap-Oriented Sensitivity / Cross-Check
-
-The verdict-driving metrics are independently recomputed locally and compared
-three ways against the MCP output and the reference values. Typical metrics
-include the age trend, aged-enriched subcluster enrichment and stress markers,
-cell-type proportion trend, and ligand or receptor change. Each metric is given
-an honest match label:
-
-- `reproduced` — sign, ranking, and significance direction agree
-- `directional-only` — direction agrees but exact value or significance does not
-- `mismatch` — direction disagrees; recorded as a limitation, never hidden
-
-Match labels are assigned honestly and are not forced by tuning the Leiden seed
-or thresholds. Composition distortion from equal-size subsampled atlas extracts
-is treated as a limitation rather than reconciled away. In the PGAT analysis the
-female VEC proportion trend mismatched the reference because the 30k equal-size
-subsample distorted composition; the verdict therefore rests on molecular
-signals rather than the proportion axis.
-
-## 5. Evidence Grading
-
-Competing hypotheses are interpreted against the converged evidence, and results
-are graded conservatively:
-
-- single-cell association is supportive of cellular origin or context, not
-  causal
-- Leiden seed and package-version variation make absolute OR and fold values
-  irreproducible, so they are interpreted directionally
-- metrics with `mismatch` labels are reported as limitations and do not anchor
-  the verdict
-
-For these workflows, the CIRBP analysis was graded `hepatocyte-supported`:
-hepatocytes showed dominant expression, positive aging induction
-(log2fc +1.556), and an aged-enriched stress subcluster with senescence and ER
-stress markers, while myeloid cells showed the opposite direction. The PGAT
-analysis was graded `VEC-niche / VEGF-axis-supported (male-specific)`: male VEC
-Vegfa loss, male ASPC Kdr decline, and weakened male VEC-to-ASPC ligand-receptor
-signaling reproduced and were conserved in females, with the female VEC
-proportion mismatch retained as an explicit caveat.
+Provide the original tables, formulas, group definitions, input provenance,
+and reference scope. Separate historical output labels from updated
+interpretation and state when a documentation update was not a rerun. Cite
+only the computations actually available. Case reports and
+`aging_atlas_skill_cards/verification_report_authoring.md` implement this format.

@@ -6,7 +6,7 @@ to compare VEC->ASPC ligand-receptor signalling between young and old gWAT, per
 sex, on the sex-split atlas h5ads.
 
 ``cci_compare_aging`` returns only a ``magnitude_rank``-based gained/lost summary
-text (written to ``results/cci/{sex}_compare.json``); it does not return the
+text (written to ``results/cci/{sex}_compare.txt``); it does not return the
 per-pair ``lr_means`` table. The target-pair ``lr_means`` are therefore extracted
 the same way as the reference LIANA CSVs: ``li.mt.rank_aggregate`` is recomputed
 on the young pool and the old pool of the same h5ad, and the three VEC->ASPC
@@ -78,13 +78,13 @@ async def run_engine(files, out_dir):
                 "genotype": "WT", "save_path": str(out_dir / f"cci_{sex}.png")}
         try:
             r = await cci_tools.cci_compare_aging(args)
-            (out_dir / f"{sex}_compare.json").write_text(
+            (out_dir / f"{sex}_compare.txt").write_text(
                 r if isinstance(r, str) else json.dumps(r, default=str))
             print(sex, "OK", str(r)[:600])
         except Exception as e:
             import traceback
             traceback.print_exc()
-            (out_dir / f"{sex}_compare.json").write_text(
+            (out_dir / f"{sex}_compare.txt").write_text(
                 json.dumps({"error": str(e), "args": args}))
             print(sex, "ERR", e)
 
@@ -132,7 +132,9 @@ def main():
     atlas_home = Path(a.aging_atlas_home).expanduser().resolve()
 
     mcp_home = a.mcp_home or _default_mcp_home()
-    sys.path.insert(0, mcp_home)
+    engine_project = Path(mcp_home) / "cci_analysis_mcp"
+    import_root = engine_project if (engine_project / "cci_analysis_mcp").is_dir() else Path(mcp_home)
+    sys.path.insert(0, str(import_root))
 
     def _resolve(name):
         q = Path(name)
