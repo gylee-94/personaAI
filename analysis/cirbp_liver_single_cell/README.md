@@ -1,8 +1,15 @@
 # CIRBP Liver Single-Cell Workflow
 
-This directory contains a secondary workflow for examining cell-associated patterns of
-age-related liver CIRBP (*Cirbp*) upregulation using Mouse Aging Atlas
-single-cell RNA-seq data.
+This directory contains primary revision statistics and a separate secondary
+workflow for examining age-related liver CIRBP (*Cirbp*) patterns using Mouse
+Aging Atlas single-cell RNA-seq data.
+
+## Primary revision analyses
+
+See [revision/README.md](revision/README.md) for the author-supplied Cirbp
+mouse-level pseudobulk, C4 abundance and senescence gene-set analyses, including
+their logs and per-mouse source tables. The commands below describe the older
+secondary workflow only.
 
 ## Analysis scope
 

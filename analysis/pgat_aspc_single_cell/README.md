@@ -1,8 +1,17 @@
 # PGAT ASPC Single-Cell Workflow
 
-This directory contains a secondary analysis of VEC/ASPC expression and selected
-ligand–receptor scores in aging gWAT. It does not directly measure regeneration
-or establish a causal, male-specific VEGFA–KDR mechanism.
+This directory contains primary revision statistics and a separate secondary
+analysis of VEC/ASPC expression and selected ligand–receptor scores in aging
+gWAT. These analyses do not directly measure regeneration or establish a causal,
+male-specific VEGFA–KDR mechanism.
+
+## Primary revision analyses
+
+See [revision/README.md](revision/README.md) for the author-supplied mouse-level
+VEC abundance, period-by-sex and Vegfa/Kdr pseudobulk analyses, including their
+logs and per-mouse VEC counts. These scripts do not regenerate the per-age raw-UMI
+LIANA scores of Figure 4G. The commands below describe the older secondary
+workflow only.
 
 ## Analysis scope
 

@@ -1,0 +1,4 @@
+Hepatocytes, 3 vs 23 months (cell-level Wilcoxon rank-sum): 523,330 vs 159,675 cells, P = 2e-22
+Mean hepatocyte Cirbp: 8 of 10 mice at 23 months above every one of the 12 mice at 3 months
+Hepatocytes, per-mouse pseudobulk: 0.036 log2 CPM per month (95% CI 0.015 to 0.058), P = 0.0014, n = 50 mice
+Myeloid cells, per-mouse pseudobulk: 0.022 log2 CPM per month (95% CI -0.018 to 0.063), P = 0.28, n = 50 mice

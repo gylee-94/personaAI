@@ -1,0 +1,39 @@
+== (a) C4 among hepatocytes by age (pooled and per mouse)
+     hepatocytes  mice  C4_cells  median_pct  min_pct  max_pct  pooled_pct
+age                                                                       
+3            489    12         8        1.05      0.0      4.7         1.6
+6            481     8        23        2.80      0.0     14.6         4.8
+12           464     8         2        0.00      0.0      1.9         0.4
+16           472    12        14        3.35      0.0      7.4         3.0
+23           466     9       128        2.50      0.0     98.3        27.5
+C4 cells: 175; hepatocytes per mouse: 3-93
+
+== (b) C4 proportion, 23 vs 3-16 months (quasi-binomial, sex as covariate): odds ratio 15.8 (95% CI 4.9-50.6), P = 3.3e-06
+
+== (c) C4 across Leiden resolutions
+  leiden_r0.3: 92% of C4 cells in one cluster, which is 98% C4
+  leiden_r0.4: 92% of C4 cells in one cluster, which is 93% C4
+  leiden_r0.5: 100% of C4 cells in one cluster, which is 100% C4
+  leiden_r0.6: 61% of C4 cells in one cluster, which is 96% C4
+  leiden_r0.7: 61% of C4 cells in one cluster, which is 91% C4
+
+== (d) Cirbp-positive hepatocytes: 15 of 2372
+  by cluster: {'C1': '5 of 1123', 'C2': '3 of 779', 'C3': '1 of 295', 'C4': '6 of 175'}
+  Cirbp UMIs per positive cell: {1: 9, 2: 6}
+  Cdkn1a detected in 1.7% of C4 cells
+
+== (e) % cells with detected dissociation-associated genes, by cluster
+         C1   C2   C3    C4
+Fos     0.3  0.0  0.3   0.0
+Atf3    0.2  0.5  0.0   0.0
+Ier2    0.1  0.3  0.7   0.0
+Hspa1b  0.0  0.1  0.7   0.0
+Junb    0.6  0.6  1.0   0.6
+Nr4a1   0.1  0.1  0.3   0.6
+Socs3   0.1  0.4  2.0   0.6
+Dusp1   0.4  0.1  0.7   1.1
+Jun     0.3  0.3  1.0   4.0
+Jund    0.7  0.4  1.0   4.6
+Egr1    1.0  0.8  0.7   6.3
+Zfp36   1.5  1.2  1.7   8.0
+Hspa8   1.9  1.8  9.2  10.3

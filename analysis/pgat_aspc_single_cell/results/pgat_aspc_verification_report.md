@@ -5,6 +5,11 @@ was performed for this update. This MCP/local pipeline is separate from the
 manuscript's manual analyses and additional mouse-level models. See
 [public scope](../../../docs/reproducibility_scope.md).
 
+Availability note (2026-11-13): the authors have now supplied the additional
+primary mouse-level analysis scripts under [../revision/](../revision/README.md).
+This secondary report and its recorded numerical results remain separate from
+those primary statistics.
+
 ## 1. Overall interpretation
 
 Recorded male VEC Vegfa and ASPC Kdr expression contrasts are negative, and
@@ -106,7 +111,7 @@ but their causal role in the discrepancies was not established.
 | MCP expression | `male/` and `female/` TSVs | Descriptive expression summaries |
 | CCI | `cci/target_pairs_compare.tsv`, `cci/male_compare.txt`, `cci/female_compare.txt` | Pooled-cell scores and unchanged textual engine logs |
 | Local comparison | `reproduction_check.json` | Direction/significance categories; not numerical replication |
-| Manuscript mouse-level models | Manuscript results and methods | Additional analysis; exact generating scripts not recovered here |
+| Manuscript mouse-level models | `../revision/scripts/` and `../revision/results/` | Author-supplied additional analyses, separate from this secondary report; processed inputs remain external |
 
 ## 6b. Direction and significance comparison
 

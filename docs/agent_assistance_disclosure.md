@@ -6,6 +6,12 @@ an agent organizing tasks and deterministic code calculating the reported
 extract-level summaries. The phrase "MCP execution" refers to that secondary
 pipeline, not to replacement of the manuscript's manual analysis.
 
+Author-supplied scripts for the additional primary Figure 3 and Figure 4
+revision statistics are available in the case directories under `revision/`.
+They run the documented statistical calculations without an LLM runtime and
+are separate from the secondary MCP pipeline. Their supplied logs and per-mouse
+tables are preserved; repository integration did not rerun the full analyses.
+
 Agents assisted hypothesis structuring, workflow selection, retrieval,
 interpretation, and report drafting. For the Figure 2 RAG work, people wrote
 user prompts and recorded outputs. The historical-literature novelty screen
@@ -28,4 +34,5 @@ a mismatch cannot be attributed to subsampling without testing that explanation.
 Current reports distinguish recorded estimates from interpretation. Original
 numerical results, negative comparisons, and sensitivity outputs are retained.
 See [reproducibility_scope.md](reproducibility_scope.md) for available source
-records, missing primary-analysis scripts, and historical RAG limitations.
+records, remaining primary-analysis input/code requirements, and historical RAG
+limitations.

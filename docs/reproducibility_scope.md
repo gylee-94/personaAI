@@ -1,6 +1,6 @@
 # Scope and provenance of the public analyses
 
-Updated 2026-11-05. The repository contains recovered historical outputs and
+Updated 2026-11-13. The repository contains recovered historical outputs and
 executable analysis helpers. Updating the helpers does not mean that the
 historical experiments were rerun.
 
@@ -8,6 +8,8 @@ historical experiments were rerun.
 |---|---|---|
 | CRELD2 follow-up | `analysis/creld2_human_genetics/` | Lead-variant MR and regional coloc outputs, including palindromic-exclusion sensitivity |
 | Complete five-candidate screen | `analysis/creld2_human_genetics/results/five_candidate_screen/` | Five targets by four outcomes; 19 estimates and one unavailable combination; original output hashes and drivers |
+| Primary Figure 3 revision analyses | `analysis/cirbp_liver_single_cell/revision/` | Supplied Cirbp pseudobulk, C4 abundance and gene-set scripts, logs, and per-mouse tables |
+| Primary Figure 4 revision analyses | `analysis/pgat_aspc_single_cell/revision/` | Supplied VEC abundance, period-by-sex and Vegfa/Kdr pseudobulk scripts, logs, and VEC per-mouse counts |
 | Secondary CIRBP and PGAT checks | `analysis/cirbp_liver_single_cell/`, `analysis/pgat_aspc_single_cell/` | Extract-level descriptive results and directional comparison; not numerical reproduction of the manuscript models |
 | Historical CIRBP reference | `analysis/cirbp_liver_single_cell/reference/` | The recovered, unchanged summary behind the historical targets |
 | RAG implementation | `personaai/rag/` | Current code and configurable execution, not proof of historical model isolation |
@@ -22,14 +24,30 @@ comparisons. They use related atlas data and are not independent biological
 replications. Their observations, age contrasts, estimands, and clustering
 settings differ from those in the primary analysis.
 
-The final manuscript additionally reports mouse-level pseudobulk linear models,
-quasi-binomial abundance models, period-by-sex tests, and senescence gene-set
-comparisons. The exact scripts and analysis-ready per-mouse inputs that produced
-those additional estimates have not been recovered in this repository. The
-public secondary code must not be cited as reproducing those estimates. The
-historical reference JSON does not fill that gap. Source data and methods in the
-manuscript remain a separate source; no replacement historical script or run log
-has been inferred from its reported results.
+The author-supplied revision package was integrated on 2026-11-13. It covers
+mouse-level pseudobulk linear models, quasi-binomial abundance models,
+period-by-sex tests, and cell-level senescence gene-set comparisons. The
+`revision/` directories retain the supplied analysis code, result logs, and three
+per-mouse CSV tables. Their SHA-256 hashes are recorded in
+[revision_source_manifest.tsv](revision_source_manifest.tsv). Adding these
+files does not mean the complete analysis was rerun during repository integration.
+
+The required processed figure h5ads and the atlas SOMA store are not bundled.
+The [revision guide](revision_analyses.md) identifies each input, which analyses
+can use the included per-mouse tables, and the remaining data-preparation scope.
+The supplied scripts read existing sampled cells and cluster labels; they do
+not recreate every figure object from a fresh atlas download. The original
+per-age raw-UMI LIANA driver for Figure 4G and the Supplementary Figure 4
+differential-expression driver are also outside this supplied package. Existing
+reference CSVs are outputs, not substitutes for those drivers.
+
+The older MCP checks remain separate secondary analyses. In particular, the
+PGAT secondary CCI driver differs from the manuscript analysis in both age
+grouping and expression preprocessing (conditional normalization/log1p versus
+the manuscript's stated raw UMI counts). Direction differences cannot be assigned
+to pooling alone. The new Vegfa/Kdr pseudobulk script does not regenerate the
+LIANA interaction scores. No historical estimate has been replaced by a new
+value inferred from manuscript text.
 
 ## Comparisons and retained records
 

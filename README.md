@@ -10,10 +10,12 @@ against the Mouse Aging Atlas.
 
 The language-model assisted component was used for workflow organization,
 candidate evaluation, retrieval-assisted context assembly, and documentation.
-Human-genetics estimates and secondary single-cell outputs are provided with
-Python/R scripts. The manuscript's primary single-cell analyses were manual;
-exact scripts for its additional mouse-level models have not been recovered
-here. See [public analysis scope](docs/reproducibility_scope.md).
+Human-genetics estimates and single-cell outputs are provided with Python/R
+scripts. Author-supplied scripts, logs, and per-mouse tables for the manuscript's
+additional Figure 3 and Figure 4 analyses are now available in each single-cell
+case's `revision/` directory. These are separate from the existing secondary
+MCP checks. See [revision analyses and inputs](docs/revision_analyses.md) and
+[public analysis scope](docs/reproducibility_scope.md).
 
 ## Contents
 
@@ -35,6 +37,11 @@ analysis/creld2_human_genetics/
 
 analysis/cirbp_liver_single_cell/   (README, data_manifest, methods_draft, scripts/, results/)
 analysis/pgat_aspc_single_cell/     (README, data_manifest, methods_draft, scripts/, results/ + CCI)
+
+analysis/cirbp_liver_single_cell/revision/  (primary revision scripts, logs, per-mouse CSVs)
+analysis/pgat_aspc_single_cell/revision/    (primary revision scripts, logs, per-mouse CSV)
+run_revision_analyses.sh
+requirements-revision.txt
 
 protocols/
   human_genetics_evaluation_protocol.md
@@ -81,12 +88,13 @@ under `personaai/rag/`. RAG corpora, embedding
 databases, private prompts, API keys, and local runtime configuration are
 intentionally excluded from version control.
 
-The single-cell aging-atlas workflow (CIRBP cell-of-origin in liver, PGAT
-sex-specific vascular endothelial cell niche) is now included, following the
-same paper-reproducibility pattern used here: secondary descriptive and directional-check outputs,
-public protocol provenance, and MCP engine source. Consistent with the
-deterministic-outputs ethos, raw single-cell objects (h5ad/SOMA), MCP runtime
+The single-cell directories include primary revision statistics as well as
+secondary descriptive and directional-check outputs, public protocol provenance,
+and MCP engine source. Raw and processed single-cell objects (h5ad/SOMA), runtime
 venvs, private prompts, and credentials remain excluded from version control.
+The revision input manifest distinguishes public atlas data from the specific
+processed figure objects needed by the scripts; an atlas accession alone does
+not reconstruct those objects or their exact sampled cells and cluster labels.
 
 ## Protocol Provenance
 
@@ -132,9 +140,13 @@ access requirements.
 
 ## Reproducibility Note
 
-Full reproduction requires user-supplied resources: an LLM/agent runtime (such
-as Claude), GPU compute, and the Mouse Aging Atlas data. This repository ships
-code, protocols, and deterministic example outputs, not a turnkey re-run.
+Requirements depend on the workflow. The primary revision statistics run as
+Python scripts without an LLM runtime; they require the specified figure source
+objects or atlas store and the dependencies in `requirements-revision.txt`.
+RAG and secondary MCP workflows have separate runtime requirements. This
+repository ships code, protocols, and recorded outputs; it does not reconstruct
+all primary figures from a fresh atlas download. See the
+[revision running instructions](docs/revision_analyses.md#running).
 
 ## License
 

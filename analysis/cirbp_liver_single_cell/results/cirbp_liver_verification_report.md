@@ -5,6 +5,11 @@ was performed for this update. This report describes a secondary MCP/local
 pipeline. The primary manuscript analyses were performed manually; their
 mouse-level models are distinct (see [public scope](../../../docs/reproducibility_scope.md)).
 
+Availability note (2026-11-13): the authors have now supplied the additional
+primary revision scripts, logs, and per-mouse tables under
+[../revision/](../revision/README.md). The numerical secondary results below
+remain unchanged.
+
 ## 1. Overall interpretation
 
 The recorded extract favors a hepatocyte-associated age contrast. Hepatocytes
@@ -100,7 +105,7 @@ without establishing an irreversible senescent state or causal mechanism.
 | MCP lineage screen | `cell_type_expression.tsv`, `age_trajectory.tsv`, `young_old_contrast.tsv` | Descriptive cell summaries |
 | Historical automatic grade | `evidence_grading.tsv` | Original label retained; current code additionally requires positive change, complete candidates and nonempty age groups |
 | Local comparison | `scripts/crosscheck.py`, `reproduction_check.json` | Secondary directional comparison with a different design |
-| Primary mouse-level inference | Manuscript methods and results | Exact source script and analysis-ready per-mouse input have not been recovered here |
+| Primary mouse-level inference | `../revision/scripts/` and `../revision/results/` | Author-supplied additional analyses and per-mouse tables; separate from this secondary report; processed h5ad inputs remain external |
 
 ## 6b. Direction and significance comparison
 

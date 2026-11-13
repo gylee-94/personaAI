@@ -1,0 +1,101 @@
+ID,ct,Sex,Age_group,g,lib,cells,age
+1,Hepatocytes,Male,23_months,2018.0,188064655,23277,23
+1,Myeloid cells,Male,23_months,88.0,9212851,3172,23
+2,Hepatocytes,Male,23_months,64.0,3211605,6297,23
+2,Myeloid cells,Male,23_months,1.0,37116,100,23
+3,Hepatocytes,Male,23_months,1.0,216198,402,23
+3,Myeloid cells,Male,23_months,0.0,23866,36,23
+4,Hepatocytes,Male,23_months,474.0,36506695,23857,23
+4,Myeloid cells,Male,23_months,36.0,2752561,4528,23
+5,Hepatocytes,Male,23_months,177.0,25560623,18701,23
+5,Myeloid cells,Male,23_months,17.0,4046586,6295,23
+6,Hepatocytes,Female,03_months,285.0,56710168,46129,3
+6,Myeloid cells,Female,03_months,14.0,1305638,2055,3
+7,Hepatocytes,Female,03_months,435.0,86779397,58683,3
+7,Myeloid cells,Female,03_months,10.0,2497693,3219,3
+8,Hepatocytes,Male,06_months,364.0,70422319,40646,6
+8,Myeloid cells,Male,06_months,8.0,2189944,3845,6
+9,Hepatocytes,Male,06_months,357.0,47846872,32084,6
+9,Myeloid cells,Male,06_months,9.0,1602056,2696,6
+10,Hepatocytes,Male,06_months,795.0,87187048,55526,6
+10,Myeloid cells,Male,06_months,26.0,2284018,3394,6
+11,Hepatocytes,Male,06_months,234.0,32637963,31549,6
+11,Myeloid cells,Male,06_months,4.0,810552,1492,6
+13,Hepatocytes,Female,06_months,357.0,32641977,37021,6
+13,Myeloid cells,Female,06_months,7.0,827217,1486,6
+14,Hepatocytes,Female,06_months,219.0,35325482,34965,6
+14,Myeloid cells,Female,06_months,13.0,1267979,2330,6
+15,Hepatocytes,Female,06_months,206.0,46551817,42735,6
+15,Myeloid cells,Female,06_months,9.0,1443319,2636,6
+16,Hepatocytes,Female,06_months,136.0,43874726,29957,6
+16,Myeloid cells,Female,06_months,10.0,1509840,2192,6
+18,Hepatocytes,Male,12_months,123.0,13865892,17532,12
+18,Myeloid cells,Male,12_months,3.0,282464,638,12
+19,Hepatocytes,Male,12_months,127.0,25872318,22708,12
+19,Myeloid cells,Male,12_months,2.0,300998,535,12
+20,Hepatocytes,Male,12_months,135.0,23065692,25373,12
+20,Myeloid cells,Male,12_months,3.0,416783,912,12
+21,Hepatocytes,Male,12_months,110.0,22380846,20112,12
+21,Myeloid cells,Male,12_months,1.0,244646,456,12
+23,Hepatocytes,Female,12_months,95.0,18460164,17040,12
+23,Myeloid cells,Female,12_months,3.0,570940,927,12
+24,Hepatocytes,Female,12_months,47.0,8276426,9745,12
+24,Myeloid cells,Female,12_months,0.0,203287,419,12
+25,Hepatocytes,Female,12_months,265.0,22126319,25605,12
+25,Myeloid cells,Female,12_months,7.0,750040,1341,12
+26,Hepatocytes,Female,12_months,179.0,27004675,23676,12
+26,Myeloid cells,Female,12_months,6.0,772327,1325,12
+28,Hepatocytes,Male,16_months,125.0,20530882,25689,16
+28,Myeloid cells,Male,16_months,2.0,307373,749,16
+29,Hepatocytes,Male,16_months,94.0,20427837,21335,16
+29,Myeloid cells,Male,16_months,3.0,183781,420,16
+30,Hepatocytes,Female,16_months,356.0,59536274,38528,16
+30,Myeloid cells,Female,16_months,23.0,3115100,4736,16
+31,Hepatocytes,Female,16_months,345.0,62288208,45746,16
+31,Myeloid cells,Female,16_months,6.0,1810563,2718,16
+32,Hepatocytes,Male,03_months,233.0,65793131,41044,3
+32,Myeloid cells,Male,03_months,29.0,7606777,11361,3
+33,Hepatocytes,Male,03_months,275.0,49920293,38454,3
+33,Myeloid cells,Male,03_months,26.0,2543851,4745,3
+34,Hepatocytes,Male,16_months,81.0,24684953,29790,16
+34,Myeloid cells,Male,16_months,3.0,588710,1419,16
+35,Hepatocytes,Male,16_months,123.0,60099279,33919,16
+35,Myeloid cells,Male,16_months,11.0,2818170,4083,16
+36,Hepatocytes,Female,16_months,93.0,17349199,17610,16
+36,Myeloid cells,Female,16_months,9.0,514479,786,16
+37,Hepatocytes,Female,16_months,10.0,2129026,4783,16
+37,Myeloid cells,Female,16_months,0.0,33676,76,16
+38,Hepatocytes,Male,16_months,74.0,11415653,12683,16
+38,Myeloid cells,Male,16_months,4.0,240275,530,16
+39,Hepatocytes,Male,16_months,175.0,38561234,31654,16
+39,Myeloid cells,Male,16_months,10.0,1332137,2433,16
+40,Hepatocytes,Female,16_months,241.0,29140134,24908,16
+40,Myeloid cells,Female,16_months,24.0,4387732,6888,16
+41,Hepatocytes,Female,16_months,200.0,49337745,40578,16
+41,Myeloid cells,Female,16_months,8.0,1341958,2181,16
+42,Hepatocytes,Male,03_months,185.0,78873158,37785,3
+42,Myeloid cells,Male,03_months,0.0,1888262,2511,3
+43,Hepatocytes,Male,03_months,165.0,89388972,43913,3
+43,Myeloid cells,Male,03_months,17.0,3898244,4947,3
+44,Hepatocytes,Female,03_months,269.0,40704931,41363,3
+44,Myeloid cells,Female,03_months,11.0,1372091,2353,3
+45,Hepatocytes,Female,03_months,466.0,81854768,52431,3
+45,Myeloid cells,Female,03_months,16.0,2306158,2658,3
+46,Hepatocytes,Male,03_months,212.0,117248071,51120,3
+46,Myeloid cells,Male,03_months,5.0,3455879,3811,3
+47,Hepatocytes,Male,03_months,128.0,102291596,49126,3
+47,Myeloid cells,Male,03_months,8.0,3042909,3142,3
+48,Hepatocytes,Female,03_months,141.0,38940221,34212,3
+48,Myeloid cells,Female,03_months,4.0,851804,1330,3
+49,Hepatocytes,Female,03_months,121.0,30967246,29070,3
+49,Myeloid cells,Female,03_months,3.0,989888,1671,3
+50,Hepatocytes,Female,23_months,249.0,35360622,24615,23
+50,Myeloid cells,Female,23_months,12.0,2510896,4230,23
+51,Hepatocytes,Female,23_months,137.0,24365934,10930,23
+51,Myeloid cells,Female,23_months,30.0,5108155,7153,23
+52,Hepatocytes,Female,23_months,98.0,11792896,7428,23
+52,Myeloid cells,Female,23_months,5.0,491752,874,23
+53,Hepatocytes,Female,23_months,194.0,37997819,26525,23
+53,Myeloid cells,Female,23_months,24.0,3728004,6210,23
+54,Hepatocytes,Female,23_months,767.0,88169221,17643,23
+54,Myeloid cells,Female,23_months,75.0,9564532,5532,23

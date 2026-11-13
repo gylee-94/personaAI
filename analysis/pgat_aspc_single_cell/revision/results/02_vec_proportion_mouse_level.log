@@ -1,0 +1,15 @@
+VEC % of every mouse (Table R1.6a):
+age             3                       6                       12          16                      23
+Sex                                                                                                   
+Female  22.9, 26.8  14.7, 15.6, 16.3, 20.0  17.6, 19.7, 20.0, 32.7  16.7, 22.0  10.7, 10.8, 11.6, 16.4
+Male    17.8, 22.0  11.0, 15.3, 20.2, 20.3   9.2, 10.4, 12.7, 17.0  15.3, 18.4   7.6, 10.1, 10.8, 12.8
+
+Group means (VEC %):
+age       3     6     12    16    23
+Sex                                 
+Female  24.9  16.7  22.5  19.3  12.4
+Male    19.9  16.7  12.3  16.8  10.3
+
+12 months, male vs female (unpaired t-test, 4 vs 4 mice): P = 0.039
+Male: per-mouse Spearman rho = -0.63, P = 0.009, n = 16
+Female: per-mouse Spearman rho = -0.51, P = 0.043, n = 16

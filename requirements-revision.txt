@@ -1,0 +1,10 @@
+# Python 3.11; create with:  uv venv --python 3.11 .venv && VIRTUAL_ENV=.venv uv pip install -r requirements.txt
+scanpy==1.11.5
+anndata==0.12.19
+tiledbsoma==2.3.0
+statsmodels==0.15.0
+scipy==1.17.1
+pandas==2.3.3
+numpy==2.4.6
+pyarrow==25.0.1
+h5py==3.16.0
